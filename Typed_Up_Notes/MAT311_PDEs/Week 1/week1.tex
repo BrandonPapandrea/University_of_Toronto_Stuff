@@ -1,0 +1,348 @@
+\chapter{Week 1}
+
+\section{What is a PDE?}
+
+We begin our study of partial differential equations by asking ourselves an important question: what actually \textit{is} a partial differential equation. If you've taken a course on ordinary differential equations, you'll find that PDEs are very similar, with one big difference. Before, we had an unknown function $u(x)$ that was dependent on a single variable. Now, in PDE world, we allow our unknown function to take on many variables:
+
+\[ u(x,y,\ldots) \]
+
+This function can be real or complex valued. Moreover, instead of a single variable derivative, PDEs will now include \textit{partial derivatives}, which can be displayed in several forms. The partial derivative of $u$ with respect $x$ can be written as
+
+\[ \pardif{u}{x}, \ \partial_xu, \ u_x \]
+
+The order of the PDE corresponds to what partials are included in the equation. A \textbf{first order partial differential equation} is of the form
+
+\[ F(x,y,\ldots, u_x(x,y,\ldots), u_y(x,y,\ldots), \ldots, u(x,y,\ldots)) = 0 \]
+
+Where $F$ is some function of the variables, the partial derivatives of $u$, and possibly $u$. Its a first order PDE becuase the first partial derivatives are used; if the second partial derivatives were used it would be a second order PDE. In general, an $n$th order equation involves up to the $n$th partial derivatives. 
+
+As with ODEs, we can also consider a PDE system, where there is more that one unknown equation:
+
+\[ u_1(x,y,\ldots), u_2(x,y,\ldots), \ldots \]
+
+It should also be noted that there is \textit{no general theory} of PDEs. They are, on average, much harder to prove, and there is very little that can be deduced about general PDEs. We'll often be looking at very specific types of PDEs and seeing how to solve them.
+
+If they're so hard to solve, why should we even care about them? PDEs show up pretty much everywhere in the applied mathematical world, and are essential for modeling things in physics, finance, statistics, and much more.
+
+Two examples of PDEs are shown below:
+
+\begin{enumerate}
+    \item Given $u(x,y)$, $u_x + u_y = 0$
+    \item Given $u(t,x)$, $u_{tt} - u_{xx} + u^3 = 0$
+\end{enumerate}
+
+\subsection{Linear PDEs}
+
+In ODEs, we discussed both linear and nonlinear equations at length. However, in the world of PDEs, nonlinear equations are much, \textit{much} harder to solve. While we will discuss them briefly, we will mainly discuss linear PDEs. We define them now:
+
+\begin{definition}
+    We say a PDE for unknown function $u$ is a \textbf{linear homogeneous PDE} if it is of the form
+
+    \[ \mathcal{L}(u) = 0 \]
+
+    such that
+
+    \begin{enumerate}
+        \item $\mathcal{L}(u + v) = \mathcal{L}(u) + \mathcal{L}(v)$
+        \item $\mathcal{L}(cu) = c\mathcal{L}(u)$, where $c$ is a constant. 
+    \end{enumerate}
+
+    If the PDE for $u$ is of the form $\mathcal{L}(u) + g$ for some given function $g$, we say it is a \textbf{linear inhomogeneous PDE}. 
+\end{definition}
+
+What's nice about these equations is that if we have a single solution to the linear inhomogeneous PDE, we can rewrite the linear homogeneous one in terms of it: Suppose $\mathcal{L}(v) = g$. Then we have that
+
+\begin{align*}
+    & \iff \mathcal{L}(v) = \mathcal{L}(u) \\
+    & \iff \mathcal{L}(v) - \mathcal{L}(u) = 0 \\
+    & \iff \mathcal{L}(v-u) = 0 \tag{linearity of $\mathcal{L}$} 
+\end{align*}
+
+Similar to ODEs, the set of solutions to the $\mathcal{L}(u) = 0$ is a vector space, meaning 
+
+\begin{enumerate}
+    \item $\mathcal{L}(u) = 0, \ \mathcal{L}(v) = 0 \implies \mathcal{L}(u+v) = 0$
+    \item $\mathcal{L}(u) = 0 \implies \mathcal{L}(cv) = 0$, where $c$ is a constant.
+\end{enumerate}
+
+however, unlike ODEs, this vector space is almost always infinite dimensional. We will see this in action in the next section.
+
+\section{PDEs that are ODEs}
+
+The simplest examples of partial differential equations are those that are actually just ODEs in disguise. These can very quickly solved using ODE techniques. Let's look at some examples:
+
+\begin{example}
+    Consider the unknown $u(x,y)$. We'll find the general solution to 
+
+    \[ u_x = 0 \]
+
+    Intuitively, the general solution is just any function that is constant in $x$. To see this, we'll fix $y = y_0$. We can then rewrite it as 
+
+    \[ \dif{}{x}[u(x,y_0)] = 0 \]
+
+    Then we get that $u(x,y_0)$ is constant \textit{as a function of $x$}, so
+
+    \[ u(x,y_0) = C(y_0) \]
+
+    because $y_0$ changes, we get that $u(x,y) = f(y)$, where $f$ is a function of $y$.
+\end{example}
+
+Notice that $f$ can be \textit{any} function of $y$. This is very clearly an infinite dimensional vector space, as there is no real pattern to them at all. 
+
+\begin{example}
+    We'll find the general solution $u(x,y)$ for
+
+    \[ u_{xx} = 0 \]
+
+    We can just apply the same trick twice:
+
+    \begin{align*}
+        & \iff (u_x)_x = 0 \\
+        & \iff u_x(x,y) = f(y)
+    \end{align*}
+
+    Now fixing $y = y_0$, 
+
+    \begin{align*}
+        & \iff \dif{}{x}[u(x,y_0)] = f(y_0) \\
+        & \iff u(x,y_0) = xf(y_0) + g(y_0) \\
+        & \iff u(x,y) = xf(y) + g(y)
+    \end{align*}
+
+    where $f,g$ are arbitrary functions. 
+\end{example}
+
+Notice that in the first example, we had a first order PDE, and its general solution has a single free constant, $f(y)$, while in the second example we had a second order PDE with two free constants, $f(y)$ and $g(y)$. In general, an $n$th order linear PDE with have $n$ free constants. 
+
+\begin{example}
+    Find the general solution $u(x,y)$ to
+
+    \[ u_{xx} + u = 0 \]
+
+    Intuitively, this is just an ODE in $x$. Recall that the general solution to 
+
+    \[ v''(t) + v(t) = 0 \]
+
+    is given by
+
+    \[ v(t) = A\sin(t) + B\cos(t) \]
+
+    so our general solution is
+
+    \[ u(x,y) = f(y)\sin(x) + g(y)\cos(x) \]
+
+    where $f,g$ are arbitrary functions. 
+\end{example}
+
+These tricks still work when dealing with higher-order partials of many variables:
+
+\begin{example}
+    Find the general solution $u(x,y)$ of
+
+    \[ u_{xy} = 0 \]
+
+    We can treat this like nested partials. By Clairaut's Theorem, $u_{xy} = u_{yx}$, thus,
+
+    \begin{align*}
+        & (u_y)_x = 0 \\
+        \iff & u_y(x,y) = f(y) \intertext{we can now treat this as an ODE in $y$, yielding} \\
+        \iff & u(x,y) = \int f(y) \ dy + g(x) \\
+        \iff & u(x,y) = F(y) + g(x)
+    \end{align*}
+
+    where $F,g$ are arbitrary functions. 
+\end{example}
+
+For certain PDEs, it can be a good idea to reduce it down to an ODE and solve it using ODE techniques, though the methods will be much harder than the above. 
+
+\section{Constant Coefficient 1st Order Linear PDEs (in 2 Variables)}
+
+A \textbf{constant coefficient 1st order linear PDE (in 2 variables)} are equations of the form
+
+\[ au_x + bu_y = 0 \]
+
+where $a,b \in \mathbb{R}$, and $u(x,y)$ is the unknown. This is a linear homogeneous equation. There are two main methods for solving them, which we will discuss now:
+
+\subsection{The Geometric Method}
+
+Consider the vector $\vec{v} = (a,b) \in \mathbb{R}^2$. Then can rewrite the equation as 
+
+\[ \vec{v} \cdot \vec{\nabla}u = 0 \]
+
+visually, this says that the function $u$ remains constant in the direction of $\vec{v}$, which is given by the lines shown below
+
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{Week 1/Direction Vector.png}
+\end{center}
+
+The lines parallel to $\vec{v}$ are of the form $bx - ay = c$, where $c$ is some constant. In other words,
+
+\[ (b,-a) \perp \vec{v} \]
+
+Because $u$ is constant in the $\vec{v}$ direction, it must be constant along each line $bx - ay = c$ for each $c$. However, it can take a different value for each $c$. Thus, the value of $u(x,y)$ depends exclusively on what line the point $(x,y)$ lies on, meaning 
+
+\[ u(x,y) = f(bx-ay) \]
+
+for any function $f$. The lines $bx - ay = c$ are called the \textbf{characteristics} of the PDE. In general, they are curves along which $u(x,y,\ldots)$ remains constant. 
+
+Let's check this works:
+
+\begin{align*}
+    a \pardif{}{x}[f(bx-ay)] + b\pardif{}{y}[f(bx-ay)] & = 
+    af'(bx-ay) \cdot b + bf'(bx-ay) \cdot -a \\
+    & = abf'(bx-ay) - abf'(bx-ay) \\
+    & = 0
+\end{align*}
+
+\subsection{The Coordinate Method}
+
+We'll rewrite the equation in terms of new coordinates, which we define as
+
+\[ x' = ax + by \]
+\[ y' = bx - ay \]
+
+\begin{remark}
+    This seems like an arbitrary selection. One way we can find this is to define $x' = c_1x + c_2y, y' = c_3x + c_4y$ and then find the necessary constants that make things work
+\end{remark}
+
+This is non-singular whenever the determinant of the corresponding matrix is non-zero, which means $-a^2 - b^2 \neq 0$, which is true unless $a = b = 0$. 
+
+We now rewrite the PDE in terms of $x',y'$:
+
+\begin{align*}
+    \pardif{u}{x} & = \pardif{u}{x'}\pardif{x'}{x} + \pardif{u}{y'}\pardif{y'}{y} \\
+    & = au_{x'} + bu_{y'} \\
+    \pardif{u}{y} & = \pardif{u}{x'}\pardif{x'}{y} + \pardif{u}{y'}\pardif{y'}{y} \\
+    & = bu_{x'} - au_{y'}
+\end{align*}
+
+Thus,
+
+\begin{align*}
+    0 & = au_x + bu_y \\
+      & = a(au_{x'} + bu_{y'}) + b(bu_{x'} - au_{y'}) \\
+      & = a^2u_{x'} + abu_{y'} + b^2u_{x'} - abu_{y'} \\
+      & = (a^2 + b^2)u_x'
+\end{align*}
+
+So we get that
+
+\begin{align*}
+    \implies & u_{x'} = 0 \\
+    \implies & u(x',y') = f(y') \\
+    \implies & u(x,y) = f(bx-ay)
+\end{align*}
+
+where $f$ is arbitrary. To see the theory in action, let's do an example:
+
+\begin{example}
+    Find the solution to
+
+    \[ 4u_x - 3u_y = 0 \]
+
+    such that $u(0,y) = y^3$
+
+    Note the presence of a boundary condition. While before we were asking for a general class of functions that satisfy the PDE, this boundary condition restricts out set of valid answers to just a handful (usually just one). 
+
+    We know that the general solution is of the form
+
+    \[ u(x,y) = f(-3x-4y) \]
+
+    By the boundary condition, we also know that
+
+    \[ y^3 = u(0,y) = f(-4y) \]
+
+    We want to determine $f(y)$. To do this we set $w = -4y$, meaning $y = \dfrac{-w}{4}$. Thus,
+
+    \begin{align*}
+        & f(w) = \left(\frac{-w}{4}\right)^3 = \frac{-w^3}{64} \\
+        \implies & u(x,y) = f(-3x-4y) = \frac{(-3x-4y)^3}{64}
+    \end{align*}
+
+    What does this look like visually?
+
+    \begin{center}
+        \includegraphics[width=0.7\textwidth]{Week 1/Direction Vector (3,-4).png}
+    \end{center}
+\end{example}
+
+\section{Variable Coefficients}
+
+Before, we considered $a,b$ to be real number constants, however, we can also consider situations where these are in fact functions of $x$ and $y$. What's more interesting is that the general theory behind their solutions remains relatively unchanged, and relies on understand which curves. To see this, we'll first consider an example:
+
+\begin{example}
+    Find the general solution $u(x,y)$ of
+
+    \[ u_x + yu_y = 0 \]
+
+    We use the geometric method. Rewriting as the dot product of the gradient vector yields
+
+    \[ (\nabla u) \cdot (1,y) = 0 \]
+
+    Before, it was clear what curves $u$ was constant on: the lines $bx - ay = c$. But now the presence of $y$ complicates things. In general, we want to find curves $(x, y(x))$ whose tangents are \textit{parallel} to $(1,y)$ (as they should be orthogonal to the vector). The tangent vector of $(x,y(x))$ is $\left(1, \dfrac{dy}{dx}\right)$, and so we have that
+
+    \[ \frac{dy}{dx}(x) = y(x) \implies y(x) = Ce^x \]
+
+    where $C$ is any constant. We say that $(x, Ce^x)$ is a \textbf{characteristic curve}. The PDE is equivalent to saying that $u$ is constant along such curves. 
+
+    By the Chain Rule, we have that
+
+    \begin{align*}
+        \dif{}{x}[u(x,Ce^x)] & = u_x + u_y\dif{}{x}(Ce^x) \\
+                             & = u_x + Ce^xu_y \\
+                             & = u_x + yu_y \\
+                             & = 0
+    \end{align*}
+
+    So we know that $u(x, Ce^x) = F(C)$ is some function of $C$. To solve for $u(x,y)$, we use the fact that $y = Ce^x$ and solve for $C$. Since $C = ye^{-x}$,
+
+    \[ u(x,y) = F(ye^{-x}) \]
+
+    where $F$ is any function. Visually, the characteristic curves look like this:
+
+    \begin{center}
+        \includegraphics[width=0.7\textwidth]{Week 1/Characteristic Curves 1.png}
+    \end{center}
+
+    It should be noted that every point in the plane must lie on a unique characteristic curve. Why? EXPLANATION REQUIRED
+\end{example}
+
+\begin{example}
+    Find the general solution $u(x,y)$ to 
+
+    \[ u_x + 2xy^2u_y = 0 \]
+
+    Like before, we rewrite as
+
+    \[ (\nabla u) \cdot (1, 2xy^2) = 0 \]
+
+    and by the same logic as previously, we require that 
+
+    \[ \frac{dy}{dx} = 2xy^2 \]
+
+    This is and ODE which can be solved with separation of variables. We first note the case that $y(x) = 0$. Then if $y \neq 0$:
+
+    \begin{align*}
+        & \dif{y}{y^2} = 2x \ dx \\
+        \implies & -\frac{1}{y} = x^2 + C \\
+        \implies & y(x) = \frac{-1}{x^2 + C}
+    \end{align*}
+
+    Note that this ODE may be difficult to solve, but this is fine because we only care about what $C$ is, and we can easily solve for it. We have that
+
+    \[ u(x,y) = F(C) = F\left(-\frac{1}{y}-x^2\right) \]
+
+    where $F$ is arbitrary. What about the case where $y = 0$? Consider the picture:
+
+    \begin{center}
+        \includegraphics[width=0.5\textwidth]{Week 1/Characteristic Curves 2.png}
+    \end{center}
+\end{example}
+
+\begin{remark}
+    In these examples we took $a = 1$. For a general PDE with variable coefficients $f(x,y)u_x + g(x,y)u_y = 0$, we can always make it look like this by dividing by $f(x,y)$:
+
+    \[ u_x + \frac{g(x,y)}{f(x,y)}u_y = 0 \]
+
+    In the case that $f(x,y) = 0$ at some point, we can just do the opposite and divide by $g(x,y)$, and the solution is symmetric. 
+\end{remark}

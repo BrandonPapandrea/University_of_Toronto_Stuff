@@ -1,0 +1,350 @@
+\chapter{Week 4}
+
+\section{The Heat Equation, Continued}
+
+\subsection{The Heat Equation on an Infinite Rod}
+
+We will try and prove some formulas related to the heat equation, in the special case that we are dealing with a rod of infinite length. By doing this we are considering the case where $x \in \R$. We will also not consider 0 in the domain of $t$; the reason why will be obvious.
+
+\begin{remark}
+    The derivation we present here will seem somewhat random, as the tool used for deriving it, called the Fourier Transform, is not a core part of this course. The textbook presents another similar derivation that may yield better insights for some as to how we derive the following.
+\end{remark}
+
+We first define a function $S(x,t): \R \times (0,\infty) \to \R$ by
+
+\[ S(x,t) = \frac{1}{\sqrt{4\pi kt}}e^{\frac{-x^2}{4kt}} \]
+
+Note that $S(x,t) > 0$ for all $x,t$ in the domain. 
+
+\begin{prop}
+    $S$ solves the heat equation.
+\end{prop}
+
+\begin{proof}
+    We have
+
+    \begin{align*}
+        \partial_tS & = \frac{1}{\sqrt{4\pi k}} \cdot \frac{-1}{2t^{3/2}}e^{\frac{-x}{4kt}} + \frac{1}{\sqrt{4\pi kt}} \frac{x^2}{4kt^2}e^{\frac{-x}{4kt}} \\
+                    & = \frac{-1}{2}t^{-1}S + \frac{x^2}{4kt^2}S \\
+        \partial_xS & = \frac{1}{\sqrt{4\pi kt}} \cdot \frac{-x}{2kt}e^{\frac{-x^2}{4kt}} \\
+                    & = \frac{-x}{2kt}S \\
+        \partial_{xx}S & = \frac{-1}{2kt}S - \frac{x}{2kt}\partial_xS \\
+                       & = \frac{-1}{2kt}S + \frac{x^2}{4k^2t^2}S
+    \end{align*}
+
+    Thus,
+
+    \begin{align*}
+        \partial_tS - k\partial_{xx}S & = S\left(\frac{-1}{2t} + \frac{x^2}{4kt^2} + \frac{1}{2t} - \frac{x^2}{4kt^2}\right) \\
+        & = 0
+    \end{align*}
+
+    as desired.
+\end{proof}
+
+Before we proceed, recall the Gaussian Integral:
+
+\[ \int_{-\infty}^\infty e^{-x^2} \ dx = \sqrt{\pi} \]
+
+For each $t > 0$, we may consider 
+
+\[ \int_{-\infty}^\infty S(x,t) \ dx \]
+
+Informally, note that for fixed $t$, $S$ will go to 0 exponentially fast as $x \to \pm\infty$. Thus, this integral is well-defined. We write it as
+
+\[ \frac{1}{\sqrt{4\pi kt}}\int_{-\infty}^\infty e^{-\left(\frac{x}{2\sqrt{kt}}\right)^2} \ dx \]
+
+We now make a change of variables with
+
+\[ y = \frac{x}{2\sqrt{kt}} \ , \ dy = \frac{1}{\sqrt{kt}} \ dx \]
+
+Under this change, we get
+
+\[ \frac{1}{\sqrt{\pi}}\int_{-\infty}^\infty e^{-y} \ dy = \frac{1}{\sqrt{\pi}}\sqrt{\pi} = 1 \]
+
+We sometimes call this function $S$ the \textbf{heat kernel}. Let's try and understand what happens to the heat kernel as $t \to 0$. We first make some observations:
+
+\begin{enumerate}
+    \item When $x = 0$, 
+
+    \[ S(x,t) = \frac{1}{\sqrt{4\pi kt}} \xrightarrow[]{t \to 0} \infty \]
+
+    \item Suppose $|x| > \delta > 0$, where $\delta$ is small. In this case,
+
+    \[ |S(x,t)| \leq \frac{1}{\sqrt{4\pi kt}}e^{\frac{-\delta^2}{4kt}} \]
+
+    as $t \to 0$, the exponential is moving to 0 faster than the $\sqrt{4\pi kt}$ can blow $S$ up to infinity, and so we are going to 0. 
+\end{enumerate}
+
+These observations help us understand what is going on: we start with a Gaussian-like curve with integral value 1. as $t$ gets smaller, this curve gets thinner and thinner, and $S$ is non-zero in a very small area around 0, while at 0 the value gets larger to preserve the area. Finally, at $t = 0$, we have a function that is 0 everywhere except at $x = 0$, where it has a value of infinity. This is shown below, where we show the graphs of $S$ for $t = 1, \dfrac{1}{2}, \dfrac{1}{10}$, and $t = \dfrac{1}{1000}$.
+
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{Week 4/S at 1.png}
+    \includegraphics[width=0.7\textwidth]{Week 4/S at half.png}
+    \includegraphics[width=0.7\textwidth]{Week 4/S at tenth.png}
+    \includegraphics[width=0.7\textwidth]{Week 4/S at thousandth.png}
+\end{center}
+
+Informally, when $t = 0$:
+
+\[ S(x,0) = \begin{cases}
+    \infty & x = 0 \\ 0 & x \neq 0
+\end{cases} \]
+
+We call $S$ an \textbf{approximation to the identity}. 
+
+$S$ special because it is related to an important operation in PDE theory. For a continuous function $\phi(x)$ and $t > 0$, we can define
+
+\[ u(x,t) = \int_{-\infty}^\infty S(x-y,t)\phi(y) \ dy \]
+
+called the \textbf{convolution} of $S$ and $\phi$.
+
+\begin{prop}
+    If $t > 0$, then $u$ solves the heat equation.
+\end{prop}
+
+\begin{proof}
+    The result mainly follows from $S$ solving the heat equation. We have by differentiation under the integral sign,
+
+    \begin{align*}
+        \partial_tu & = \int_{-\infty}^\infty (\partial_tS)(x-y,t)\phi(y) \ dy \\
+        \partial_{xx}u & = \int_{-\infty}^\infty (\partial_{xx}S)(x-y,t)\phi(y) \ dy 
+    \end{align*}
+
+    Thus,
+
+    \[ \partial_tu - k\partial_{xx} = \int_{-\infty}^\infty (\partial_tS - k\partial_{xx}S)(x-y,t)\phi(y) \ dy = 0 \]
+
+    as desired.
+\end{proof}
+
+The relevance of $\phi$ becomes clear once we notice that as we approach 0, the convolution goes to $\phi(x)$. 
+
+\begin{prop}
+    $\lim_{t \to 0} u(x,t) = \phi(x)$.
+\end{prop}
+
+\begin{proof}
+    We have that
+
+    \begin{align*}
+        u(x,t) & = \int_{-\infty}^\infty S(x-y,t)\phi(y) \ dy \intertext{Set $z = x-y, \ dz = -dy$. This flips the bounds of integration, producing a double negative. We get} \\
+        & = \int_{-\infty}^\infty S(z,t)\phi(x-z) \ dz \intertext{for $0 < t < 1$, we get} \\
+        & \approx \int_{z \text{ close to 0}}S(z,t)\phi(x) \ dz \\
+        & = \phi(x) \int_{-\infty}^\infty S(z,t) \ dz \\
+        & = \phi(x)
+    \end{align*}
+\end{proof}
+
+\subsection{IVPs on the Infinite Rod}
+
+We consider the IVP
+
+\[ \begin{cases}
+    u_t - ku_{xx} = 0 & (x,t) \in \R \times (0,\infty) \\
+    u(x,0) = \phi(x)
+\end{cases} \]
+
+Our work in the previous subsection shows that a solution to this IVP is 
+
+\[ u(x,t) = \int_{-\infty}^\infty S(x-y,t)\phi(y) \ dy \]
+
+Note that this only deals with the \textit{existence} of a solution, not uniqueness or whether it is stable or not. We will addresss uniqueness shortly.
+
+\begin{example}
+    Solve 
+
+    \[ \begin{cases}
+        u_t - ku_{xx} = 0 \\ u(x,0) = e^{-x}
+    \end{cases} \]
+
+    We know a solution is
+
+    \[ u(x,t) = \frac{1}{\sqrt{4\pi kt}}\int_{-\infty}^\infty e^{-\frac{(x-y)^2}{4kt}}e^{-y} \ dy \]
+
+    We will simplify the term in the integral as follows:
+
+    \begin{align*}
+        \exp\left(\frac{-(x-y)^2}{4kt}-y\right) & = \exp\left(\frac{-x^2 + 2xy - y^2}{4kt} - y\right) \\
+        & = \exp\left(\frac{-x^2 + 2xy - y^2 - 4kty}{4kt}\right) \\
+        & = \exp\left(\frac{-y^2 - (4kt - 2x)y - x^2}{4kt}\right) \\
+        & = \exp\left(\frac{-y^2 - 2(2kt - x)y - (2kt - x)^2 + (2kt - x)^2 - x^2}{4kt}\right) \\
+        & = \exp\left(\frac{-(y + (2kt - x)^2}{4kt} + \frac{4k^2t^2 - 4ktx}{4kt}\right) \\
+        & = \exp\left(\frac{-(y + (2kt - x)^2}{4kt}\right)\exp(kt - x) \\
+        & = \exp\left(-\left(\frac{y + (2kt - x)}{2\sqrt{kt}}\right)^2\right)\exp(kt - x) \\
+    \end{align*}
+
+    Now setting $z = \dfrac{y + 2kt - x}{2\sqrt{kt}}, \ dz = \dfrac{dy}{\sqrt{4kt}}$, we get
+
+    \begin{align*}
+        u(x,t) & = \frac{\exp(kt - x)}{\sqrt{\pi}}\int_{-\infty}^\infty e^{-z^2} \ dz \\
+        & = \exp(kt - x)
+    \end{align*}
+\end{example}
+
+\subsection{Uniqueness on the Infinite Rod}
+
+What does it mean when a solution to the IVP is \textit{unique}? Given $\phi(x)$, suppose 
+
+\[ u_1(x,t) = u_2(x,t) \]
+
+solve the IVP defined at the start of last section. It follows that
+
+\[ (u_1)_t - k(u_1)_{xx} = (u_2)_t - k(u_2)_{xx} = 0 \]
+\[ u_1(x,0) = u_2(x,0) = \phi(x) \]
+
+so in general, is $u_1 = u_2$? No! 
+
+Let's rephrase the above. Define $w = u_1 - u_2$. Now if
+
+\[ w_t - kw_{xx} = 0 \]
+\[ w(x,0) = 0 \]
+
+does $w = 0$? Yes! But with more mild assumptions added onto it. 
+
+Recall our solution from before
+
+\[ u(x,t) = \frac{1}{\sqrt{4\pi kt}}\int_{-\infty}^\infty \exp\left(\frac{-(x,y)^2}{4kt}\right)\phi(y) \ dy \]
+
+Let's assume that $\phi(x)$ is both continuous and \textit{compactly supported}, meaning it is nonzero only on some closed interval $[-R, R]$. What happens when we take $x$ to $\pm\infty$? Well, the exponential will go to 0, so the integral will also go to 0. Thus $u \to 0$
+
+For any $T > 0$, define
+
+\[ A(x) = \max_{t \in [0,T]}u(x,t) \]
+
+By the above logic, we get that $\lim_{x \to \pm\infty}A(x) = 0$. This is our extra assumption, and it acts like a boundary condition at $\pm \infty$. 
+
+\begin{theorem}[Uniqueness of Heat Equation on the Infinite Rod]
+    Suppose that $w(x,t): \R \times (0,\infty) \to \R$ solves 
+
+    \[ w_t - kw_{xx} = 0 \]
+    \[ w(x,0) = 0 \]
+
+    and for each $T > 0$,
+
+    \[ \lim_{x \to \pm\infty} \max_{t \in [0,T]}w(x,t) = 0 \]
+
+    Then $w(x,t) = 0$ everywhere.
+\end{theorem}
+
+\begin{proof}
+    We apply the Maximum Principle. Let $T > 0$ and pick $R$ to be very large. By the Maximum Principle, 
+
+    \[ \max_{[-R, R] \times [0,T]}w(x,t) = \max_{t = 0} w(x,t) \text{ or } \max_{x = -R}w(x,t) \text{ or } \max_{x = R} w(x,t) \]
+
+    We know that $w(x,0) = 0$. Furthermore, by our extra assumption, the second and third max values will go to 0 as $R$ goes to infinity. Thus,
+
+    \[ \max_{t \in (0,T)} w(x,t) \leq 0 \]
+
+    We repeat this idea for $-w$, which tells us that 
+
+    \[ \min_{t \in (0,T)}w(x,t) \geq 0 \]
+
+    Combining, we get that
+
+    \[ w(x,t) = 0 \ , \ t \in (0,T) \]
+
+    Taking $T \to \infty$ completes the proof.
+\end{proof}
+
+\section{Comparing the Heat and Wave Equations}
+
+There are several differences between the heat and wave equations that are of importance to us. We're focusing on qualatiative properties here, not quantitative ones.
+
+\begin{enumerate}
+    \item The Speed of Propagation. 
+
+    We know that waves have a finite speed of propagation which is related to the value $c$. As $c \to \infty$, the speed of propagation increases, and in the limit, the light path curve will encompass the entire $(x,t)$ plane. 
+
+    Contrast this with the heat equation, which actually has \textit{infinite} speed of propagation.
+
+    \begin{theorem}
+        Let $\phi(x)$ be continuous with $\phi(x) \geq 0$ and suppose there is an $x_0$ such that $\phi(x_0) > 0$. Set
+
+        \[ u(x,t) = \int_{-\infty}^\infty S(x-y,t)\phi(y) \ dy \]
+        \[ S(x,t) = \frac{1}{\sqrt{4\pi kt}}e^{\frac{-x^2}{4kt}} \]
+
+        which solves the heat equation $u_t - ku_{xx} = 0$ with $u(x,0) = \phi(x)$. Then if $t > 0$, $u(x,t) > 0$ for all $x$.
+    \end{theorem}
+
+    \begin{proof}
+        $S(x,t) > 0$ when $t > 0$, so $S(x-y,t) > 0$ when $t > 0$. Now
+
+        \[ u(x,t) = \int_{-\infty}^\infty S(x-y,t)\phi(y) \ dy \]
+
+        We know there is a point $y_0$ such that $\phi(y_0) > 0$, and $\phi$ is continuous. Thus there is an interval $I$ on which $\phi$ is strictly positive. Then
+
+        \[ \int_{-\infty}^\infty S(x-y,t) \phi(y) \ dy \geq \int_I S(x-y,t)\phi(y) \ dy > 0 \]
+    \end{proof}
+
+    what this means is simple: At $t=0$, our rod has nonzero temperature in only a finite interval. But, the instant we let time begin to move in time, every point on the rod has some nonzero temperature. 
+
+    \begin{remark}
+        Hyperbolic PDEs have finite speed of propagation, whereas almost all other PDEs have an infinite speed of propagation.
+    \end{remark}
+
+    \item Singularities
+
+    How many derivatives do the solutions to the wave and heat equations have?
+
+    The wave equation has \textit{singularity propagation}, meaning that while the wave will move, it will always look the same. Solutions to the wave equation are of the form
+
+    \[ u(x,t) = f(x+ct) + g(x-ct) \]
+
+    with $f,g$ arbitrary, so
+
+    \[ u(x,0) = f(x) + g(x) \]
+
+    If $g = 0$, then $u(x,0) = f(x)$, meaning $u(x,t) = f(x+ct)$. Thus, if $f$ is, say, $C^2$ but not $C^3$, so must 3. The differentiability of $u$ thus corresponds to the differentiability of $f,g$. 
+
+    On the other hand, the heat equation \textit{immediately} smoothens out the initial data once $t > 0$. Solutions are of the form
+
+    \[ u(x,t) = \frac{1}{\sqrt{4\pi kt}}\int_{-\infty}^\infty e^{\frac{-(x-y)^2}{4kt}}\phi(y) \ dy \]
+
+    Suppose $\phi$ is continuous. Then for $t > 0$,
+
+    \[ \frac{\partial u}{\partial x}= \frac{1}{\sqrt{4\pi kt}}\int_{-\infty}^\infty \frac{\partial}{\partial x}e^{\frac{-(x-y)^2}{4kt}}\phi(y) \ dy = \frac{1}{\sqrt{4\pi kt}}\int_{-\infty}^\infty \frac{-2(x-y)}{4kt}e^{\frac{-(x-y)^2}{4kt}}\phi(y) \ dy \]
+
+    Notice that even if $y \to \infty$, the exponential will dominate the other term in the integral, so it still converges. This argument is valid for derivatives with respect to $t$, as well as all other higher order derivatives. This tells u that $u$ is a $C^\infty$ function, meaning it is smooth. 
+
+    \item Long-Time Behaviour.
+
+    What happens to $u(x,t)$ as $t \to \infty$?
+
+    For the wave equation, $f,g$ will just translate in opposite directions as $t \to \infty$, so let's make it interesting. Consider the problem
+
+    \[ \begin{cases}
+        u_t - c^2u_{xx} = 0 \\
+        u(x,0) = \phi(x), u_x(x,0) = \psi(x)
+    \end{cases} \]
+
+    and assume that $\phi, \psi$ are compactly supported. Then 
+
+    \[ u(x,t) = \frac{1}{2}[\phi(x+ct) + \psi(x-ct)] + \frac{1}{2c}\int_{x-ct}^{x+ct} \psi(s) \ ds \]
+
+    Remember the light path curve figure from Week 3? Well, the integral of $\psi$ corresponds to the bottom of that triangle, and $u(x,0)$ is nonzero is some bounded interval on that side of the triangle, with the rest of the triangle being as before. Notice that if $t$ is large, we are going to be outside of this triangle, and so by causality, $x \pm ct$ will be so large that $\phi, \psi$ are going to vanish. Thus, if $t \gg 1$, we just get
+
+    \[ u(x,t) = \frac{1}{2c}\int_{-\infty}^\infty \psi(s) \ ds \]
+
+    Think of this as fixed displacement. We flick a string, and after a long enough time, the string looks flat, but raised or lowered by the above distance. 
+
+    For the heat equation, assume that $\phi$ has compact support. Then we have that
+
+    \[ \lim_{t \to \infty} e^{\frac{-(x-y)^2}{4kt}} = e^0 = 1 \]
+
+    so $\lim_{t \to \infty} u(x,t) = 0$. 
+
+    Another way to see this is to define 
+
+    \[ w(x,t) := \sqrt{t}u(x,t) = \frac{1}{\sqrt{4\pi k}}\int_{-\infty}^\infty e^{-\frac{(x-y)^2}{4kt}}\phi(y) \ dy \]
+
+    and 
+
+    \[ \lim_{t \to \infty} w(x,t) = \frac{1}{\sqrt{4\pi k}}\int_{-\infty}^\infty \phi(y) \ dy \]
+
+    and we see that
+
+    \[ u(x,t) = \frac{1}{\sqrt{t}}\left(\frac{1}{\sqrt{4\pi k}}\int_{-\infty}^\infty \phi(y) \ dy \right) + o\left(\frac{1}{\sqrt{t}}\right) \]
+
+    so as $t \to \infty$, $u \to 0$.
+\end{enumerate}

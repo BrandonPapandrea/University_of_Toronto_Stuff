@@ -1,0 +1,105 @@
+\chapter{Week 10}
+
+\section{The Laplace Equation}
+
+We now pivot towards studying the Laplace equation. In dimensions 1,2, and 3, the Laplace equation is written as
+
+\[ u_{xx} = 0 \quad u_{xx} + u_{yy} = 0 \quad u_{xx} + u_{yy} + u_{zz} = 0 \]
+
+We may also write this equation as 
+
+\[ \Delta u = 0 \]
+
+where $\Delta$ is the \textbf{Laplacian} operator. 
+
+This equation deals with situations where a solution is in an \textit{equilibrium/stationary} state, that is, they are independent of time. Take for example the heat equation in 1 dimension,
+
+\[ u_t - ku_{xx} = 0 \]
+
+If our solution is in a stationary state, then it is independent of time, meaning the $u_t$ is gone, leaving us with the 1 dimensional Laplace equation. 
+
+In a sense, the Laplace equation is the most relevant PDE in mathematical physics, playing an important role in electrostatics, steady fluid flow, and Brownian motion, among other areas. Studying this equation in detail - like we did for the heat and wave equations - is somewhat outside the scope of the course, but we can still look at it and understand some interesting properties.
+
+\subsection{The Maximum/Minimum Principle}
+
+Like the heat equation, the Laplace equation has a Max/Min Principle, though, it is a little more complex compared to before. 
+
+Our domain is now not a square of values, but rather any open set $D \subset \R^2$ with a ``nice" boundary (``nice" just means that it doesn't cause us any problems). We suppose that, inside of $D$,
+
+\[ \Delta u = 0 \]
+
+and that $u$ extends continuously to $\partial D$. We know that $D \cup \partial D$ is a closed and bounded subset of $\R^2$, so the Extreme Value Theorem tells us that $u$ attains a maximum and minimum on $D$. Take a wild guess where they are...
+
+\begin{theorem}[The Maximum/Minimum Principle for Laplace Equations]
+    Let $D \subset \R^2$ and $u$ be as above, then
+
+    \[ \max_D u = \max_{\partial D}u \quad \text { and } \quad \min_D u = \min_{\partial D} u \]
+\end{theorem}
+
+One may notice that this is somewhat related to the 2nd Derivative Test: If a critical point likes within the interior, the $\nabla u = 0$. If that point is a strict extremum, then $\nabla^2 u$ has all positive or negative eigenvalues (depending on if it's a max or min). Now $\Delta = \operatorname{tr}\nabla^2 u$. However, if we have a strict max/min, this value will be positive or negative, and not 0, meaning the point cannot be an extremum. 
+
+\subsubsection*{Uniqueness of the Dirichlet Problem}
+
+The Maximum/Minimum Principle can allow us to prove, like in studying the heat equation, that the Laplace equation has unique solutions in certain scenarios. Let's consider the Laplace equation with Dirichlet boundary conditions. We let $D$ be a bounded, open subset of $\R^2$ and let
+
+\[ h: \partial D \to \C \]
+
+be a smooth function, and $F: D \to \C$ be a smooth too. We seek to find a solution to
+
+\[ \begin{cases}
+    u: D \to \C \\ \Delta u = F \\ u|_{\partial D} = h
+\end{cases} \]
+
+For simplicity, we can take $F = 0$. 
+
+\begin{prop}
+    The above problem has at most 1 solution.
+\end{prop}
+
+\begin{proof}
+    Suppose that both $u_1, u_2$ solve the problem. We define
+
+    \[ w = u_1 - u_2 \]
+
+    We see that
+
+    \begin{align*}
+        \Delta w & = \Delta(u_1 - u_2) \\
+        & = \Delta u_1 - \Delta u_2 \\ 
+        & = 0 \\
+        w|_{\partial D} & = (u_1 - u_2)|_{\partial D} \\
+        & = u_1|_{\partial D} - u_2|_{\partial D} \\
+        & = 0
+    \end{align*}
+
+    so the problem for $w$ is
+
+    \[ \begin{cases}
+        \Delta w = 0 \\
+        w|_{\partial D} = 0
+    \end{cases} \]
+
+    so the Maximum/Minimum Principle applies. We get that
+
+    \[ \max_D w = \max_{\partial D} w = 0 \]
+    \[ \min_D w = \min_{\partial D} w = 0 \]
+
+    hence $w = 0$, meaning $u_1 = u_2$.
+\end{proof}
+
+\subsection{Invariance Under Rigid Motion}
+
+Another important property of the Laplace equation is that is invariant under \textit{rigid motions}, that is, the symmetries of the plane. There are 2 such symmetries:
+
+\begin{enumerate}[label=(\roman*)]
+    \item Translation: $(x,y) \mapsto (x+a, y+b)$ for constants $a,b$. 
+    \item Rotation: $(x,y) \mapsto (x\cos\alpha + y\sin\alpha, x\sin\alpha + y\cos\alpha)$ for some $\alpha \in[0,2\pi)$.
+\end{enumerate}
+
+What's special about this is that $\Delta$ is the only differential operator with this property. This makes is perfect for studying \textit{isotropic} situations in engineering, where there is no preferred direction. 
+
+The fact that we have rotational invariance suggests that the Laplace equation would have a simpler form when converted to \textit{polar coordinates}. Let's compute it. Given polar coordinates $(r, \theta)$, we have
+
+\[ x = r\cos\theta, \quad y = r\sin \theta \]
+\[ r = \sqrt{x^2 + y^2}, \quad \theta = \arctan\left(\frac{y}{x}\right) \]
+

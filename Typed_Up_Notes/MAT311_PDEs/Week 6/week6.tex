@@ -1,0 +1,341 @@
+\chapter{Week 6}
+
+\section{The Wave Equation, with a Source}
+
+We now consider the wave equation with a source, which is the problem
+
+\[ \begin{cases}
+    u(x,t): \R \times (0,\infty) \to \R \\
+    u_{tt} - c^2u_{xx} = f(x,t) \\
+    u(x,0) = \phi(x) \quad u_t(x,0) = \psi(x)
+\end{cases} \]
+
+We claim that the unique solution to this problem is given by 
+
+\[ u(x,t) = \frac{1}{2}[\phi(x+ct) + \phi(x-ct)] + \frac{1}{2c}\int_{x-ct}^{x+ct}\psi(s) \ ds + \frac{1}{2c}\iint_{\Delta(x,t)}f(y,s) \ dy \ ds \]
+
+where $\Delta(x,t)$ is the path light cone from before. We may assume that $\phi, \psi = 0$ by the same logic as before. While there are many solving methods, like using modified versions of Duhamel's Principle, we will exploit the wave equations relatively simple structure to get a solution. 
+
+We will use characteristic coordinates. We define
+
+\[ \xi = x + ct, \quad \eta = x -ct \]
+
+\begin{align*}
+    \pardif{}{x} & = \pardif{}{\xi}\pardif{\xi}{x} + \pardif{}{\eta}\pardif{\eta}{x} = \pardif{}{\xi} + \pardif{}{\eta} \\
+    \pardif{}{t} & = \pardif{}{\xi}\pardif{\xi}{t} + \pardif{}{\eta}\pardif{\eta}{t} = c\pardif{}{\xi} - c\pardif{}{\eta}
+\end{align*}
+
+so
+
+\[ x = \frac{1}{2}(\xi + \eta) \quad t = \frac{1}{2c}(\xi - \eta) \]
+
+and we may rewrite our PDE as
+
+\begin{align*}
+    u_{tt} - c^2u_{xx} = f(x,t) & \iff \left(c\pardif{}{\xi} - c\pardif{}{\eta}\right)^2u - c^2\left(\pardif{}{\xi} + \pardif{}{\eta}\right)^2u = f \\
+    & \iff \left(c^2\pardif{}{\xi}^2 - 2c^2\frac{\partial^2}{\partial \xi \partial \eta } + c^2 \pardif{}{\eta}^2 - c^2 \pardif{}{\xi}^2 - 2c^2 \frac{\partial^2}{\partial \xi \partial \eta} - c^2 \pardif{}{\eta}^2\right)u = f(x,t) \\
+    & \iff -4c^2 \frac{\partial^2}{\partial \xi \partial \eta}u = f
+\end{align*}
+
+Thus, our solution in $(\xi, \eta)$ will look something like
+
+\[ u(\xi, \eta) = -\frac{1}{4c^2}\int_?^\xi\int_?^\eta f \ d\xi \ d\eta + \cdots  \]
+
+Let's now consider the path light cone in these coordinates, which is shown below:
+
+\begin{center}
+    \includegraphics[width=0.5\textwidth]{Week 6/Characteristic Triangle.png}
+\end{center}
+
+The left side is when $\eta$ is constant, while the right side is when $\xi$ is constant. We have that $u(x,0) = u_t(x,0) = 0$ along the line $\{t = 0\} \iff \{\xi = \eta\}$. Thus, $u|_{(\xi,\xi)} = 0$, and so do $u_\xi|_{(\xi,\xi)}, u_\eta|_{(\xi,\xi)}$. 
+
+We fix $(x_0,t_0)$ where we originally wanted to evaluate $u(x,t)$. Set $\eta_0 = x_0 - ct_0, \xi_0 = x_0+ct_0$. Then by the FTC, we get that
+
+\begin{align*}
+    u(\xi_0,\eta_0) & = \int_{\eta_0}^{\xi_0} u_\xi(\xi,\eta_0) \ d\xi  \\
+    & = \int_{\eta_0}^{\xi_0}\int_{\xi}^{\eta_0} u_{\xi\eta}(\xi,\eta) \ d\eta \ d\xi \\
+    & = -\frac{1}{4c^2}\int_{\eta_0}^{\xi_0}\int_\xi^{\eta_0} f \ d\eta \ d\xi \tag{by the PDE}
+\end{align*}
+
+Note that $\xi \in (\eta_0, \xi_0)$, with $\xi_0 > \eta_0$, meaning that $\xi > \eta_0$. Hence we flip the integral to give us
+
+\[ u(\xi_0, \eta_0) = \frac{1}{4c^2}\int_{\eta_0}^{\xi_0}\int_{\eta_0}^\xi f \ d\eta \ d\xi = \frac{1}{4c^2}\iint_? f \cdot A \ dx \ dt \]
+
+Where the last equal sign is the change of variables back to $(x,t)$. The $A$ is the determinant of the transformation, given by 
+
+\begin{align*}
+    A & = \left|\det\begin{pmatrix}
+        \pardif{\xi}{x} & \pardif{\xi}{t} \\
+        \pardif{\eta}{x} & \pardif{\eta}{t}
+    \end{pmatrix}\right| \\
+    & = \left|\det\begin{pmatrix}
+        1 & c \\ 1 & -c
+    \end{pmatrix}\right| \\
+    & = |-c - c| \\
+    & = 2c
+\end{align*}
+
+so we get
+
+\[ \frac{1}{2c} \iint_? f \ dx \ dt \]
+
+What are we integrating? The triangle from before! The left side is when $\eta = \eta_0$, and the right side is when $\xi = \xi_0$. For the outside integral, we integrate over $\xi$, which goes from $\eta_0$ to $\xi_0$. For the inside integral, we integrate over $\eta$, which goes from $\eta_0$ to $\xi$. 
+
+In $(x,t)$ coordinates, our triangle goes from $0$ to $t$ on the $t$-axis. For $x$, the left side of the triangle is given by the line $y - cs = x - ct$ and the right side is given by $y + cs = x + ct$. Solving for $x$ means we are integrating from $x - c(t-s)$ to $x + c(t-s)$. Thus, our integral becomes 
+
+\[ \int_0^t\int_{x-c(t-s)}^{x-c(t-s)} f(y,s) \ dy \ ds \]
+
+\begin{example}
+    Solve
+
+    \[ \begin{cases}
+        u_{tt} - c^2u_{xx} = \cos(x) \\
+        u(x,0) = \sin(x) \quad u_t(x,0) = 1 + x
+    \end{cases} \]
+
+    Using the formula we've just derived, we get that
+
+    \[ u(x,t) = \frac{1}{2}[\sin(x+ct) + \sin(x-ct)] + \frac{1}{2c}\int_{x-ct}^{x+ct} (1 + s) \ ds + \frac{1}{2c}\int_0^t\int_{x-c(t-s)}^{x+c(t-s)}\cos(y) \ dy \ ds  \]
+\end{example}
+
+Like the heat equation, we can use this formula to solve for inhomogeneous boundary conditions. Reflection tricks will allow us to handle source terms on the half-line and homogeneous boundary conditions, and you can then go on to solve even more general problems. 
+
+\begin{remark}
+    Everything up to this point will appear on the first term test. 
+\end{remark}
+
+\section{Working on a Finite Interval}
+
+We now seek to solve both the wave and heat equations where the spatial variable $x$ is defined on a finite interval $(0, \ell)$. Doing this requires us to introduce a new solving technique, and make some assumptions about our initial conditions that will be made rigorous in a later section.
+
+\subsection{The Wave Equation on a Finite Interval with Dirichlet B.C}
+
+We now wish to solve the wave equation on a finite interval. We will consider the equation with Dirichlet boundary conditions:
+
+\[ \begin{cases}
+    u_{tt} - c^2u_{xx} = 0 & 0 < x < \ell, \quad t > 0 \\
+    u(0,t) = u(\ell,t) = 0 \\
+    u(x,0) = \phi(x) \quad u_t(x,0) = \psi(x)
+\end{cases} \]
+
+The fact that $x$ is defined on a finite interval is going to make things more complicated, and thus we require a new solving method: \textbf{separation of variables}.
+
+To begin, let's make an educated guess (commonly called an \textit{Ansatz}) about the shape of our solution. Suppose that
+
+\[ u(x,t) = X(x)T(t) \]
+
+Can we find a solution that looks like this? If so, then we have that
+
+\[ u_{tt} = X(x)T''(t) \]
+\[ u_{xx} = X''(x)T(t) \]
+\[ \implies X(x)T''(t) - c^2X''(x)T(t) = 0 \]
+
+In this case, we can push all the $x$ terms on one side and all $t$ terms on the other side. We get
+
+\[ X(x)T''(t) = c^2X''(t)T(t) \]
+
+and assuming $X,T$ don't vanish, 
+
+\[ -\frac{T''(t)}{c^2T(t)} = -\frac{X''(x)}{X(x)} \]
+
+\begin{remark}
+    The minus sign is convention and will make the next part easier.
+\end{remark}
+
+So we have that a function of $t$ is equal to a function of $x$. Clearly the only way this is possible is when these functions are both equal to a \textit{constant} value.
+
+\[ -\frac{T''(t)}{c^2T(t)} = -\frac{X''(x)}{X(x)} = \lambda \in \R \]
+
+From this, we get two equations:
+
+\begin{equation*}
+    X''(x) + \lambda X(x) = 0
+\end{equation*}
+\begin{equation*}
+    T''(t) + c^2\lambda T(t) = 0
+\end{equation*}
+
+Both of these are ODEs that we already know how to solve. The only thing we need to do now is check that they solve the boundary conditions from before. To do this, we take cases:
+
+\begin{enumerate}
+    \item If $\lambda = 0$, then $X''(x) = 0$, and so
+
+    \[ X(x) = Ax + B \]
+
+    for some constants $A,B$. Plugging in the boundary conditions, we get that
+
+    \[ 0 = X(0) = B \implies B = 0 \]
+    \[ 0 = X(\ell) = A\ell + B \implies A \ell = 0 \implies A = 0 \]
+
+    But then $X(x) = 0$, which results in the degenerative case that $u = 0$. We thus reject this case.
+
+    \item If $\lambda < 0$, then
+
+    \[ X(x) = Ae^{-\sqrt{-\lambda}x} + Be^{\sqrt{-\lambda}x} \]
+
+    for some constants $A,B$. Plugging in the boundary conditions, we get that
+
+    \[ 0 = X(0) = A + B \implies A = -B \]
+    \begin{align*}
+        0 = X(\ell) & = Ae^{-\sqrt{-\lambda}\ell} + Be^{\sqrt{-\lambda}\ell} \\
+        & = -Be^{-\sqrt{-\lambda}\ell} + Be^{\sqrt{-\lambda}\ell} \\
+        & = -B(e^{-\sqrt{-\lambda}\ell} - e^{\sqrt{-\lambda}\ell}
+    \end{align*}
+
+    We assume $B \neq 0$ (otherwise we get the degenerative case), and so we get that
+
+    \begin{align*}
+        e^{-\sqrt{-\lambda}\ell} - e^{\sqrt{-\lambda}\ell} = 0 & \implies -\sqrt{-\lambda} = \sqrt{-\lambda} \\
+        & \implies \lambda = 0
+    \end{align*}
+
+    a contradiction. We again reject this case.
+
+    \item If $\lambda > 0$, then
+
+    \[ X(x) = A\cos(\sqrt{\lambda}x) + B\sin(\sqrt{\lambda}x) \]
+
+    for some constants $A,B$. Plugging in the boundary conditions, we get that
+
+    \[ 0 = X(0) = A \implies A = 0 \]
+    \[ 0 = X(\ell) = B\sin(\sqrt{\lambda}\ell) \]
+
+    We again take $B \neq 0$, and so we have that
+
+    \begin{align*}
+        \sin(\sqrt{\lambda}\ell) = 0 & \implies \sqrt{\lambda}\ell \ \text{ is a multiple of $\pi$}. \\
+        & \implies \sqrt{\lambda}\ell = n\pi \\
+        & \implies \lambda\ell^2 = (n\pi)^2 \\
+        & \implies \lambda = \left(\frac{n\pi}{\ell}\right)^2 \tag{$n = 1, 2 ,3, \ldots$}
+    \end{align*}
+\end{enumerate}
+
+We thus attain a solution when $\lambda > 0$. We denote
+
+\[ \lambda_n = \left(\frac{n\pi}{\ell}\right)^2 \]
+\[ X_n(x) = \sin\left(\frac{n\pi x}{\ell}\right) \]
+
+The $\lambda_n$'s are called \textbf{eigenvalues}, while the $X_n(x)$'s are called \textbf{eigenfunctions}, which are related to the concept of eigenvectors (we will explain this later). It should also be noted that, without loss of generality, we're assume the constant is 1 since we can always absorb it into $T_n(t)$. 
+
+Now to deal with $T$. First fixing $n$, we get
+
+\[ T_n''(t) + c^2\left(\frac{n\pi}{\ell}\right)^2T_n(t) = 0 \]
+
+This is the same ODE that we solved for when $\lambda > 0$. Thus,
+
+\[ T_n(t) = A_n\cos\left(\frac{n\pi c}{\ell}t\right) + B_n\sin\left(\frac{n\pi c}{\ell}t\right) \]
+
+Combining, we get
+
+\[ u_n(x,t) = T_n(t)X_n(x) = \left(A_n\cos\left(\frac{n\pi c}{\ell}t\right) + B_n\sin\left(\frac{n\pi c}{\ell}t\right)\right)\sin\left(\frac{n\pi x}{\ell}\right) \]
+
+PDEs are linear, so we can try adding up these $u_n$'s and get
+
+\[ u(x,t) \overset{?}{=} \sum_{n=1}^\infty \left(A_n\cos\left(\frac{n\pi c}{\ell}t\right) + B_n\sin\left(\frac{n\pi c}{\ell}t\right)\right)\sin\left(\frac{n\pi x}{\ell}\right) \]
+
+We're not even sure this sum makes sense, but, it actually does, and it is in fact the general solution for suitable choices of $A_n$ and $B_n$. 
+
+Under this assumption that it solves the wave equation with a Dirichlet boundary condition, we get a strange corollary. Given initial conditions $u(x,0) = \phi(x)$ and $u_t(x,0) = \psi(x)$, we'd get that
+
+\[ \phi(x) = \sum_{n=1}^\infty A_n\sin\left(\frac{n\pi x}{\ell}\right) \]
+\[ \psi(x) = \sum_{n=1}^\infty (u_n)_t(x,0) = \sum_{n=1}^\infty B_n \frac{\pi nc}{\ell}\sin\left(\frac{n\pi x}{\ell}\right) \]
+
+This leads to a question: is it possible to represent functions $\phi(x), \psi(x)$ in terms of a sum of the above form? Is such a representation unique? We will answer these questions later. 
+
+For now, let's try and understand what this solution looks like, starting with the $X_n$'s, the spatial components. On $(0,\ell)$, $X_n(x)$ will have $n-1$ zeroes, and oscillates more and more rapidly as we increase $n$. The figure below shows $X_1, X_2,$ and $X_3$ when $\ell = 1$.
+
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{Week 6/Xn.png}
+\end{center}
+
+What about the time components $T_n$? This will oscillate from 1 to $-1$, and do so faster as $n$ increases. Upon combining these values, $u_n(x,t)$ will look like the graph of $X_n(x)$, which will oscillate between $X_n(x)$ and $-X_n(x)$ faster and faster as $t$ increases. 
+
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{Week 6/oscillating_string.png}
+\end{center}
+
+This is in contrast to the situation on the infinite or half-lines. Before, waves could ``escape" by moving off to infinity. Now, they are stuck, and thus continue to affect the string forever.
+
+\subsection{The Heat Equation on a Finite Interval with Dirichlet B.C}
+
+Now let's try the same strategy for the heat equation problem
+
+\[ \begin{cases}
+    u_t - ku_{xx} = 0 \\ u(0,t) = u(\ell,t) = 0 \\ u(x,0) = \phi(x)
+\end{cases} \]
+
+The strategy is the exact same. By making an initial guess that $u$ is some product of a function of $x$ and a function of $t$, we get that
+
+\[ u_t - ku_{xx} = 0 \iff X(x)T'(t) - kX''(x)T(t) = 0 \]
+
+and so
+
+\[ \frac{T'(t)}{kT(t)} = \frac{X''(x)}{X(x)} = - \lambda \]
+
+for a constant $\lambda$. We thus need to solve
+
+\begin{equation*}
+    X''(x) + \lambda X(x) = 0 \quad X(0) = X(\ell) = 0
+\end{equation*}
+
+\begin{equation*}
+    T'(x) = K\lambda T(t) = 0 
+\end{equation*}
+
+We've done some of this in our analysis of the wave equation already: For $n = 1,2,3, \ldots$,
+
+\[ X_n(x) = \sin\left(\frac{n\pi x}{\ell}\right), \quad \lambda_n = \left(\frac{n\pi}{\ell}\right)^2 \]
+
+What does change is our equation for $T$. Plugging in what we know gives
+
+\[ T'(t) + k\left(\frac{n\pi}{\ell}\right)^2T_n(t) = 0 \implies T_n(t) = A_n\exp\left(-k\left(\frac{n\pi}{\ell}\right)^2t\right) \]
+
+and so 
+
+\[ u_n(x,t) = A_n\exp\left(-k\left(\frac{n\pi}{\ell}\right)^2t\right)\sin\left(\frac{n\pi x}{\ell}\right) \]
+\[ u(x,t) \overset{?}{=} \sum_{n=1}^\infty u_n(x,t) \]
+
+With this solution, we get that $\phi(x) = u(x,0) \overset{?}{=} \sum_{n=1}^\infty A_n\sin\left(\frac{n\pi x}{\ell}\right)$. This looks different compared to the wave equation. While the $X_n$ looks the same, the $T_n$ is an exponential with negative exponent, meaning that it decreases in time, with the decrease going faster as $n \to \infty$. How fast is this decrease? Recall that for $x \in \R$, for a fixed $x$,
+
+\[ u(x,t) = \frac{1}{\sqrt{t}}\left(\frac{1}{\sqrt{4\pi k}}\int_{-\infty}^\infty \phi(y) \ dy \right) + o\left(\frac{1}{\sqrt{t}}\right) \]
+
+so decay on the infinite rod will occur in polynomial time. Since we have an exponential on the finite rod, we get exponential decay, meaning heat dissipates much faster in the finite case compared to the infinite case. 
+
+\subsection*{An Aside Regarding Eigenfunctions}
+
+We call the $\lambda_n$'s \textbf{eigenvalues} and the $X_n$'s \textbf{eigenfunctions}, which act like eigenvectors. These terms may seem strange as they feel out of place here. However, they are at home in this context.
+
+Recall from linear algebra that an $n \times n$ real valued matrix $A$ is \textbf{self-adjoint} if $A = A^T$; $A$ is also called a \textbf{symmetric} matrix. In other words, for any vectors $\vec{v}, \vec{w} \in \R^n$,
+
+\[ (A\vec{v}) \cdot \vec{w} = \vec{v} \cdot (A\vec{w})  \]
+
+The spectral theorem tells us that there is an orthonormal basis of eigenvectors for such operators. We thus get vectors
+
+\[ \vec{v_1}, \vec{v_2}, \ldots, \vec{v_n} \]
+
+for which
+
+\[ \vec{v_1} \cdot \vec{v_j} = \begin{cases}
+    1 & i = j \ \text{ and } \ A\vec{v_i} = \lambda_i \vec{v_i} \ \text{ for some $\lambda_i \in \R$} \\
+    0 & \text{otherwise}
+\end{cases} \]
+
+Now, if we take $A = \partial_x^2$ to be the second derivative of a function with respect to $x$, and let $x \in (0,\ell)$, then for functions $f(x),g(x)$ with
+
+\[ f(0) = f(\ell) = 0 = g(0) = g(\ell) \]
+
+the dot product is given by 
+
+\[ (f,g) = \int_0^\ell f(x)g(x) \ dx \]
+
+and one can see that $(\partial_x^2f,g) = (f,\partial_x^2g)$. Another version of the spectral theorem says that there is an orthonormal basis 
+
+\[ x_1, \ldots, x_n \]
+
+such that we get eigenvalues $\lambda_i$ for each $i$, and
+
+\[ AX_n = \lambda_nx_n \]
+
+Thus, $\phi(x) = \sum A_n X_n(x)$, exactly like we predicted before!
+
+

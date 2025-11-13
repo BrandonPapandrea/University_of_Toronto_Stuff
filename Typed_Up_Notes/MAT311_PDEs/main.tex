@@ -1,0 +1,58 @@
+\documentclass[11pt, oneside]{book}
+\usepackage{fix-cm}
+\newcommand{\dif}[2]{\dfrac{d#1}{d#2}}
+\newcommand{\pardif}[2]{\dfrac{\partial #1}{\partial #2}}
+\newcommand{\twopardif}[2]{\dfrac{\partial ^2 #1}{\partial #2^2}}
+
+
+\input{header.tex}
+
+\definecolor{left} {HTML}{293133}
+
+\renewcommand{\maketitle}{
+    \begin{titlepage}
+        \begin{tikzpicture}[remember picture,overlay]
+            \node [
+                shading = axis,
+                rectangle,
+                left color=left,
+                right color=left!85!white,
+                shading angle=90,
+                anchor=north west,
+                minimum width=\paperwidth,
+                minimum height=\paperheight
+            ] at (current page.north west) {};
+        \end{tikzpicture}
+
+        \begin{center}
+        \hspace{0pt}
+            \vfill
+            \fontsize{35}{35}\selectfont \textbf{ \color{white} MAT311 \\ Partial Differential Equations} \\
+            \vfill
+        \end{center}
+    \end{titlepage}
+}
+
+\begin{document}     
+\maketitle
+
+\newpage
+
+The following is based on lecture notes taken during the Fall 2025 offering of MAT311: Partial Differential Equations, at the University of Toronto - Mississauga, and are based on the first six chapters of the textbook \textit{Partial Differential Equations: An Introduction} by W.A. Strauss. The notes are broken up in sections based on the week they were taught, and not necessarily broken up based on the textbook chapters. The intention is for these notes to be a polished version of my own lecture notes that allows me to revise and look over the material multiple times, and thus should not be considered a primary source for learning about PDEs or their applications. 
+
+\newpage
+
+\tableofcontents
+
+\include{Week 1/week1}
+\include{Week 2/week2}
+\include{Week 3/week3}
+\include{Week 4/week4}
+\include{Week 5/week5}
+\include{Week 6/week6}
+\include{Week 7/week7}
+\include{Week 8/week8}
+\include{Week 9/week9}
+\include{Week 10/week10}
+
+\end{document}

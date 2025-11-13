@@ -1,0 +1,364 @@
+\chapter{Week 7}
+
+\section{Working on a Finite Interval, Continued}
+
+Last week we considered solutions to the wave and heat equations on finite intervals $(0, \ell)$ with Dirichlet boundary conditions. We begin this week with a study of the same problems but with Neumann boundary conditions.
+
+\subsection{The Wave Equation on a Finite Interval with Neumann B.C}
+
+We seek to solve the problem
+
+\[ \begin{cases}
+    u(x,t): (0,\ell) \times (0, \infty) \to \R \\
+    u_{tt} - c^2u_{xx} = 0 \\
+    u(x,0) = \phi(x), \quad u_t(x,0) = \psi(x) \\
+    u_x(0,t) = u_x(\ell,t) = 0
+\end{cases} \]
+
+Like before, we make a guess that $u(x,t) = T(t)X(x)$, and we wish to find $\lambda \in \R$ such that
+
+\[ X'' + \lambda X = 0 \]
+
+has a nonzero solution satisfying our boundary conditions: $X'(0) = X'(\ell) = 0$. 
+
+\begin{remark}
+    We assume here that $\lambda \in \R$, but what if $\lambda \in \C$? Given possibly complex-valued functions $f(x),g(x)$ which satisfy the boundary conditions (which may be Dirichlet or Neumann, it doesn't matter), we get that
+
+    \[ f \cdot g = \int_0^\ell f(x) \overline{g(x)} \ dx \]
+
+    When boundary conditions are considered, integrating by parts shows that
+
+    \begin{align*}
+        \int_0^\ell f''(x) \overline{g(x)} \ dx & = f'(x)g(x) \bigg|_0^\ell - \int_0^\ell f'(x)\overline{g'(x)} \ dx \\
+        & = - \int_0^\ell f'(x)\overline{g'(x)} \ dx \\
+        & = -f(x)g'(x)\bigg|_0^\ell + \int_0^\ell f(x) \overline{g''(x)} \ dx \\
+        & = \int_0^\ell f(x) \overline{g''(x)} \ dx
+    \end{align*}
+
+    Now, given $X'' + \lambda X = 0$ for some $\lambda \in \C$ with $X$ satisfying the boundary conditions, we get that
+
+    \begin{align*}
+        \int_0^\ell X''\overline{X} \ dx & = -\lambda\int_0^\ell |X|^2 \ dx \tag{$X'' = -\lambda X$} \\
+        & = \int_0^\ell X \overline{X''} \ dx \tag{by the above work} \\
+        & = -\overline{\lambda}\int_0^\ell |X|^2 \ dx 
+    \end{align*}
+
+    Thus, $\lambda = \overline{\lambda}$, and so $\lambda \in \R$. 
+\end{remark}
+
+We again need to consider cases regarding the value of $\lambda$:
+
+\begin{enumerate}
+    \item For $\lambda < 0$, the general solution to $X'' + \lambda X = 0$ is 
+
+    \[ X(x) = Ae^{\sqrt{-\lambda}x}- Be^{-\sqrt{-\lambda}x} \]
+
+    For constants $A,B$. We have that
+
+    \[ X'(x) = A\sqrt{-\lambda}e^{\sqrt{-\lambda}x} - B\sqrt{-\lambda}e^{-\sqrt{-\lambda}x} \]
+
+    \begin{align*}
+        & X'(0) = A\sqrt{-\lambda} - B\sqrt{-\lambda} = 0 \\
+        \implies & A = B
+    \end{align*}
+
+    \[ X'(\ell) = A\sqrt{-\lambda}e^{\sqrt{-\lambda}\ell} - A\sqrt{-\lambda}e^{-\sqrt{-\lambda}\ell} \]
+
+    Assuming that $A \neq 0$, we have
+
+    \begin{align*}
+        & 0 = e^{\sqrt{-\lambda}\ell} - e^{-\sqrt{-\lambda}\ell} \\
+        \implies & e^{-\sqrt{-\lambda}\ell} = e^{\sqrt{-\lambda}\ell} \\
+        \implies & = -\sqrt{-\lambda} = \sqrt{-\lambda} \\
+        \implies & \lambda = 0
+    \end{align*}
+
+    So we reject this case as it leads to a contradiction. 
+
+    \item For $\lambda = 0$, then $X'' = 0$, so 
+
+    \[ X(x) = Ax + B \]
+
+    for constants $A,B$. We have that $X'(x) = A \implies X'(0) = A$, so $A = 0$. Moreover, $X'(\ell) = A = 0$. This is different from our analysis of Dirichlet boundary conditions, as $\lambda = 0$ yields a valid solution. Without loss of generality we take 
+
+    \[ X(x) = 1 \]
+
+    which is an eigenfunction with eigenvalue 0. 
+
+    \item For $\lambda > 0$, we get the general solution
+
+    \[ X(x) = A\sin(\sqrt{\lambda}x + B\cos(\sqrt{\lambda}x) \]
+
+    for constants $A,B$. We have that
+
+    \[ X'(x) = \sqrt{\lambda}A\cos(\sqrt{\lambda}x) - B\sqrt{\lambda}\sin(\sqrt{\lambda}x) \] 
+
+    \begin{align*}
+        & X'(0) = \sqrt{\lambda}A = 0 \\
+        \implies & A = 0
+    \end{align*}
+
+    \[ X'(\ell) = -B\sqrt{\lambda}\sin(\sqrt{\lambda}\ell) = 0 \]
+
+    $B = 0$ yields the degenerative case, so $\sin(\sqrt{\lambda}\ell) = 0$. We have seen this before, and can conclude that
+
+    \[ \lambda = \left(\frac{\pi n}{\ell}\right)^2 \quad n = 1,2,3,\ldots \]
+
+    which is the same as the Dirichlet boundary conditions. There is a small change in $X_n$, since we use $\cos$ instead of $\sin$:
+
+    \[ X_n(x) = \cos\left(\frac{n\pi x}{\ell}\right) \]
+\end{enumerate}
+
+It should be noted that the $\lambda = 0$ solution will be treated as the solution for $n = 0$, which makes sense given that $\lambda_0 = 0$, lining up with $X_0(x) = 1$ being the eigenfunction with eigenvalue 0. 
+
+For the function $T(t)$, we have that
+
+\[ T_n'' + c^2\lambda_nT_n(t) = 0 \]
+
+For $n = 0$, $T_0''(t) = 0$, so 
+
+\[ T_0(t) = A_0t + B_0 \]
+
+and when $n > 0$, we get
+
+\[ T_n'' + c^2\left(\frac{n\pi}{\ell}\right)T_n = 0 \]
+
+and so we have
+
+\[ T_n(t) = A_n\sin\left(\frac{n\pi ct}{\ell}\right) + B_n\cos\left(\frac{n\pi ct}{\ell}\right) \]
+
+meaning our final guess for the general solution is given by  
+
+\[ u(x,t) = \frac{1}{2}(A_0t + B_0) + \sum_{n=1}^\infty A_n\sin\left(\frac{n\pi ct}{\ell}\right) + B_n\cos\left(\frac{n\pi ct}{\ell}\right) \]
+
+where that factor for $1/2$ is there for the sake of simpler calculations. 
+
+It should be noted that $\lim_{t \to \infty} u(x,t) = \infty$. What does this mean? Recalling that under Neumann conditions our string is held taught and fixed onto infinitely tall poles so that we can only move the endpoints, any action on the string, like flicking it upwards, will cause the string to just keep going in that direction forever. 
+
+\subsection{The Heat Equation on a Finite Interval with Neumann B.C}
+
+Now let's solve the heat equation on the same domain, with Neumann boundary conditions:
+
+\[ \begin{cases}
+    u_t - ku_{xx} = 0 \\
+    u_x(0,t) = u_x(\ell,t) = 0 \\
+    u(x,0) = \phi(x)
+\end{cases} \]
+
+Recalling that the spatial part $X(x)$ matches that of the wave equation, we get that 
+
+\[ Xn(x) = \cos\left(\frac{n\pi x}{\ell}\right) \quad n = 0,1,2,3,\ldots \]
+\[ \lambda_n = \left(\frac{n\pi}{\ell}\right)^2 \]
+
+The equation for $T_n(t)$ has changed:
+
+\[ T_n'(t) + k\lambda_nT_n(t) = 0 \]
+
+So we have cases: If $n = 0$, then $T_0'(t) = 0$, meaning $T_0(t) = A_0$ for some constant $A_0$. 
+
+If $n > 0$, we get 
+
+\[ T_n(t) = A_n\exp(-k\lambda_nt) \]
+
+Thus, we get that
+
+\[ u(x,t) = A_0 + \sum_{n=1}^\infty A_n\exp\left(-kt\left(\frac{n\pi}{\ell}\right)^2\right)\cos\left(\frac{n\pi x}{\ell}\right) \]
+
+Note that, like with Dirichlet conditions, as $t \to \infty$ the exponential goes to 0, meaning the sum will vanish and we are left with $A_0$. This makes sense, and means that our rod will, after a long enough time, have even temperature across its surface given by that constant. 
+
+\subsection*{Other Boundary Conditions}
+
+we can go through this exact same process for many different boundary conditions, though usually we wont be able to solve them exactly. Despite this, we will still get values that work, and we can still say things about them, which is what matters most in these contexts. 
+
+\section{Fourier Transform}
+
+In our previous derivations of the heat and wave equations on finite intervals, our results indicated that certain functions could be represented as the infinite sum of the sine and cosine functions. In this section, we demonstrate how this is true by attaining the necessary coefficients in these series.
+
+\subsection{Fourier Sine Series}
+
+We begin with the Fourier Sine Series, which works for Dirichlet boundary conditions. Suppose we have a function $\phi(x): (0,\ell) \to \R$. Can we find $\{A_n\}_{n=1}^\infty$ such that
+
+\[ \phi(x) = \sum_{n=1}^\infty A_n\sin\left(\frac{n\pi x}{\ell}\right) \]
+
+If we can solve the wave equation with Dirichlet boundary conditions, then we must be able to do this.
+
+To begin answering our question, we need an important result:
+
+\begin{theorem}
+    For positive integers $n \neq m$, we have
+
+    \[ \int_0^\ell \sin\left(\frac{n\pi x}{\ell}\right)\sin\left(\frac{m\pi x}{\ell}\right) \ dx = 0 \]
+\end{theorem}
+
+\begin{proof}
+    Take $X_n = \sin\left(\dfrac{n\pi x}{\ell}\right)$. Then $X_n'' = -\lambda_nX_n$, where
+
+    \[ \lambda_n = \left(\frac{n\pi}{\ell}\right)^2 \]
+
+    We have that
+
+    \[ \int_0^\ell X_n''X_m \ dx = -\lambda_n\int_0^\ell X_nX_m \ dx \]
+
+    But using integration by parts, we get that
+
+    \begin{align*}
+        \int_0^\ell X_n''X_m \ dx & = -\int_0^\ell X_n'X_m' \ dx \\
+        & = \int_0^\ell X_nX_m'' \ dx \\
+        &=  -\lambda_m\int_0^\ell X_nX_m \ dx
+    \end{align*}
+
+    $n \neq m$, so $\lambda_m \neq \lambda_n$. Thus, the only possibility is that
+
+    \[ \int_0^\ell X_nX_m \ dx = 0 \]
+
+    as desired. 
+\end{proof}
+
+What about the case that $n = m$? Note that
+
+\[ \sin^2\theta = \frac{1}{2} - \frac{1}{2}\cos(2\theta) \]
+
+Using this fact, we get that
+
+\begin{align*}
+    \int_0^\ell \sin^2\left(\frac{n\pi x}{\ell}\right) \ dx & = \int_0^\ell \frac{1}{2} \ dx - \frac{1}{2}\int_0^\ell \cos\left(\frac{2n\pi x}{\ell}\right) \ dx \\
+    & = \frac{\ell}{2} - \frac{1}{2}\left[\frac{\ell}{2n \pi}\sin\left(\frac{2n\pi x}{\ell}\right)\right]_0^\ell \\
+    & = \frac{\ell}{2} - \frac{1}{2}\left[\frac{\ell}{2n\pi}\sin(2n\pi) - \frac{\ell}{2n\pi}\sin(0)\right] \\
+    & = \frac{\ell}{2}
+\end{align*}
+
+With all this in hand, we can begin deriving our coefficients. We have that
+
+\[ \phi(x) \overset{?}{=} \sum_{n=1}^\infty A_n\sin\left(\frac{n\pi x}{\ell}\right) \]
+
+To find the coefficients of this series, we can take the dot product of it and the sine value. This gives us
+
+\begin{align*}
+    \int_0^\ell \phi(x) \sin\left(\frac{m \pi x}{\ell}\right) \ dx
+    & = \int_0^\ell \left(\sum_{n=1}^\infty A_n \sin\left(\frac{n\pi x}{\ell}\right)\right)\sin\left(\frac{m\pi x}{\ell}\right) \ dx \\
+    & = \sum_{n=1}^\infty A_n\int_)^\ell \sin\left(\frac{n\pi x}{\ell}\right)\sin\left(\frac{m\pi x}{\ell}\right) \ dx \\
+    & = A_m\int_0^\ell \sin^2\left(\frac{m\pi x}{\ell}\right) \\
+    & = \frac{A_m \ell}{2}
+\end{align*}
+
+Thus, we conclude that
+
+\[ A_m = \frac{2}{\ell}\int_0^\ell \phi(x) \sin\left(\frac{m\pi x}{\ell}\right) \ dx \]
+
+This gives us the coefficients of $\phi$ in the wave equation! Recall the solution on a finite interval with Dirichlet boundary conditions given by
+
+\[ u(x,t) = \sum_{n=1}^\infty \left(A_n\cos\left(\frac{n\pi ct}{\ell}\right) + B_n\sin\left(\frac{n\pi ct}{\ell}\right)\right)\sin\left(\frac{n\pi x}{\ell}\right) \]
+
+We have that
+
+\[ \phi(x) = u(x,0) = \sum_{n=1}^\infty A_n\sin\left(\frac{n\pi x}{\ell}\right) \]
+
+meaning
+
+\[ A_n = \frac{2}{\ell}\int_0^\ell \phi(x) \sin\left(\frac{n\pi x}{\ell}\right) \ dx \]
+
+Moreover, we can also find the coefficients for $\psi(x)$! We have
+
+\begin{align*}
+    \psi(x) = u_t(x,0) & = \sum_{n=1}^\infty \left(\frac{-A_n n \pi c}{\ell}\sin\left(\frac{n\pi c \cdot 0}{\ell}\right) + \frac{B_nn\pi c}{\ell}\cos\left(\frac{n\pi c \cdot 0}{\ell}\right)\right) \sin\left(\frac{n \pi x}{\ell}\right) \\
+    & = \sum_{n=1}^\infty \frac{B_n n \pi c}{\ell}\sin\left(\frac{n \pi x}{\ell}\right)
+\end{align*}
+
+And so we get that
+
+\[ \frac{B_nn\pi c}{\ell} = \frac{2}{\ell}\int_0^\ell \psi(x)\sin\left(\frac{n\pi x}{\ell}\right) \ dx \]
+\[ \implies B_n = \frac{2}{n\pi c}\int_0^\ell \psi(x)\sin\left(\frac{n\pi x}{\ell}\right) \ dx  \]
+
+\subsection{Fourier Cosine Series}
+
+We now find the coefficients of the Fourier Cosine Series. Recall that, using Neumann boundary conditions, saw that
+
+\[ \phi(x) = \frac{1}{2}A_0 + \sum_{n=1}^\infty A_n\cos\left(\frac{n\pi x}{\ell}\right) \]
+
+What are the values of $A_0, A_1, A_2, \ldots$?
+
+First, we need a result:
+
+\begin{theorem}
+    For $n \neq m$, we have that
+
+    \[ \int_0^\ell \cos\left(\frac{n\pi x}{\ell}\right)\cos\left(\frac{m\pi x}{\ell}\right) \ dx = 0 \]
+\end{theorem}
+
+\begin{proof}
+    By setting $X_n = \cos\left(\dfrac{n\pi x}{\ell}\right)$, we again get that $X_n'' = -\lambda_nX_n$, where $\lambda_n = \left(\dfrac{n\pi}{\ell}\right)^2$. Repeating the method from the sine version of this theorem suffices. 
+\end{proof}
+
+This works for $n,m \in \{0,1,2,3,\ldots\}$. To find the coefficients we again take the dot product, but now of $\phi$ with cosine. 
+
+\begin{align*}
+    \int_0^\ell \phi(x) \cos\left(\frac{m\pi x}{\ell}\right) \ dx & = \int_0^\ell \left(\frac{1}{2}A_0 + \sum_{n=1}^\infty A_n\cos\left(\frac{n\pi x}{\ell}\right)\right)\cos\left(\frac{m\pi x}{\ell}\right) \ dx \\
+    & = \frac{1}{2}\int_0^\ell A_0\cos\left(\frac{m\pi x}{\ell}\right) \ dx + \sum_{n=1}^\infty \int_0^\ell A_n \cos\left(\frac{n\pi x}{\ell}\right)\cos\left(\frac{m\pi x}{\ell}\right) \ dx
+\end{align*}
+
+If $m = 0$, the infinite sum will vanish by our above theorem, leaving us with
+
+\[ \frac{\ell}{2}A_0 \]
+
+While if $m \neq 0$, the first term will vanish, also by the above theorem, and so will all terms in the infinite sum except $m = n$, leaving us with
+
+\[ A_m\int_0^\ell \cos^2\left(\frac{m\pi x}{\ell}\right) \ dx \]
+
+Noting that
+
+\[ \int_0^\ell \cos^2\left(\frac{m\pi x}{\ell}\right) \ dx = \frac{\ell}{2} \]
+
+We conclude that 
+
+\[ A_m = \begin{cases}
+    \frac{2}{\ell}\int_0^\ell \phi(x) \ dx & m = 0 \\
+    \frac{2}{\ell}\int_0^\ell \phi(x) \cos\left(\frac{m\pi x}{\ell}\right) \ dx & m \neq 0
+\end{cases} \]
+
+Which we can combine to just say that 
+
+\[ A_n = \frac{2}{\ell}\int_0^\ell \phi(x) \cos\left(\frac{n\pi x}{\ell}\right) \ dx \]
+
+The $B_n$ coefficients can be derived from this like we did before. Note the value $A_0$, which is the average of the initial heat distribution. This makes sense, because in the limit, heat on a rod will become equally distributed; the heat at each point will correspond to the average value of heat on the rod.
+
+\subsection{Full Fourier Series: Periodic Boundary Conditions}
+
+Consider the heat equation, but instead of using a straight rod, we consider a \textit{circular} rod.
+
+\begin{center}
+    \includegraphics[width=0.35\textwidth]{Week 7/circle.jpg}
+\end{center}
+
+Now, there is no ``boundary" for us to work with. How can we deal with this?
+
+Let's consider our domain of $x$ to be $(-\ell, \ell)$. The condition now is that $u(x,t)$ is \textbf{periodic} in $x$ with period $2\ell$. We can express this as
+
+\[ u(-\ell,t) = u(\ell,t) \]
+\[ u_x(\ell,t) = u_x(\ell,t) \]
+
+Solving this will require separation of variables again. Upon doing this, we will get 3 equations:
+
+\[ X'' + \lambda X = 0 \quad x \in (-\ell,\ell) \]
+\[ X(\ell) = X(-\ell) \]
+\[ X'(\ell) = X'(-\ell) \]
+
+with $\lambda \in \R$ (the proof of this is like what we did before. 
+
+There are a few options for $X$, we can have 
+
+\[ X_n = \sin\left(\frac{n\pi x}{\ell}\right) \quad \lambda_n = \left(\frac{n\pi}{\ell}\right)^2 \quad n = 1,2,3, \ldots \]
+\[ X_n = \cos\left(\frac{n\pi x}{\ell}\right) \quad \lambda_n = \left(\frac{n\pi}{\ell}\right)^2 \quad n = 0,1,2,3, \ldots \]
+
+If we are doing the heat equation, we will have that 
+
+\[ \phi(x) \overset{?}{=} \frac{1}{2}A_0 + \sum_{n=1}^\infty \left(A_n\cos\left(\frac{n\pi x}{\ell}\right) + B_n\sin\left(\frac{n\pi x}{\ell}\right)\right) \]
+
+which is the \textbf{full Fourier series} for $x \in (-\ell,\ell)$. In order to find the coefficients $A_n,B_n$, it would be really nice if certain integrals cancelled out like before. In particular, it would be nice if
+
+\begin{enumerate}
+    \item $\int_{-\ell}^\ell \sin\left(\frac{n\pi x}{\ell}\right)\cos\left(\frac{m\pi x}{\ell}\right) \ dx = 0$
+    \item $\int_{-\ell}^\ell \sin\left(\frac{n\pi x}{\ell}\right)\sin\left(\frac{m\pi x}{\ell}\right) \ dx = 0$
+    \item $\int_{-\ell}^\ell \cos\left(\frac{n\pi x}{\ell}\right)\cos\left(\frac{m\pi x}{\ell}\right) \ dx = 0$
+\end{enumerate}
+
+Luckily they are all in fact true!

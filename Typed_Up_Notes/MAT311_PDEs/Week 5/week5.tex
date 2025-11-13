@@ -1,0 +1,316 @@
+\chapter{Week 5}
+
+\section{Working on the Half-Line}
+
+We are now going to change our problems slightly to only consider $x \in (0,\infty)$, with boundary conditions applied at $\{x = 0\}$. 
+
+\subsection{The Heat Equation}
+
+\subsubsection{Dirichlet Boundary Conditions}
+
+We will consider the problem
+
+\[ \begin{cases}
+    v(x,t) : (0,\infty) \times (0,\infty) \to \R  \\
+    v_t - kv_{xx} = 0 \\
+    v(x,0) = \phi(x), \ v(0,t) = 0
+\end{cases} \]
+
+Recall that $v(0,t) = 0$ is a (homogeneous) Dirichlet boundary condition that means there is no heat at one end of the rod. Let's also assume that $\phi(0) = 0$. 
+
+The trick to solve this problem is to use \textbf{odd extension}. 
+
+\begin{definition}
+    A function $\psi: \R \to \R$ is \textbf{odd} if $\psi(-x) = -\psi(x)$. 
+
+    Given a function $\phi(x) : (0, \infty) \to \R$, we may define the \textbf{odd extension} of $\phi$ by 
+
+    \[ \phi_{odd}: \R \to \R, \ \phi_{odd}(x) = \begin{cases}
+        \phi(x) & x > 0 \\
+        -\phi(-x) & x < 0 \\
+        0 & x = 0
+    \end{cases} \]
+\end{definition}
+
+So what's the point of defining this? Suppose that $u(x,t): \R \to \R$ solves
+
+\[ \begin{cases}
+    u_t - ku_{xx} = 0 \\ u(x,0)  = \phi_{odd}(x)
+\end{cases} \]
+
+meaning that $u(x,t) = \int_{-\infty}^\infty S(x-y)\phi_{odd}(y) \ dy$. We claim that $u(x,t)$ is odd in $x$. To see this, first recall that $u$ is smooth for $t > 0$. We have that
+
+\[ S(x,t) = \frac{1}{\sqrt{4\pi kt}}e^{\frac{-x^2}{4kt}} \]
+
+Notice that $S(-x,t) = S(x,t)$, as we square $x$. Thus,
+
+\begin{align*}
+    u(-x,t) & = \int_{-\infty}^\infty S(-x-y,t)\phi_{odd}(y) \ dy \\
+    & = \int_{-\infty}^\infty S(x+y,t)\phi_{odd}(y) \ dy \intertext{Set $z = -y, dz = dy$. This flips the integral, and so the minus signs cancel out, hence we get}\\
+    & = \int_{-\infty}^\infty S(x-z,t)\phi_{odd}(y) \ dy \\
+    & = -\int_{-\infty}^\infty S(x-z,t)\phi_{odd}(z) \ dz \\
+    & = -u(x,t)
+\end{align*}
+
+as desired. Thus, $u(x,t)$ is also continuous when $t > 0$ and is odd in $x$. We also have that $u(0,t) = -u(0,t)$, so $u(0,t) = 0$. Graphically, this looks like some function which flips over the $x$-axis at $x = 0$: 
+
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{Week 5/Odd Extension.png}
+\end{center}
+
+So, if we define $v(x,t) := u(x,t)$, then $v$ will solve the heat equation, and
+
+\begin{align*}
+    v(x,0) & = u(x,0) = \phi_{odd}(x) = \phi(x) \\
+    v(0,t) & = u(0,t) = 0
+\end{align*}
+
+as desired. Thus,
+
+\[ v(x,t) = \int_{-\infty}^\infty S(x-y,t)\phi_{odd}(y) \ dy \]
+
+We can solve this to be in terms of $\phi$ rather than $\phi_{odd}$ as follows:
+
+\begin{align*}
+    v(x,t) & = \int_{0}^\infty S(x-y,t)\phi_{odd}(y) \ dy + \int_{-\infty}^0 S(x-y,t)\phi_{odd}(y) \ dy \\
+    & = \int_{0}^\infty S(x-y,t)\phi(y) \ dy + \int_{-\infty}^0 S(x-y,t)\phi(-y) \ dy \intertext{Set $z = -y$ and $dz = -dy$. Thus,}\\
+    & = \int_0^\infty S(x-y,t) \phi(y) \ dy - \int_0^\infty S(x+z,t)\phi(z) \ dz \\
+    & = \int_0^\infty [S(x-y,t) - S(x+y,t)]\phi(y) \ dy
+\end{align*}
+
+\subsubsection{Neumann Boundary Conditions}
+
+We can use a similar idea for the heat equation with Neumann boundary conditions:
+
+\[ \begin{cases}
+    u(x,t): (0,\infty) \times (0,\infty) \to \R \\
+    u_t - ku_{xx} = 0 \\
+    u(x,0) = \phi(x), \ u_x(x,0) = 0
+\end{cases} \]
+
+where we think of the condition as saying there is insulation at the end of the rod. 
+
+The trick before was to use the fact that if $f$ is odd and continuous, then $f(0) = 0$. Now, if $f$ is \textit{even} and smooth, then $f'(0) = 0$. Why? By Taylor's Theorem,
+
+\[ f(x) = f(0) + f'(0)x + O(x^2) \]
+
+Thus,
+
+\[ f(-x) = f(0) - f'(0)x + O(x^2)  \]
+
+if $|x| \ll 1$, and $f(x) = f(-x)$, meaning $f$ is even, then the remainder is very small, so we can ignore it. Thus,
+
+\[ f'(0) = -f'(0) \implies f'(0) = 0 \]
+
+From here, our derivations are similar to before, only this time we use the \textbf{even extension} of $\phi$, given by
+
+\[ \phi_{even}(x) = \begin{cases}
+    \phi(x) & x \geq 0 \\
+    \phi(-x) & x < 0
+\end{cases} \]
+
+at the end, we will see that
+
+\[ u(x,t) = \int_0^\infty [S(x-y),t) + S(x+y,t)]\phi(y) \ dy \]
+
+Note the slight difference from Dirichlet conditions: this time we add in the integral instead of subtract.
+
+\subsection{The Wave Equation}
+
+Let's do the same thing for the wave equation:
+
+\subsubsection{Dirichlet Boundary Conditions}
+
+We find $v(x,t): (0,\infty) \times (0,\infty) \to \R$ satisfying
+
+\[ \begin{cases}
+    v_{tt} - c^2v_{xx} = 0 \\
+    v(x,0) = \phi(x), \ v_t(x,0) = \psi(x) \\
+    v(0,t) = 0
+\end{cases} \]
+
+If we mimic the strategy for the heat equation by consider the odd extensions of $\phi, \psi$, then we will see that
+
+\[ v(x,t) = \frac{1}{2}[\phi_{odd}(x+ct) + \phi_{odd}(x-ct)] + \frac{1}{2c}\int_{x-ct}^{x+ct}\psi(s) \ ds \]
+
+Let's unpack this quickly to see what's going on. Consider the regions in the below figure, where the line is given by $x = ct$ in the $(x,t)$ plane:
+
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{Week 5/Wave Equation Dirichlet Regions.png}
+\end{center}
+
+The region below the line, shaded in black, is where $x - ct < 0$, meaning $x > ct$. Here, we see that
+
+\begin{align*}
+    \phi_{odd}(x+ct) & = \phi(x+ct) \\
+    \phi_{odd}(x-ct) & = \phi(x-ct) \\
+    \int_{x-ct}^{x+ct}\psi_{odd}(s) \ ds & = \int_{x-ct}^{x+ct} \psi(s) \ ds
+\end{align*}
+
+So in this region, $v$ is just the usual solution to this form of the wave equation; one can see that this follows from causality of the wave equation. 
+
+In the region above the line, shaded in blue, $x < ct$. Thus,
+
+\begin{align*}
+    \phi_{odd}(x+ct) & = \phi(x+ct) \\
+    \phi_{odd}(x-ct) & = -\phi(ct-x) \\
+    \frac{1}{2c}\int_{x-ct}^{x+ct} \psi_{odd}(s) \ ds & = \frac{1}{2c}\int_{0}^{x+ct} \psi_{odd}(s) \ ds + \frac{1}{2c}\int_{x-ct}^0 \psi_{odd}(s) \ ds \\
+    & = \frac{1}{2c}\int_{0}^{x+ct} \psi(s) \ ds - \frac{1}{2c}\int_{x-ct}^0 \psi(-s) \ ds \intertext{taking $\tau = -s, d\tau = -ds$, we get} \\
+    & = \frac{1}{2c}\int_{0}^{x+ct} \psi(s) \ ds - \frac{1}{2c}\int_0^{ct-x}\psi(\tau) \ d\tau \\
+\end{align*}
+
+So in this region,
+
+\[ v(x,t) = \frac{1}{2}[\phi(x+ct) - \phi(ct-x)] + \frac{1}{2c}\int_{ct-x}^{ct+x} \psi(s) \ ds \]
+
+What does this mean? Think of that path light cone from before, and suppose that one of its rays hits the $t$-axis in the $(x,t)$ plane. What will happen is that ray will bounce off the axis at an angle, before shooting back towards the $x$-axis. As $t$ increases, this corresponds to the path light cone perfectly bouncing off of the $t$-axis, and now translating to the right instead of the left. This situation will occur when, for example, we have an infinitely long string which we nail down at one end. 
+
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{Week 5/bouncing off the t axis.png}
+\end{center}
+
+In a long term setting, recall that 
+
+\[ \lim_{x \to \infty} u(x,t) = \frac{1}{2c}\int_{-\infty}^\infty \psi(s) \ ds \]
+
+when $\phi, \psi$ compactly supported. What happens when we consider a Dirichlet boundary condition? Well, if $t \gg 1$, with $x$ fixed, then we will lie in the blue region from before, and $x + ct, ct - x$ will become both positive and very large, eventually reaching outside the support of $\phi$ and $\psi$. This means that
+
+\[ \int_{ct-x}^{xt+x} \psi(s) \ ds = 0 \]
+
+once $ct-x$ lies outside of $\psi$'s support. Thus,
+
+\[ \lim_{t \to \infty}u(x,t) = 0 \]
+
+Visually, this just means that if we flick our string, one wave will move off to the right, and the other to the left, where it will reflect at the point $x = 0$ (since it is fixed at 0), before following the other wave to the right. Thus, for very large values of $t$, the string will not have moved at all. 
+
+\section{The Heat Equation, with a Source}
+
+Before, we always set our PDE to be equal to 0. However, there are certain instances where we would rather have it be equal to some nonzero function of $x,t$. In this section, we will see how to solve the heat equation under these conditions. 
+
+\subsection{No Boundary Conditions}
+
+We will try and solve $u(x,t): \R \times (0,\infty) \to \R$ such that
+
+\[ \begin{cases}
+    u_t - ku_{xx} = f(x,t) \\ u(x,0) = \phi(x)
+\end{cases} \]
+
+where $f$ is some function. This represents heat \textit{entering} the system, like putting a hot coal on top of our rod. 
+
+Deriving a solution will require us to use \textbf{Duhamel's Principle}, which tells us that, from the standard IVP for the heat equation (the one without $f$), we can get a formula for the IVP with $f$. 
+
+The solution is given by
+
+\[ u(x,t) = \int_{-\infty}^\infty S(x-y,t)\phi(y) \ dy + \int_0^t\int_{-\infty}^\infty S(x-y,t-s)f(y,s)\ dy \ ds \]
+
+where $S(x,t)$ is as before. Let's first check that this works. Without loss of generality, we can set $\phi(x) = 0$. This is because, by linearity, we take $u_1, u_2$ so that
+
+\[ \begin{cases}
+    (u_1)_t - k(u_1)_{xx} = 0 \\ u_1(x,0) = \phi(x)
+\end{cases} \quad \text{and} \quad \begin{cases}
+    (u_2)_t - k(u_2)_{xx} = f(x,t) \\ u_2(x,0) = 0
+\end{cases} \]
+
+Then setting $u := u_1 + u_2$, $u$ solves the problem we are dealing with. 
+
+To derive our solution, we use the following formula for differentiation of a definite integral:
+
+\[ \frac{d}{dt}\int_{a(t)}^{b(t)} h(t,x) \ dx = h(b(t),x)b'(t) - h(a(t),x)a'(t) + \int_{a(t)}^{b(t)}h_t(t,x) \ dx \]
+
+Since the integral sends $t-s$ to 0, we get that 
+
+\begin{align*}
+    u_t & = \lim_{\tau \to 0}\int_{-\infty}^\infty S(x,y,\tau)f(y,t) \ dy + \int_0^t \int_{-\infty}^\infty \partial_tS(x-y,t-s) f(y,s) \ dy \ ds \\
+    & = f(x,t) + \int_0^t \int_{-\infty}^\infty \partial_tS(x-y,t-s) f(y,s) \ dy \ ds \\
+    u_x & = \int_0^t\int_{-\infty}^\infty \partial_xS(x-y,t-s)f(y,s) \ dy \ ds \\
+    u_{xx} & = \int_0^t\int_{-\infty}^\infty \partial_x^2S(x-y,t-s)f(y,s) \ dy \ ds
+\end{align*}
+
+Thus, we get that
+
+\[ u_t - ku_{xx} = f(x,t) + \int_0^t\int_{-\infty}^\infty (\partial_tS -k \partial_x^2S)(x-y,t-s)f(y,s) \ dy \ ds = f(x,t) \]
+
+which is what we want. 
+
+\subsubsection{The General Idea}
+
+We can generalize this idea to any equation of the form $u(x,t), f(x,t)$ for which we get
+
+\[ \begin{cases}
+    \partial_t u - Lu = f \\ u(x,t) = \phi(x)
+\end{cases} \]
+
+where $L$ is a differential operator depending on $x$ (it doesn't have to, but for now it will). 
+
+Assume that for each $\phi(x)$ we have a function $P_\phi(x,t)$ such that
+
+\[ \partial_tP_\phi - LP_\phi = 0 \quad P_\phi(x,0) = \phi(x) \]
+
+We get that $P_\phi$ solves the heat equation, and so 
+
+\[ P_\phi(x,t) = \int_{-\infty}^\infty S(x-y,t)\phi(y) \ dy \]
+
+Using this, we can now solve our problem, with the solution given by 
+
+\[ u(x,t) = \int_0^t P_{f(x,s)}(x,t-s) \ ds \]
+
+We have that
+
+\[ \partial_t u = P_{f(x,s)}(x,0) + \int_0^t \partial_tP_f(x,t-s) \ ds = f(x,t) + \int_0^t \partial_tP_f(x,t-s) \ ds \]
+
+\[ Lu = \int_0^t L(P_f)(x,t-s) \ ds \]
+
+Thus,
+
+\[ \partial_tu - Lu = f(x,t) + \int_0^t (\partial_tP_f - LP_f)(x,t-s) \ ds = f(x,t) \]
+
+Now, solving for $P$ might be hard, but once we find it, solving the problem with a source is actually pretty easy. For example, we can use this strategy for the wave equation. 
+
+\subsection{Dirichlet Boundary Conditions: The Half-Line  with a Source}
+
+We consider the half-line problem from before, now with a source:
+
+\[ \begin{cases}
+    v(x,t): (0,\infty) \times (0,\infty) \to \R \\ 
+    v_t - kv_{xx} = f(x,t) \\
+    v(x,0) = \phi(x) \\
+    v(0,t) = 0
+\end{cases} \]
+
+There are two approaches to this: We can use odd reflections of $\phi$ and $f$ in $x$, and use the formula we just derived, or, we can start with the formula when $f = 0$, which we solved last week, and use Duhamel's Principle. Regardless of method, we will get that
+
+\[ v(x,t) = \int_0^\infty [S(x-y,t) - S(x+y,t)]\phi(y) \ dy + \int_0^t\int_0^\infty [S(x-y,t-s) - S(x+y,t-s)]f(y,s) \ dy \ ds \]
+
+\subsection{An Inhomogeneous Boundary Condition}
+
+We can use the methods for equations with sources to solve the heat equation with an \textit{inhomogenous} boundary condition. Consider the problem
+
+\[ \begin{cases}
+    v_t - kv_{xx} = 0 \\ v(x,0) = 0 \\ v(0,t) = h(t)
+\end{cases} \]
+
+for $x \in (0,\infty)$. We can transform it into a problem we've already done by setting
+
+\[ w(x,t) := v(x,t) - h(t) \]
+
+We have that
+
+\begin{align*}
+    w_t - kw_{xx} & = v_t - kv_{xx} - h'(t) \\
+                  & = -h'(t) \\
+    w(0,t) & = v(0,t) - h(t) \\
+           & = h(t) - h(t) \\
+           & = 0 \\
+    w(x,0) & = v(x,0) - h(0) \\
+           & = -h(0)
+\end{align*}
+
+Thus, we get the problem
+
+\[ \begin{cases}
+    w_t - kw_{xx} = h'(t) \\ w(x,0) = -h(0) \\ w(0,t) = 0
+\end{cases} \]
+
+which is a problem that we just did previously. Thus,
+
+\[ w(x,t) = \int_0^\infty [S(x-y,t) - S(x+y,t)](-h(0)) \ dx + \int_0^t \int_0^\infty [S(x-y,t-s) - S(x+y,t-s)](-h'(s)) \ dy \ ds \]

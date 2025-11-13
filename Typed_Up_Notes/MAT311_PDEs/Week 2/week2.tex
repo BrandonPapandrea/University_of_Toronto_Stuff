@@ -1,0 +1,241 @@
+\chapter{Week 2}
+
+\section{The Essential PDEs}
+
+In this section we introduce the main class of PDEs that will be studied in this class, which all come from physics. We will study them (usually) in their simplest form, using the least number of variables. 
+
+\subsection*{The Simple Transport Equation}
+
+We consider a 1-dimensional system in which a fluid is traveling through a pipe at a constant rate. If we let $u(t,x)$ represent the amount of fluid moving through the pipe at position $x$ and at time $t$, then we get the PDE
+
+\[ u_t + cu_x = 0 \]
+
+where $c$ is any constant. We call this the \textbf{simple transport equation}. This is a constant coefficient first order PDE, which we know to have solutions given by $u(t,x) = f(x-ct)$ for any function $f$. 
+
+Visually, this actually makes physical sense. For a solution $f(x-ct)$, we see that as $t$ increases, the function literally moves at a constant rate along the $x$-axis.
+
+\subsection*{The Wave Equation}
+
+We consider a flexible, elastic, and homogeneous string of length $\ell$ that moves up and down (transversely). Let $u(t,x)$ denote the height/displacement of the string. We then set
+
+\[ c = \sqrt{\frac{T}{\rho}} \]
+
+where $T$ is the tension in the string, and $\rho$ is the density of the string. Then we get a PDE given by
+
+\[ u_{tt} - c^2u_{xx} = 0 \]
+
+This is called the \textbf{wave equation}, and plays an important role in general relativity, fluid dynamics, and electromagnetism through Maxwell's Equations. 
+
+There are also many variations one the wave equation that are of relevance:
+
+\begin{enumerate}[label=(\roman*)]
+    \item Air resistance: given a constant $r > 0$ representing friction (or air resistance), we get
+
+    \[ u_{tt} - c^2u_{xx} + ru_t = 0 \]
+
+    \item Elastic force in the transverse direction: suppose there was a force pushing back against the transverse movement of the string, given by $k > 0$. We get
+
+    \[ u_{tt} - c^2u_{xx} + ku = 0 \]
+
+    This is called the \textbf{Klein-Gordon Equation}.
+
+    \item External forcing: Suppose $f(t,x)$ represents an external force in the system. Then we get
+
+    \[ u_{tt} - c^2u_{xx} = f(t,x) \]
+\end{enumerate}
+
+The higher dimensional versions of these equations also show up often; the 3D version is seen in Maxwell's Equations. Furthermore, we can also consider $c$ to be a function $c(t,x,y,z)$, which shows up in fluid dynamics and general relativity.
+
+\subsection*{The Diffusion/Heat Equation}
+
+Suppose we have a chemical substance diffusing in a fluid, or say we are heating up an metal object. Given a function $u(t,x)$ representing this spread of the substance or heat with respect to position and time, then we have
+
+\[ u_t = ku_{xx} \]
+
+where $k > 0$ is a constant related to the properties of the fluid or material. This is called the \textbf{heat/diffusion equation}. The higher dimensional forms are also relevant and play an interesting role in statistics through Brownian Motion.
+
+\subsection*{The Laplace Equation}
+
+Suppose $u$ solves the heat or wave equation and is now settled and in a ``stationary" state. We thus set time, and its related derivatives, to 0, and we get
+
+\[ u_{xx} = 0 \]
+
+The higher dimensional forms also exist and are extremely relevant to complex analysis. This is called the \textbf{Laplace Equation}, and the solutions to this equation are called \textbf{harmonic functions}.
+
+\section{Initial and Boundary Conditions}
+
+Solutions to PDEs are generally a large class of functions; as we have seen previously, the set of solutions is an infinite dimensional vector space. To get a unique solution to a PDE, we often require additional conditions to be present. There are two common ways this can be achieved, which we discuss now.
+
+\subsection*{Initial Conditions}
+
+If we have, say, a time variable $t$, then we may specify the solution at a specific time $t_0$. Oftentimes we use $t_0 = 0$, but this $t_0$ may be any value. 
+
+\begin{example}
+    Consider the heat equation $u_t = ku_{xx}$ with the initial condition that 
+
+    \[ u(t_0,x) = \phi(x) \]
+
+    where $\phi$ is given. In this case, $\phi$ represents the distribution of heat at time $t_0$. If $t_0 = 0$, then this is the initial heat distribution.
+\end{example}
+
+\begin{example}
+    Consider the wave equation $u_{tt} - c^2u_{xx} = 0$ with the initial conditions that 
+
+    \[ u(t_0,x) = \phi(x) \]
+    \[ \pardif{u}{t}(t_0,x) = \psi(x) \]
+
+    where $\phi, \psi$ are given. Note that we must specify the derivative with respect to $t$ at $t_0$ because we use the second partial derivative of $t$ in the wave equation. In this case, $\phi$ represents the height of the string at position $x$, while $\psi$ represents its momentum. 
+\end{example}
+
+\subsection*{Boundary Conditions}
+
+Suppose we have an unknown function $u(t,x_1, \ldots, x_{n-1}): D \to \mathbb{R}$ or $\mathbb{C}$, where $D \subset \mathbb{R}^n$. As an explicit example, one can think of a 1-dimensional pipe with the heat equation, or a 2-dimensional disk (like that of the surface of a drum) with the wave equation. We will often require that some condition holds along the \textit{boundary} of these domains, such as the ends of the pipe or the rim of the drum's surface. These conditions are called boundary conditions, and there are 3 standard ways we can define them:
+
+\begin{enumerate}[label=(\roman*)]
+    \item \textbf{Dirichlet Conditions} $u\big|_{\partial D} = \phi(x)$
+    \item \textbf{Neumann Conditions} $\pardif{u}{n}\bigg|_{\partial D} = \psi(x)$
+    \item \textbf{Robin Conditions} $\left(\pardif{u}{n}\bigg|_{\partial D} + \alpha u\right)\bigg|_{\partial D} = \chi(x)$
+\end{enumerate}
+
+where $\phi, \psi, \chi$ are given.
+
+\begin{remark}
+    The term $\pardif{u}{n}$ is the normal derivative, the directional derivative in the direction that is normal to the curve at the desired point. 
+\end{remark}
+
+If the given function is the zero function, then we call the condition a \textbf{homogeneous condition}, otherwise, it is a \textbf{inhomogeneous condition}.
+
+\begin{example}
+    Consider the problem of the vibrating string. If we include a Dirichlet condition, then this can be thought of as holding the ends of the string fixed while the rest of the string vibrates. Think of this like the strings of a guitar.
+
+    Including a Neumann condition can be thought of as tying the ends of the string to vertical poles and pulling the string tight, meaning only the ends of the string move freely. 
+\end{example}
+
+\begin{example}
+    Consider the problem of heat distribution on a metal rod. Including a Dirichlet condition may be thought of as fixing the rod's temperature along the boundary. 
+
+    Including a homogeneous Neumann condition may be thought of as insulating the rod, ensuring that no heat leaves the system. 
+\end{example}
+
+Note that boundary conditions can also exist at infinity. For instance if $D = \mathbb{R} = \mathbb{R}^2$. For the 1-dimensional heat equation, we may require that
+
+\[ \lim_{x \to \infty} u(t,x) = 0 \]
+
+\section{Well-Proved Problems}
+
+For a PDE problem to exist as a physical problem; that is, a problem that can exist in the real world and can be done in a physics class, three conditions must hold:
+
+\begin{enumerate}
+    \item \textbf{Existence}: There is a solution to the PDE (under reasonable assumptions)
+    \item \textbf{Uniqueness}: There is at most one solution to the PDE
+    \item \textbf{Stability}: Small changes to the inputs must yield only small changes to the solution
+\end{enumerate}
+
+\section{Constant Coefficient 2nd Order PDE in 2 Variables}
+
+These types of PDEs will form the basis of our study of PDEs throughout the course, as they form the general class of PDEs from which the simple transport, wave, heat, and Laplace equations arise from.
+
+Such equations are of the form
+
+\[ a_{11}u_{xx} + 2a_{12}u_{xy} + a_{22}u_{yy} + a_1u_x + a_2u_y + a_0u = 0 \]
+
+where $a_{11}, a_{12}, a_{22}, a_1, a_2, a_0$ are real coefficients. Like in ODEs where we cared more about the terms with first derivatives compared to other terms, we now care about the terms with second derivatives compared to the lower order terms. 
+
+Understanding the type of 2nd order PDE is of great importance and allows up to better understand how to approach solving them. There is a relatively simple algorithm for determining type, and how to simplify the equation:
+
+\begin{theorem}
+    Given a constant coefficient 2nd order PDE in two variables, then there exists a change of variables
+
+    \[ x' = b_1x + b_2y \]
+    \[ y' = b_3x  +b_4y \]
+
+    where $b_1,b_2,b_3,b_4$ are real constants with
+
+    \[ \det\begin{pmatrix}
+        b_1 & b_2 \\ b_3 & b_4
+    \end{pmatrix} \neq 0 \]
+
+    such that
+
+    \begin{enumerate}[label=(\roman*)]
+        \item \textbf{Elliptic Case}: If $a_{12}^2 < a_{11}a_{22}$, then the PDE reduces to
+
+        \[ u_{x'x'} + u_{y'y'} + \text{ lower order terms} = 0 \]
+
+        \item \textbf{Hyperbolic Case}: If $a_{12}^2 > a_{11}a_{22}$, then the PDE reduces to 
+
+        \[ u_{x'x'} - u_{y'y'} + \text{ lower order terms} = 0 \]
+
+        \item \textbf{Parabolic Case}: If $a_{12}^2 = a_{11}a_{22}$, then the PDE reduces to
+
+        \[ u_{x'x'} + \text{ lower order terms } = 0 \ \text{OR} \ \text{lower order terms} = 0 \]
+    \end{enumerate}
+\end{theorem}
+
+Notice that the elliptic case is the 2D Laplace equation, while the second case is the wave equation.
+
+\begin{example}
+    Consider $u_{xx} - 5u_{xy} = 0$. We have that $a_{11} = 1, a_{12} = \dfrac{5}{2}, a_{22} = 0$, hence
+
+    \[ a_{12}^2 = \frac{25}{5} > 0 = a_{11}a_{22} \]
+
+    so this is hyperbolic.
+\end{example}
+
+While such equations won't be the main focus of the course, it should be noted that it is possible to formulate this idea for second order PDEs with variable coefficients. Say we have
+
+\[ yu_{xx} - 2u_{xy} + xu_{yy} = 0 \]
+
+If we specify a point $(x,y)$, then we get constant coefficients and the theorem applies, meaning we can determine the PDE's type, \textit{at that point}. This means the PDE will change type depending on the point in the plane. 
+
+In the above case, we have that $a_{12}^2 = 1$, while $a_{11}a_{22} = yx$. Thus, we get that
+
+\[ 1 = yx \implies \text{ parabolic} \]
+\[ 1 > yx \implies \text{ hyperbolic} \]
+\[ 1 < yx \implies \text{ elliptic} \]
+
+This can be seen in the graph below, where the red area represents when the PDE is elliptic, while the black represents where it is hyperbolic; the intersection is where it is parabolic:
+
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{Week 2/PDE type graph.png}
+\end{center}
+
+Let's find the change of variables for the equation
+
+\[ u_{xx} - 5u_{xy} = 0 \]
+
+First consider 
+
+\[ x^2 - 5xy \]
+
+Completing the square yields
+
+\begin{align*}
+    x^2 - 5xy & = x^2 - 5xy + \left(\frac{5}{2}\right)^2y^2 - \left(\frac{5}{2}\right)^2y^2 \\
+    & = \left(x - \frac{5}{2}y\right)^2 - \left(\frac{5}{2}y\right)^2
+\end{align*}
+
+Surprisingly, this same idea also works for partial derivatives:
+
+\begin{align*}
+    u_{xx} - 5u_{yy} & = \pardif{}{x}\pardif{}{x}u - 5\pardif{}{x}\pardif{}{y}u \\
+    & = \left(\pardif{}{x} - \frac{5}{2}\pardif{}{y}\right)^2u - \left(\frac{5}{2}\pardif{}{y}\right)^2u
+\end{align*}
+
+Now, we need $(x',y')$ such that
+
+\[ \pardif{}{x'} = \pardif{}{x} - \frac{5}{2}\pardif{}{y} \ , \ \pardif{}{y'} = \frac{5}{2}\pardif{}{y} \]
+
+We see that
+
+\[ \pardif{}{x} = \pardif{}{x'} + \pardif{}{y'} \ , \ \pardif{}{y} = \frac{2}{5}\pardif{}{y'} \]
+
+Recalling the definition of $x',y'$, we get by the Chain Rule that
+
+\[ \pardif{}{x} = \pardif{}{x'}b_1 + \pardif{}{y'}b_3 \]
+\[ \pardif{}{y} = \pardif{}{x'}b_2 + \pardif{}{y'}b_4 \]
+
+so we have that $b_1 = 1, b_2 = 0, b_3 = 1, b_4 = \frac{2}{5}$. Thus,
+
+\[ x' = x \]
+\[ y' = x  +\frac{2}{5}y \]

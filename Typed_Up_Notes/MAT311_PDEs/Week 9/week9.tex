@@ -1,0 +1,278 @@
+\chapter{Week 9}
+
+\section{More Examples of Fourier Series}
+
+Let's compute some additional examples of Fourier series.
+
+\begin{example}
+    compute the Fourier sine series for $f(x) = x$ on $[0, \ell]$. 
+
+    We have that
+
+    \begin{align*}
+        A_m & = \frac{2}{\ell}\int_0^\ell x\sin\left(\frac{m\pi x}{\ell}\right) \ dx \\
+        & = \frac{-2}{\ell}\int_0^\ell x\left(\frac{\ell}{m\pi}\right)\dif{}{x}\left[\cos\left(\frac{m\pi x}{\ell}\right)\right] \ dx \\
+        & = \frac{-2x}{m\pi} \cos\left(\frac{m\pi x}{\ell}\right)\bigg|_0^\ell + \frac{2}{m\pi}\int_0^\ell \dif{}{x}(x) \cos\left(\frac{m\pi x}{\ell}\right) \ dx \\
+        & = \frac{-2\ell}{m\pi}\cos(m\pi) + \frac{2\ell}{(m\pi)^2} \sin\left(\frac{m \pi x}{\ell}\right)\bigg|_0^\ell \\
+        & = \frac{-2\ell}{m\pi}(-1)^m \\
+        & = \frac{2\ell}{m\pi}(-1)^{m+1}
+    \end{align*}
+
+    This tells us that
+
+    \[ x \overset{?}{=} \frac{2\ell}{\pi}\left[\sin\left(\frac{\pi x}{\ell}\right) - \frac{1}{2}\sin\left(\frac{2\pi x}{\ell}\right) + \frac{1}{3}\sin\left(\frac{3\pi x}{\ell}\right) - \cdots \right] \]
+
+    Recall that $f(x) = x$ is smooth on $x \in (0,\ell)$, so the series converges at these points. If $x = \ell$, the sum on the right vanishes and we do not get equality. We can see this in the figure below, where we show the series with 1 (green), 5 (blue), 10 (orange), and 100 (purple) terms, converging to the red line, which is $f(x)$. Notice how all of the functions vanish at $\ell$, which in the graph is set to 20.
+
+    \begin{center}
+        \includegraphics[width=0.6\textwidth]{Week 9/sine_series_at_x.png}        
+    \end{center}
+\end{example}
+
+\begin{example}
+    Compute the Fourier cosine series for $f(x) = x$ on $[0, \ell]$. 
+
+    For the $m = 0$ case, we get
+
+    \[ A_0 = \frac{2}{\ell}\int_0^\ell x \cdot 1 \ dx = \frac{2}{\ell}\frac{x^2}{2}\bigg|_0^\ell = \frac{\ell^2}{\ell} = \ell \]
+
+    For $m > 0$, we get
+
+    \begin{align*}
+        A_m & = \frac{2}{\ell}\int_0^\ell x \cos\left(\frac{m \pi x}{\ell}\right) \ dx \\
+        & = \frac{2}{\ell}\int_0^\ell x \frac{\ell}{m\pi} \dif{}{x}\left[\sin\left(\frac{m \pi x}{\ell}\right)\right] \ dx \\
+        & = \frac{2x}{m\pi}\sin\left(\frac{m\pi x}{\ell}\right)\bigg|_0^\ell - \frac{2}{m\pi}\int_0^\ell \dif{}{x}(x)\sin\left(\frac{m\pi x}{\ell}\right) \ dx \\
+        & = \frac{2\ell}{(m\pi)^2} \cos\left(\frac{m\pi x}{\ell}\right)\bigg|_0^\ell \\
+        & = \frac{2\ell}{(m\pi)^2}((-1)^m - 1) \\
+        & = \begin{cases}
+            0 & m \text{ is even} \\
+            -\dfrac{4\ell}{(m\pi)^2} & m \text{ is odd}
+        \end{cases}
+    \end{align*}
+
+    Thus,
+
+    \[ x \overset{?}{=} \frac{1}{2}\ell - \frac{4\ell}{\pi^2}\left[\cos\left(\frac{\pi x}{\ell}\right) + \frac{1}{3^2}\cos\left(\frac{3\pi x}{\ell}\right) + \frac{1}{5^2}\cos\left(\frac{5\pi x}{\ell}\right) + \cdots \right] \]
+
+    This is in fact an equality when $x \in (0,\ell)$, but there's no guarantee it works on the endpoints. The figure below shows the sums with 1 (green), 3 (blue), 5 (orange), and 10 (purple) terms. Notice how quickly the convergence occurs compared to the sine series.
+
+    \begin{center}
+        \includegraphics[width=0.6\textwidth]{Week 9/cosine_series_of_x.png}
+    \end{center}
+\end{example}
+
+\begin{example}
+    Find the full Fourier series for $f(x)$ on $(-\ell, \ell)$. 
+
+    As $x$ is odd, we get that
+
+    \[ A_0 = \frac{1}{\ell}\int_{-\ell}^\ell x \ dx = 0 \]
+
+    For $m > 0$, we get that
+
+    \[ A_m = \frac{1}{\ell}\int_{-\ell}^\ell x \cos\left(\frac{m\pi x}{\ell}\right) \ dx = 0 \]
+
+    since $x$ is odd and $\cos$ is even. $\sin$ is odd, so we get that
+
+    \begin{align*}
+        B_m & = \frac{1}{\ell}\int_{-\ell}^\ell x \sin\left(\frac{m\pi x}{\ell}\right) \ dx \\
+        & = \frac{2}{\ell}\int_0^\ell x \sin\left(\frac{m\pi x}{\ell}\right) \ dx \\
+        & = \frac{2\ell}{m\pi}(-1)^{m+1}
+    \end{align*}
+
+    which follows from the sine series calculation above. thus, the full Fourier series for $f(x) = x$ is just the sine series, taken on $(-\ell, \ell)$. 
+\end{example}
+
+\begin{example}
+    Solve $u_{tt} - c^2u_{xx} = 0$ given
+
+    \[ \begin{cases}
+        u(0,t) = u(0,\ell) = 0 \quad t > 0 \\
+        u(x,0) = x, u_t(x,0) = 0
+    \end{cases} \]
+
+    We know that
+
+    \[ u(x,t) = \sum_{n=1}^\infty \left(A_n\cos\left(\frac{n\pi ct}{\ell}\right) + B_n\sin\left(\frac{n\pi ct}{\ell}\right)\right)\sin\left(\frac{n\pi x}{\ell}\right) \]
+
+    and that
+
+    \[ x = \sum_{n=1}^\infty A_n \sin\left(\frac{n\pi x}{\ell}\right), \quad 0 = \sum_{n=1}^\infty \frac{n\pi c}{\ell}B_n \sin\left(\frac{n\pi x}{\ell}\right) \]
+
+    Thus, we get that
+
+    \[ A_n = \frac{2\ell}{\pi}\frac{(-1)^{n+1}}{n}, \quad B_n = 0 \]
+
+    Hence, we conclude that
+
+    \[ u(x,t) = \frac{2\ell}{\pi}\sum_{n=1}^\infty \frac{(-1)^{n+1}}{n}\cos\left(\frac{n\pi ct}{\ell}\right)\sin\left(\frac{n\pi x}{\ell}\right) \]
+\end{example}
+
+We conclude this section with 2 remarks. 
+
+First, suppose we wish to expand a function $f(x)$ into its Fourier sine or cosine series, but it is defined on some interval $(a,b)$ instead of $(0,\ell)$. To solve this, take
+
+\[ g(x) = f(x \pm c ) \]
+
+where $g$ is defined on $x \in (0, \ell)$. In this case, we take
+
+\[ g(x) = f(x+a), \quad x \in (0,b-a) \]
+
+We can then expand $g$ into its sine or cosine series. For example, if we expand it into its sine series, we get
+
+\[ g(x) = \sum_{n=1}^\infty A_n\sin\left(\frac{n\pi x}{b-a}\right), \quad A_n = \frac{2}{b-a}\int_0^{b-a}g(x) \sin\left(\frac{n\pi x}{b-a}\right) \ dx \]
+\[ \implies f(x) = g(x-a) = \sum_{n=1}^\infty A_n\sin\left(\frac{n\pi(x-a)}{b-a}\right), \quad A_n = \frac{2}{b-a}\int_0^{b-a}g(x-a)\sin\left(\frac{n\pi(x-a)}{b-a}\right) \ dx  \]
+
+Our second remark concerns the example of the full Fourier series for $f(x) = x$. The fact that it is just the sine series is not a coincidence, bur rather a general fact of odd functions. 
+
+Similarly, for even functions $\phi(x)$, we have that
+
+\[ \int_{-\ell}^\ell \sin\left(\frac{n\pi x}{\ell}\right) \ dx = 0 \]
+\[ \frac{1}{\ell}\int_{-\ell}^\ell \phi(x) \cos\left(\frac{n\pi x}{\ell}\right) = \frac{2}{\ell}\int_0^\ell \phi(x)\cos\left(\frac{n\pi x}{\ell}\right) \ dx \]
+
+Thus, the full Fourier series of $\phi(x)$ is just the cosine series. 
+
+Finally, recall that 
+
+\[ \phi(x) = \frac{1}{2}[\phi(x) + \phi(-x)] + \frac{1}{2}[\phi(x) - \phi(x)] \]
+
+where the first component is an even function and the second component is an odd function (check this). Thus, the full Fourier series of any function corresponds to the Fourier cosine series of the even part and the Fourier sine series of the odd part. 
+
+\section{Complex Exponentials \& Fourier Series}
+
+Recall that the sine and cosine functions may be written using complex exponentials:
+
+\[ \sin\theta = \frac{e^{i\theta} - e^{-i\theta}}{2} \quad \cos\theta = \frac{e^{i\theta}+e^{-i\theta}}{2} \]
+
+This means that any expansions involving sine and cosine, like in Fourier series, can be written instead as expansions in $e^{\pm\frac{in\pi x}{\ell}}$. This can be tedious, but we can use the same methods from before, and in fact, these methods become much easier to do once we incorporate complex exponentials!
+
+Let's derive the full Fourier series using $\{e^{\frac{i\pi nx}{\ell}}\}_{n=-\infty}^\infty$. The new orthogonality condition is that for $n \neq m$
+
+\[ \int_{-\ell}^\ell e^{\frac{in\pi x}{\ell}}\overline{e^{\frac{im\pi x}{\ell}}} \ dx = \int_{-\ell}^\ell e^{\frac{in\pi x}{\ell}}e^{-\frac{im\pi x}{\ell}}  \ dx \]
+
+We get that
+
+\[ \int_{-\ell}^\ell e^{\frac{i(n-m)\pi x}{\ell}} \ dx = \int_{-\ell}^\ell \frac{\ell}{(n-m)} \dif{}{x} e^{\frac{i(n-m)\pi x}{\ell}} \ dx = 0 \]
+
+because $e^{\frac{ik\pi x}{\ell}}$ is periodic over $(-\ell, \ell)$ whenever $k$ is an integer. Moreover, we have that
+
+\[ \int_{-\ell}^\ell e^{\frac{in\pi x}{\ell}}\overline{e^{\frac{in\pi x}{\ell}}} \ dx = \int_{-\ell}^\ell 1 \ dx = 2\ell \]
+
+Now, the full Fourier series for $f(x)$ on $(-\ell, \ell)$ is given by
+
+\[ f(x) = \sum_{n=-\infty}^\infty C_ne^{\frac{in\pi x}{\ell}} \]
+
+We see that
+
+\[ \int_{-\ell}^\ell f(x)e^{-\frac{in\pi x}{\ell}} \ dx = \sum_{n=-\infty}^\infty C_n\int_{-\ell}^\ell e^{\frac{in\pi x}{\ell}}e^{-\frac{in\pi x}{\ell}} \ dx = 2\ell C_n \]
+
+Thus,
+
+\[ C_m = \frac{1}{2\ell}\int_{-\ell}^\ell f(x) e^{-\frac{im\pi x}{\ell}} \quad m = 0,1,2,3, \ldots \]
+
+The $=$ sign has the same conditions as for regular Fourier series.
+
+\begin{example}
+    Compute the full Fourier series for $f(x) = x$ on $(-\ell,\ell)$ using the complex exponential. 
+
+    We have that, for $n = 0$,
+
+    \[ C_0 = \frac{1}{2\ell}\int_{-\ell}^\ell x \ dx = 0 \]
+
+    and for $n \neq 0$, we get
+
+    \begin{align*}
+        C_n & = \frac{1}{2\ell}\int_{-\ell}^\ell x e^{-\frac{in\pi x}{\ell}} \ dx \\
+        & = \frac{1}{2\ell}\int_{-\ell}^\ell x \left(-\frac{\ell}{in\pi}\right) \dif{}{x}(e^{-\frac{in\pi x}{\ell}}) \ dx \\
+        & = \frac{-x}{2in\pi}e^{-\frac{in\pi x}{\ell}}\bigg|_{-\ell}^\ell + \frac{1}{2in\pi}\int_{-\ell}^\ell e^{-\frac{in\pi x}{\ell}}\ dx \\
+        & = \frac{-\ell}{2in\pi}e^{-in\pi} - \frac{\ell}{2in\pi}e^{in\pi} + \frac{1}{2in\pi}\int_{-\ell}^\ell e^{-\frac{in\pi x}{\ell}}\ dx \\
+        & = \frac{-\ell}{2in\pi}e^{-inx}(1 + e^{2\pi in)} \\
+        & = \frac{-\ell}{in\pi}e^{in\pi} \\
+        & = \frac{-\ell}{in\pi}(-1)^n
+    \end{align*}
+\end{example}
+
+\section{The Full Version of the Heat Equation on a Finite Interval}
+
+To wrap up our study of Fourier series, let's go all in and solve the heat equation in its most general of forms: for $x \in (0, \ell)$,
+
+\[ \begin{cases}
+    u_t - ku_{xx} = f(x,t) \\
+    u(0,t) = h(t), u(\ell,t) = j(t) \\
+    u(x,0) = \phi(x)
+\end{cases} \]
+
+To solve this, we could try separation of variables. Setting $u(x,t) = X(x)T(t)$, we get
+
+\[ X(x)T'(t) - kX''(x)T(t) = f(x,t) \]
+
+and there isn't much else that we can do. Instead, let's try a different approach.
+
+\begin{remark}
+    What we are going to do works on $(0,\ell)$, but is not guaranteed to work on the end points.
+\end{remark}
+
+We write
+
+\[ u(x,t) = \sum_{n=1}^\infty u_n(t) \sin\left(\frac{n\pi x}{\ell}\right) \]
+\[ f(x,t) = \sum_{n=1}^\infty f_n(t) \sin\left(\frac{n\pi x}{\ell}\right) \]
+
+We wish to derive equations for each $A_n(t)$. A naive approach would be to apply the PDE to this series, giving us
+
+\[ \left(\pardif{}{t} - k\pardif{^2}{x^2}\right)\left[\sum_{n=1}^\infty u_n(t) \sin\left(\frac{n\pi x}{\ell}\right)\right] = \sum_{n=1}^\infty f_n(t) \sin\left(\frac{n\pi x}{\ell}\right) \]
+
+where $f_n(t)$ are the coefficients in $f$'s Fourier sine series. This seems like a good approach, but there are issues along the boundaries, and so this will not always work. For example, we have previously seen that
+
+\[ 1 = \sum_{n \text{ odd}} \frac{4}{n\pi} \sin(nx) \]
+
+but deriving gives us
+
+\[ 0 = \sum_{n \text{ odd}} \frac{4}{\pi}\cos(nx) \]
+
+which is clearly not true since the right hand side is not going to 0. 
+
+Not all hope is lost, as we still have one more trick up our sleeves. We will instead try to find the coefficients \textit{directly}. Instead of applying the PDE to the sum, let's plug the PDE into it:
+
+\[ \int_0^\ell (u_t - ku_{xx}) \sin\left(\frac{n\pi x}{\ell}\right) \ dx = \int_0^\ell f(x,t) \sin\left(\frac{n\pi x}{\ell}\right) = f_n(t) \]
+
+Let's break up the right side into two equations.
+
+\[ \frac{2}{\ell}\int_0^\ell u_t\sin\left(\frac{n\pi x}{\ell}\right) \ dx - \frac{2k}{\ell}\int_0^\ell u_{xx}\sin\left(\frac{n\pi x}{\ell}\right) \ dx \]
+
+We compute each of these individually: Using reverse differentiation under the integral sign, we get
+
+\begin{align*}
+    \frac{2}{\ell}\int_0^\ell u_t\sin\left(\frac{n\pi x}{\ell}\right) \ dx & = \dif{}{t}\frac{2}{\ell}\int_0^\ell u \sin\left(\frac{n\pi x}{\ell}\right) \ dx \\
+    & = \dif{}{t} u_n
+\end{align*}
+
+Moreover, applying IBP twice gives us
+
+\begin{align*}
+    \frac{-2k}{\ell}\int_0^\ell u_{xx}\sin\left(\frac{n\pi x}{\ell}\right) \ dx & = \frac{-2k}{\ell}u_x\sin\left(\frac{n\pi x}{\ell}\right)\bigg|_0^\ell + \frac{2k}{\ell}\int_0^\ell u_x\left(\frac{n\pi}{\ell}\right)\cos\left(\frac{n\pi x}{\ell}\right) \ dx \\
+    & = \frac{2kn\pi}{\ell^2}u\cos\left(\frac{n\pi x}{\ell}\right)\bigg|_0^\ell + \frac{2kn\pi}{\ell^2}\left(\frac{n\pi}{\ell}\right)\int_0^\ell u \sin\left(\frac{n\pi x}{\ell}\right) \ dx \\
+    & = \frac{(-1)^n2kn\pi}{\ell^2}j(t) - \frac{2kn\pi}{\ell^2}h(t) + k\left(\frac{n\pi}{\ell}\right)^2\left(\frac{2}{\ell}\int_0^\ell u\sin\left(\frac{n\pi x}{\ell}\right) \ dx \right) \\
+    & = \frac{(-1)^n2kn\pi}{\ell^2}j(t) - \frac{2kn\pi}{\ell^2}h(t) + k\left(\frac{n\pi}{\ell}\right)^2u_n
+\end{align*}
+
+Combining, we get an ODE,
+
+\[ \dif{}{t}u_n(t) + k\left(\frac{n\pi}{\ell}\right)^2u_n(t) = f_n(x,t) + \frac{2kn\pi}{\ell^2}(h(t) - j(t)(-1)^n) \]
+
+which we can solve using an integrating factor. We write
+
+\[ \dif{}{t}u_n(t) + k\left(\frac{n\pi}{\ell}\right)^2u_n(t) = e^{-tk\left(\frac{n\pi}{\ell}\right)^2}\dif{}{t}[e^{tk\left(\frac{n\pi}{\ell}\right)^2}u_n(t)] \]
+
+and setting $P_n(t) = f_n + \frac{2kn\pi}{\ell^2}(h(t) - j(t)(-1)^n)$, we get
+
+\begin{align*}
+    & \implies \dif{}{t}[e^{tk\left(\frac{n\pi}{\ell}\right)^2}u_n(t)] = e^{tk\left(\frac{n\pi}{\ell}\right)^2}P_n(t) \\
+    & \implies e^{tk\left(\frac{n\pi}{\ell}\right)^2}u_n(t) = u_n(0) + \int_0^t e^{sk\left(\frac{n\pi}{\ell}\right)^2}P_n(s) \ ds \\
+    & \implies u_n(t) = e^{-tk\left(\frac{n\pi}{\ell}\right)^2}u_n(0) + e^{-tk\left(\frac{n\pi}{\ell}\right)^2}\int_0^t e^{sk\left(\frac{n\pi}{\ell}\right)^2}P_n(s) \ ds 
+\end{align*}
+
+where $u_n(0) = \frac{2}{\ell}\int_0^\ell \phi(x)\sin\left(\frac{n\pi x}{\ell}\right) \ dx$.
+
+If we take $f = h = j = 0$, then $P_n(t) = 0$, and get a much more simplified equation. 
+
+This process works for any case where separation of variables was used, including Neumann B.C, periodic B.C, the wave equation, Schrodinger's Equation, etc.

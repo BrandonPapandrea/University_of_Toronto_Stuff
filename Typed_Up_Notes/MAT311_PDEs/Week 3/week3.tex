@@ -1,0 +1,277 @@
+\chapter{Week 3}
+
+\section{The Wave Equation}
+
+We will now begin a relatively deep discussion on one of the standard types of second order PDE: the hyperbolic case. By the theorem from last week, we know such a PDE can always be reduced to one that looks like the wave equation, so this is what we will focus on.
+
+\subsection{A General Solution}
+
+The wave equation is as follows:
+
+\[ u(x,t): \R \times \R \to \R \text{ or } \C \]
+\[ u_{tt} - c^2u_{xx} = 0 \]
+
+as $x \in (-\infty, \infty)$, we can think of the physical problem of oscillating an infinitely long string of wire. 
+
+Such an equation will correspond to a polynomial
+
+\[ t^2 = c^2x^2 = (t-cx)(t+cx) \]
+
+as it can be factored as a difference of squares, we can do the same with the equation itself:
+
+\[ \iff \left(\pardif{}{t} - c\pardif{}{x}\right)\left(\pardif{}{t} + c\pardif{}{x}\right)u = 0 \]
+
+From here there are a few methods that can solve it. For one, we can take $w = \left(\pardif{}{t} + c\pardif{}{x}\right)u$ and solve the equation
+
+\[ \left(\pardif{}{t} - c\pardif{}{x}\right)w = 0 \]
+
+first before then solving for $w$. The method we will use here is an analog of the coordinate method from week 1, which is now referred to as \textbf{characteristic coordinates}. 
+
+We define
+
+\[ \xi = x + ct, \ \eta = x - ct \]
+
+This transformation makes sense as its Jacobian has determinant $-2c \neq 0$. By the Chain Rule, we have that
+
+\[ \pardif{}{x} = \pardif{}{\xi}\pardif{\xi}{x} + \pardif{}{\eta}\pardif{\eta}{x} = \pardif{}{\xi} + \pardif{}{\eta} \]
+\[ \pardif{}{t} = \pardif{}{\xi}\pardif{\xi}{t} + \pardif{}{\eta}\pardif{\eta}{t} = c\pardif{}{\xi} - c\pardif{}{\eta} \]
+
+So we can rewrite our equations as
+
+\begin{align*}
+    \pardif{}{t} - c\pardif{}{x} & = c\pardif{}{\xi} - c\pardif{}{\eta} - c\left(\pardif{}{\xi} + \pardif{}{\eta}\right) \\
+    & = (-2c)\pardif{}{\eta} \\
+    \pardif{}{t} + c\pardif{}{t} & = c\pardif{}{\xi} - c\pardif{}{\eta} + c\left(\pardif{}{\xi} + \pardif{}{\xi}\right) \\
+    & = (2c)\pardif{}{\xi}
+\end{align*}
+
+Thus, the wave equation becomes, in $(\xi, \eta)$,
+
+\[ 4c^2\left(\pardif{}{\xi}\pardif{}{\eta}\right)u = 0 \iff u_{\xi\eta} = 0 \]
+
+Recalling our solution to $u_{xy} = 0$ from week 1, we get that
+
+\[ u(\xi,\eta) = f(\xi) + g(\eta) \iff u(x,t) = f(x+ct) + g(x-ct) \]
+
+where $f,g$ are arbitrary $C^2$ functions. 
+
+What does this look like? Recalling the simple transport equation, we see that as $t$ increases, $f$ will move to the left at speed $c$, while $g$ will move to the right at speed $-c$. This makes the $f$ and $g$ functions look like waves as time progresses. Here, we say that $c$ is the \textbf{speed of propagation}. If you recall from physics, we denote the speed of light by $c$; the fact that we use $c$ for both of these is not a coincidence. 
+
+\begin{remark}
+    This is a very special case, and not all PDEs of second order are going to have nice, easy to derive general solutions. 
+
+    This method of factorization works in other settings, particularly on any hyperbolic constant coefficient PDE with only second order terms. 
+\end{remark}
+
+\subsection{Initial Value Problems}
+
+In order for the problem to be well-posed, we require initial values to be added and our domain for time to be nonnegative.
+
+\[ u(x,t): \R \times [0,\infty) \to \R \text{ or } \C \]
+\[ u_{tt} - c^2u_{xx} = 0, \ u(x,0) = \varphi(x), \ u_x(x,0) = \psi(x) \]
+
+Recall that our general solution is $u(x,t) = f(x+ct) + g(x-ct)$, but now we have the added initial conditions, which correspond to two equations:
+
+\begin{align}
+    \varphi(s) & = f(s) + g(s) \\
+    \psi(s) & = cf'(s) - cg'(x)
+\end{align}
+
+To find the specific solution, we must solve for $f,g$. To do this, we first derive $\varphi$ to get
+
+\begin{equation}
+    \varphi'(s) = f'(s) + g'(s)
+\end{equation}
+
+Now, combining (3.2) and (3.3) in two separate ways yields
+
+\[ \psi(s) + c\varphi'(s) = 2cf'(s) \]
+\[ c\varphi'(s) - \psi(s) = 2cg'(s) \]
+
+Dividing by $2c$ and integrating gives us
+
+\begin{align*}
+    f(s) & = \frac{1}{2}\varphi(s) + \frac{1}{2c}\int_0^s \psi(\tau) \ d\tau + A \\
+    g(s) & = \frac{1}{2}\varphi(s) - \frac{1}{2c}\int_0^s \psi(\tau) \ d\tau + B
+\end{align*}
+
+Notice that the constants make $f,g$ not unique. This is ok, as long as $u$ is unique. To check this, we can plug $f,g$ into (3.1), which says
+
+\[ \varphi(s) = \varphi(s) + A + B \iff A + B = 0 \]
+
+Thus, our final solution is given by 
+
+\begin{align*}
+    u(x,t) & = f(x+ct) + g(x-ct) \\
+    & = \frac{1}{2}\left[\varphi(x+ct) + \varphi(x-ct)\right] + \frac{1}{2c}\int_0^{x+ct} \psi(\tau) \ d\tau - \frac{1}{2c}\int_0^{x-ct} \psi(\tau) \ d\tau \intertext{as $t > 0$, $x - ct < x  +ct$, so} \\
+    & = \frac{1}{2}\left[\varphi(x+ct) + \varphi(x-ct)\right] + \frac{1}{2c}\int_{x-ct}^{x+ct} \psi(\tau) \ d\tau
+\end{align*}
+
+This is indeed the unique solution for this problem that is continuous, as required.
+
+\begin{example}
+    Solve $u_{tt} - c^2u_{xx} = 0$ such that $u(x,t): \R \times [0,\infty) \to \R$ and
+
+    \[ u(x,0) = 0, u_t(x,0) = \cos(x) \]
+
+    By the above, we have that
+
+    \begin{align*}
+        u(x,t) & = \frac{1}{2c}\int_{x-ct}^{x+ct} \cos(\tau) \ d\tau \\
+        & = \frac{1}{2c}[\sin(x-ct) - \sin(x+ct)]
+    \end{align*}
+\end{example}
+
+\begin{example}[The Plucked String Problem]
+    Take $a,b > 0$, and consider the wave equation as described above, with the initial values
+
+    \begin{align*}
+        \varphi(x) = u(x,0) & = \begin{cases}
+            b - \frac{b|x|}{a} & |x| \leq a \\
+            0 & |x| > a
+        \end{cases} \\
+        u_t(x,0) & = 0
+    \end{align*}
+
+    Graphically, this looks like the following:
+
+    \begin{center}
+        \includegraphics[width=0.7\textwidth]{Week 3/Plucked String Graph.png}
+    \end{center}
+
+    Then by the formula,
+
+    \[ u(x,t) = \frac{1}{2}[\varphi(x+ct) + \varphi(x-ct)] \]
+
+    Now, the graph becomes two waves, moving in opposite directions, with half the amplitude (height) from before.
+\end{example}
+
+\subsection{The Path Light Cone}
+
+Suppose we wanted to compute the value $u(x_0,t_0)$ for some specific values of $(x_0,t_0)$. The specific solution to the wave equation tells us that, to do this, we need to know the initial values of points ranging from $x_0 - ct_0$ to $x_0 + ct_0$. Graphically this can be described by a triangle, or cone:
+
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{Week 3/Path Light Cone.png}
+\end{center}
+
+We call this the \textbf{path light cone} or \textbf{domain of independence}; only points which lie in this region will affect our selected point. 
+
+From a physical perspective, if we were to consider this as light traveling as a wave through spacetime, this says that the speed of light is finite, as light can only affect future spacetime in a finite region. 
+
+As a consequence of this, for an interval $I$ on which $\varphi, \psi$ vanish, if $u(x,t)$ is such that its past light curve is inside $I$, then $u(x,t)$ = 0. Thus, if $\varphi, \psi$ are compactly supported, meaning they are nonzero in a bounded interval $[-A,A]$, then $u(x,t)$i s compactly supported at each time $t$. 
+
+\subsection{Energy}
+
+Let $u(x,t): \R \times [0,\infty) \to \R$ solve the wave equation, and suppose that $u(x,0), u_t(x,0)$ are compactly supported, meaning $u$ is compactly supported for each $t$. WE define
+
+\[ E(t) = \frac{1}{2}\int_{-\infty}^\infty [(u_t(x,t))^2 + c^2(u_x(x,t))^2] \ dx \]
+
+$E(t)$ is a well-defined function, since $u_x,u_t$ are compactly supported. We call this function \textbf{energy}.
+
+With this, we can prove a fundamental law of the physical world by simple algebra: the conservation of energy:
+
+\begin{theorem}[Law of Conservation of Energy]
+    $E(t)$ is constant.
+\end{theorem}
+
+\begin{proof}
+    We show that $E(t)$ has a derivative of 0. Using differentiation under the integral sign, we get that
+
+    \begin{align*}
+        \dif{E}{t} & = \frac{1}{2}\int_{-\infty}^\infty \left[\pardif{}{t}(u_t)^2 + c^2\pardif{}{t}(u_x)^2\right] \ dx \\
+        & = \int_{-\infty}^\infty [u_tu_{tt} + c^2u_tu_{xt}] \ dt \tag{Chain Rule} \intertext{as $u_{tt} = c^2u_{xx}$,} \\
+        & = c^2\int_{-\infty}^\infty [u_tu_{xx} + u_xu_{xt}] \ dx \intertext{Now integrate by parts:} \\
+        & = c^2 \int_{-\infty}^\infty [-u_{xt}u_x + u_xu_{tx}] \ dx + c^2u_tu_x \big|_{-\infty}^\infty \\
+        & = 0 \tag{$u_x,u_t$ compactly supported}
+    \end{align*}
+\end{proof}
+
+\section{The Heat Equation}
+
+We now move to studying the heat equation. Recall that it is given by
+
+\[ u(x,t): [0, \ell] \times [0, \infty) \to \R \]
+\[ u_t - ku_{xx} = 0 \]
+
+where $k > 0$ is constant. Solving this equation is much more complicated than the wave equation. However, we can still answer questions about the solutions and their properties in spite of not knowing the exact solutions. This is due to an important principle of such PDEs:
+
+\subsection{The Maximum Principle}
+
+\begin{theorem}[The Maximum Principle]
+    Suppose $u(x,t)$ solves the heat equation for $x \in [0,\ell]$ and $t \in [0,T]$. Then $u(x,t)$ attains a maximum, and it is attained on one of the line $\{x = 0\}, \{x = \ell\}$, or $\{t = 0\}$. 
+\end{theorem}
+
+This follows from the Extreme Value Theorem, which holds because $u$ is a continuous function on a closed and bounded set. 
+
+Intuitively, this just says that heat will flow from areas of high temperature to areas of low temperature. This matches with our expectations. 
+
+\subsection{Initial Value Problems}
+
+We can consider an initial value problem for the heat equation, given by
+
+\begin{align*}
+    u_t - ku_{xx} & = f(x,t) \\
+    u(x,0) & = \varphi(x) \\
+    u(0,t) & = g(t) \\
+    u(\ell,t) & = h(t)
+\end{align*}
+
+where $f,\varphi, g, h$ are given functions. Note that $\varphi$ represents the initial heat distribution along the bar. 
+
+The Maximum Principle can help us show that this IVP attains at most one solution. 
+
+\begin{theorem}
+    There can only be at most one solution to the above IVP.
+\end{theorem}
+
+We present two proofs:
+
+\begin{proof}[Proof 1]
+    Let $u_1(x,t), u_2(x,t)$ be solutions to the IVP. By linearity, we can set 
+
+    \[ w = u_1 - u_2 \]
+
+    and this will solve the equation $u_t - ku_{xx} = 0$. In addition, we have that
+
+    \begin{align*}
+        w(x,0) & = u_1(x,0) - u_2(x,0) = \varphi - \varphi = 0 \\
+        w(0,t) & = g - g = 0 \\
+        w(\ell,t) & = h - h = 0
+    \end{align*}
+
+    Now, by the Maximum Principle, we know that $w$ attains its maximum along one of the lines $\{x = 0\}, \{x = \ell\}, \{t = 0\}$, but this tells us that
+
+    \[ \max_{[0,\ell] \times [0,T]} w = 0 \]
+
+    so $w(x,t) \leq 0$. By the same logic for $-w$, we get that $w(x,t) \geq 0$. Thus,
+
+    \[ w(x,t) = u_1(x,t) - u_2(x,t) = 0 \implies u_1(x,t) = u_2(x,t) \]
+\end{proof}
+
+The next proof uses what is called the \textbf{energy method}:
+
+\begin{proof}[Proof 2]
+    We define the energy of this system as 
+
+    \[ E(t) = \frac{1}{2}\int_0^\ell (u(x,t))^2 \ dx \]
+
+    where the $\dfrac{1}{2}$ is for a nicer calculation. Intuitively, heat dissipates over time, and so $\dfrac{dE}{dt}$ should be less than or equal to 0. If so, then we get 
+
+    \[ \frac{1}{2}\int_0^\ell (w(x,t))^2 \ dx \leq \frac{1}{2}\int_0^\ell (w(x,0))^2 \ dx = 0 \]
+
+    As the integral vanishes for all $t \geq 0$, we thus get that $w(x,t) = 0$, which is what we want. Let's now prove this claim:
+
+    Suppose $u(x,t): [0,\ell] \times [0, \infty) \to \R$ solves the homogeneous heat equation $u_t - ku_{xx} = 0$, with $u(0,t) = u(\ell,t) = 0$. Then
+
+    \begin{align*}
+        \dif{E}{t} & = \dif{}{t}\frac{1}{2}\int_0^\ell (u(x,t))^2 \ dx \\
+                   & = \frac{1}{2}\int_0^\ell \pardif{}{t}(u(x,t))^2 \ dx \\
+                   & = \int_0^\ell uu_t \ dx \\
+                   & = k\int_0^\ell uu_{xx} \ dx \tag{$u_t = ku_{xx}$} \\
+                   & = -k\int_0^\ell (u_x)^2 \ dx + kuu_x\big|_0^\ell \\
+                   & = -k\int_0^\ell (u_x)^2 \ dx + 0 \\
+                   & \leq 0
+    \end{align*}
+
+    as desired.
+\end{proof}
