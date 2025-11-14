@@ -103,3 +103,164 @@ The fact that we have rotational invariance suggests that the Laplace equation w
 \[ x = r\cos\theta, \quad y = r\sin \theta \]
 \[ r = \sqrt{x^2 + y^2}, \quad \theta = \arctan\left(\frac{y}{x}\right) \]
 
+Thus, we get that 
+
+\[ \pardif{}{x} = \pardif{}{r}\pardif{r}{x} + \pardif{}{\theta}\pardif{\theta}{x} \]
+\[ \pardif{r}{x} = \left[\frac{1}{2}(x^2 + y^2)^{-1/2}(2x)\right] = \frac{x}{\sqrt{x^2 + y^2}} = \frac{r\cos\theta}{r} = \cos\theta \]
+\[ \pardif{\theta}{x} = \frac{1}{1 + \left(\frac{y}{x}\right)^2}\left(-\frac{y}{x^2}\right) = \frac{-y}{x^2 + y^2} = \frac{-r\sin\theta}{r^2} = \frac{-\sin\theta}{r} \]
+
+so 
+
+\[ \pardif{}{x} = \pardif{}{r}\cos\theta - \pardif{}{\theta}\frac{\sin\theta}{r} \]
+
+Doing the same thing for $\pardif{}{y}$ gives
+
+\[ \pardif{}{y} = \pardif{}{r}\sin\theta + \pardif{}{\theta}\frac{\cos\theta}{r} \]
+
+Thus, we can rewrite the Laplacian as 
+
+\begin{align*}
+    \partial_x^2 + \partial_y^2 & = \left(\cos\theta\partial_r - \frac{\sin\theta}{r}\partial_\theta\right)^2 + \left(\sin\theta\partial_r + \frac{\cos\theta}{r}\partial_\theta\right)^2 \\
+    & =\cos^2\theta\partial_r^2 + \frac{\cos\theta\sin\theta}{r^2}\partial_\theta - \frac{\cos\theta\sin\theta}{r}\partial_{r\theta} + \frac{\sin^2\theta}{r}\partial_r - \frac{\sin\theta\cos\theta}{r}\partial_{r\theta} + \frac{\sin\theta\cos\theta}{r^2}\partial_\theta + \frac{\sin^2\theta}{r^2}\partial_\theta^2 \\
+    & \quad + \sin^2\theta\partial_r^2 - \frac{\sin\theta\cos\theta}{r^2}\partial_\theta + \frac{\sin\theta\cos\theta}{r}\partial_{r\theta} + \frac{\cos^2\theta}{r}\partial_r + \frac{\cos\theta\sin\theta}{r}\partial_{r\theta} - \frac{s\in\theta\cos\theta}{r^2}\partial_\theta + \frac{\cos^2\theta}{r^2}\partial_\theta \\
+    & = \partial_r^2 + \frac{1}{r}\partial_r + \frac{1}{r^2}\partial_\theta^2
+\end{align*}
+
+We can repeat this process with any dimension. For instance if we converted the 3 dimension Laplace equation $\partial_x^2 + \partial_y^2 + \partial_z^2 = 0$ into spherical coordinates $(r, \theta, \varphi)$, we'd get that
+
+\[ \Delta = \partial_r^2 + \frac{2}{r}\partial_r + \frac{1}{r^2\sin\theta}\partial_\theta(\sin\theta\partial_\theta) + \frac{1}{r\sin\theta}\partial_\varphi^2 \]
+
+Given that $\Delta$ is symmetric when a rotation is applied, one might wonder if there also exist solutions which are symmetric when rotation is applied. Such solutions, called \textbf{spherically symmetric} solutions, only depend on $r$:
+
+\[ \Delta u = 0, \quad u = u(r) \]
+
+Given the 2 dimension Laplace in polar coordinates, we get that
+
+\[ \frac{d^2}{dr^2} + \frac{1}{r}\frac{du}{dr} = 0 \]     
+
+This is an ODE which has solutions given boundary
+
+\[ u(r) = A\log(r) + B \]
+
+where $A,B$ are constants. Logarithms will play an important role later on. 
+
+When we go to 3 dimensions, the spherically solutions satisfy
+
+\[ \frac{d^2u}{dr^2} + \frac{2}{r}\frac{du}{dr} = 0 \]
+
+which have solutions
+
+\[ u = \frac{A}{r} + B \]
+
+You might notice a pattern, and there is one! For dimension $n \geq 3$, we get that the spherically symmetric solutions satisfy
+
+\[ \frac{d^2u}{dr^2} + \frac{(n-1)}{r}\frac{du}{dr} \]
+
+and satisfy
+
+\[ u = \frac{A}{r^{n-2}} + B \]
+
+\subsection{Coefficients of the Laplace Equation}
+
+By invariance under rotation, solutions to the Laplace equation, expressed in polar coordinates, are periodic in $\theta$ with period $2\pi$. Thus, we may write them as a full Fourier series with the complex exponential.
+
+\[ u(r,\theta) = \sum_{n=-\infty}^\infty u_n(r)e^{in\theta} \]
+
+This is kind of like separation of variables in the sense that we take a product of a function of $r$ with a function of $\theta$. 
+
+\begin{remark}
+    The textbook writes $u$ in terms of sine and cosine. We use the complex exponential for ease of calculations, but one can also formulate all of this using the trigonometric functions. 
+\end{remark}
+
+If $\Delta u = 0$, should we expect a nice equation for $u_n(r)$? For arrbitrary PDEs, probably not, but for the Laplace equation we do, particularly in polar coordinates. This is because the Laplacian can be broken up into two components: one with $\partial_r$ terms and another with $\partial_\theta$ terms. The $\partial_r$ terms will not affect the exponential, and for the other term, we get
+
+\[ \frac{\partial^2}{\partial\theta^2} e^{in\theta} = (in)^2e^{in\theta} \]
+
+so it preserves the exponential. This is just like our previous discussion on Fourier series with sine and cosine: we will get the original term back, times some constant.
+
+We claim that, for each $n$, 
+
+\[ u_n''(r) + \frac{1}{r}u_n'(r) - \frac{n^2}{r^2}u_n(r) = 0 \]
+
+Why? As $\Delta u = 0$, we have that
+
+\[ \frac{1}{2\pi}\int_{-\pi}^\pi \left(\partial_r^2 u + \frac{1}{r}\partial_r u + \frac{1}{r^2}\partial_\theta^2u\right)e^{-in\theta} d \theta = 0 \]
+
+Breaking up the left side into three integrals, we get
+
+\begin{align*}
+    \frac{1}{2\pi}\int_{-\pi}^\pi \partial_r^2u e^{-in\theta}d \theta & = \frac{d^2}{dr^2}\left[\frac{1}{2\pi}\int_{-\pi}^\pi u e^{-in\theta} \ d\theta \right] \\
+    & = u_n''(r) \\
+    \frac{1}{2\pi}\int_{-\pi}^\pi \frac{1}{r}\partial_ru e^{-in\theta} \ d\theta & = \frac{1}{r}\dif{}{r}\left[\frac{1}{2\pi}\int_{-\pi}^\pi u e^{-in\theta}\right] \\
+    & = \frac{1}{r}u_n'(r) \\
+    \frac{1}{2\pi}\int_{-\pi}^\pi \frac{1}{r}\partial_u^2 e^{-in\theta} \ d\theta & = \frac{1}{2\pi}\partial_\theta u e^{-in\theta}\bigg|_{-\pi}^\pi - \frac{1}{2\pi}\int_{-\pi}^\pi \frac{1}{r^2}\partial_\theta u \partial_\theta e^{-in\theta} \ d\theta \\
+    & = \frac{1}{2\pi}\int_{-\pi}^\pi \frac{1}{r^2}u(-in)^2e^{-in\theta} \ d\theta \\
+    & = \frac{-n^2}{r^2}u_n(r) 
+\end{align*}
+
+where in the third integral we perform integration by parts twice. What is so nice about this ODE is that we can actually solve it. If we make a guess that $u_n(r) = r^\alpha$ for some $\alpha \in \R$, we get that
+
+\begin{align*}
+    & \alpha(\alpha - 1)r^{\alpha-2} + \alpha r^{n-2} - n^2r^{\alpha-2} = 0 \\
+    \implies & \alpha(\alpha-1) + \alpha - n^2 = 0 \\
+    \implies & \alpha^2 - n^2 = 0 \\
+    \implies & \alpha = \pm n \in \Z
+\end{align*}
+
+It is known that for an ODE of this form, finding two linearly independent solutions gives us all possible solutions. Clearly these are linearly independent, so we get that
+
+\[ u_n(r) = A_nr^{|n|} - B_nr^{-|n|} \]
+
+for constants $A_n,B_n$. Note that we put absolute values on the exponents to ensure that the $A_n$ constant is always attached to the $r$ with positive exponent. Moreover, if $n = 0$,
+
+\[ u_0''(r) + \frac{1}{r}u_0'(r) = 0 \]
+
+meaning that $\alpha = 0$ and so our solution is
+
+\[ u_0(r) = A_0 + B_0\log(r) \] 
+
+Thus, we can express our solution as 
+
+\[ u(r,\theta) = A_0 + B_0\log(r) + \sum_{n=-\infty \\ n \neq 0}^\infty (A_nr^{|n|} + B_nr^{-|n|}) e^{in\theta} \]
+
+Given we are working in polar coordinates, this formula is great for when for domains with a \textit{circular} boundary, like a ball or annulus. 
+
+\subsection{The Dirichlet Problem on a Ball}
+
+Solving the Dirichlet problem for the Laplace equation in an arbitrary domain $D$ is outside the scope of the course due to the massive number of possibilities for what $D$ looks like. Thus, we will restrict our study to particuarly nice domains. We begin by considering a ball of radius 1. We seek to solve
+
+\[ \begin{cases}
+    \Delta u = 0 & (x,y) \in B_1(0) = \{x^2 + y^2 < 1\} \\
+    u|_{\partial B_1(0)} = h(x,y)
+\end{cases} \]
+
+which we can restate in polar coordinates as 
+
+\[ \begin{cases}
+    \Delta u = 0 & (r, \theta) \in \{r < 1, \theta \in [-\pi, \pi)\} \\
+    u|_{r = 1} = h(\theta)
+\end{cases} \]
+
+To solve this, we use the formula from before. we first find our $A_n$ and $B_n$. 
+
+For $n = 0$, observe that as $r \to 0$,
+
+\[ A_0 + B_0\log(r) \to -\infty \]
+
+because of $\log(r)$. We want $u_n$ to be well-defined, so we require that $B_0 = 0$. 
+
+For $n \neq 0$, we again observe that as $r \to 0$,
+
+\[ (A_nr^{|n|} + B_nr^{-|n|})e^{in\theta} \to -\infty \] 
+
+because of $r^{-|n|}$. Thus, $B_n = 0$, too. So
+
+\[ u(r,\theta) = \sum_{n=-\infty}^\infty A_nr^{|n|}e^{in\theta} \]
+
+What about the $A_n$'s? Note that on the boundary, where $r = 1$,
+
+\[ h(\theta) = u(1,\theta) = \sum_{n=-\infty}^\infty A_ne^{in\theta} \]
+
+which is the full Fourier series for $h(\theta)$. Thus, the $A_n$'s correspond to the full Fourier coefficients of $h$:
+
+\[ A_n = \frac{1}{2\pi}\int_{-\pi}^\pi h(\theta)e^{-in\theta} \ d\theta \]
