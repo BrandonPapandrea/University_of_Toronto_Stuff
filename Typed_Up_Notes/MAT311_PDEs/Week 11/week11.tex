@@ -1,0 +1,143 @@
+\chapter{Week 11}
+
+\section{The Laplace Equation, Continued}
+
+\subsection{Poisson's Formula}
+
+Recall that our solution from last week for the Dirichlet problem on a ball of radius 1 was written as 
+
+\[ u(r,\theta) = \sum_{n=-\infty}^\infty A_nr^{|n|}e^{in\theta} \]
+
+with 
+
+\[ A_n = \frac{1}{2\pi}\int_{-\pi}^\pi h(\theta)e^{-in\theta} \ d\theta \]
+
+We can rewrite our solution in a different way that will lead to a much more powerful formula and a better visualizer of what is actually going on. To do this, let's plug in the formula for $A_n$ into the formula for $u$:
+
+\[ u = \sum_{n=-\infty}^\infty \left[\frac{1}{2\pi}\int_{-\infty}^\infty h(\phi)e^{-in\phi} \ d\phi\right]r^{|n|}e^{i\theta} \]
+
+Swapping the sum and integral yields
+
+\[ u = \frac{1}{2\pi}\int_{-\infty}^\infty \sum_{n=-\infty}^\infty\left[r^{|n|}e^{in(\theta - \phi)}\right]h(\phi) \ d\phi \]
+
+Notice that the $r^{|n|}$ terms give us a geometric series. This is because, as $x^2 + y^2 < 1$ in the interior, so must $r$, and thus $|re^{\pm i (\theta - \phi)}| < 1$. We get that
+
+\begin{align*}
+    \sum_{n=-\infty}^\infty r^{|n|}e^{in(\theta - \phi)} & = 1 + \sum_{n=1}^\infty r^n e^{in(\theta - \phi)} + \sum_{n=-\infty}^-1 r^{-n}e^{in(\theta - \phi)} \\
+    & = 1 + \sum_{n=1}^\infty (re^{i(\theta - phi)})^n + \sum_{n=1}^\infty (re^{-i(\theta - \phi)})^n \\
+    & = 1 + \frac{re^{i(\theta - \phi)}}{1 - re^{i(\theta - \phi)}} + \frac{re^{-i(\theta - \phi)}}{1 - re^{-i(\theta - \phi)}} \\
+    & = \frac{1 - re^{-i(\theta - \phi)} - re^{i(\theta - \phi)} + r^2 + re^{i(\theta - \phi)} - r^2 + re^{-i(\theta - \phi)} - r^2}{1 - re^{-i(\theta - \phi)} - re^{i(\theta - \phi)} + r^2} \intertext{By applying $re^{i\theta} = r\cos(\theta) + ri\sin(\theta)$, we get} \\
+    & = \frac{1 - 2r\cos(\theta - \phi) + r^2 + 2r\cos(\theta - \phi) - r^2}{1 - 2r\cos(\theta - \phi) + r^2} \\
+    & = \frac{1 - r^2}{1 - 2r\cos(\theta - \phi) + r^2} 
+\end{align*}
+
+Thus, we have that 
+
+\[ u(r,\theta) = \frac{(1 - r^2)}{2\pi}\int_{-\pi}^\pi \frac{h(\phi)}{1 - 2r\cos(\theta - \phi) + r^2} \ d\phi \]
+
+This formula can be generalized to circles of any radius $a > 0$, giving us
+
+\[ u(r,\theta) = \frac{(a - r^2)}{2\pi}\int_{-\pi}^\pi \frac{h(\phi)}{a - 2ar\cos(\theta - \phi) + r^2} \ d\phi \]
+
+In this form, we have what is known as \textbf{Poisson's Formula}. The special thing about this formula in comparison to the previous equation is that it shows how the value of a point inside the circle can be computed using exclusively the values on the boundary of the circle. To see this, we can rewrite this further using a more geometric argument. 
+
+Let $\vec{x} \in B_a(0)$ be in the interior of the ball of radius $a$, and consider the figure below:
+
+\begin{center}
+    \includegraphics[width=0.5\textwidth]{Week 11/Poisson_formula_circle.png}
+\end{center}
+
+The Law of Cosines says that
+
+\[ |\vec{x} - \vec{x'}|^2 = a^2 + r^2 - 2ar\cos(\theta - \phi) \]
+
+Furthermore, we write $r = |\vec{x}|^2$, and we are now integrating over all $|\vec{x'}|^2 = a$. The value $h(\phi)$ now becomes $u(\vec{x'})$ since it corresponds to evaluating $u$ on the boundary. Finally, our change of variables means that $d\phi = a \ ds'$. Thus, we get that
+
+\[ u(\vec{x}) = \frac{a^2 - |\vec{x}|^2}{2\pi a}\int_{|\vec{x'}|^2 = a} \frac{u(\vec{x'})}{|\vec{x} - \vec{x'}|^2} \ ds' \]
+
+\subsubsection*{The Maximum Principle}
+
+We can use Poisson's Formula to prove the Maximum Principle for the Laplace Equation. Using the geometric version of the formula, take $\vec{x} = 0$. Then we have that
+
+\begin{align*}
+    u(\vec{x}) & = u(\vec{0}) \\
+    & = \frac{a^2}{2\pi a}\int_{|\vec{x'}| = a} \frac{u(\vec{x'})}{|\vec{x'}|^2} \ ds' \\
+    & = \frac{a^2}{2\pi a}\int_{|\vec{x'}| = a} \frac{u(\vec{x'})}{a^2} \ ds' \\
+    & = \frac{1}{2\pi a}\int_{|\vec{x'}| = a} u(\vec{x'}) \ ds'
+\end{align*}
+
+The astute reader, or simply anyone whose read a complex analysis book, may notice that this is eerily familiar to the Cauchy Integral Formula! Indeed, they are the same, both indicating that the value of $u$ at $\vec{0}$ is equal to the average value of $u$ along a circle of radius $a$ around the zero vector. 
+
+The final piece of the puzzle is to notice that if $u(\vec{x})$ is harmonic, then so is $u(\vec{x} + \vec{x_0})$ for any vector $\vec{x_0}$. This amounts to just shifting the circle around until it is centered at $\vec{x} + \vec{x_0}$. This is the mathematical way of saying that a system is in equilibrium. If the values in a system can be computed using the values around it by taking their average, then clearly that system isn't moving or changing over time. 
+
+Let's now apply this to the Maximum Principle. Our proof will be a rough sketch that requires some additional details to be complete. The curious reader is encouraged to seek out these final details in an analysis class. 
+
+We let $\Omega$ be an open and bounded domain such that $\Delta u = 0$ inside $\Omega$. Suppose that there is a point $p$ in the interior of $\Omega$ for which $u$ attains its maximum. By the above discussion, $u(p)$ is the average of $u$ along a circle $C$ of radius $a$. But $p$ is the maximum, so it must be larger than the average. The only way both statements are true is if $u$ also attains its maximum at every point in $C$. This works for circles of any radius, so $u$ attains its maximum at every point in the \textit{disc} centered at $p$ with radius $a$. We can then keep drawing circles until we eventually cover $\Omega$ with a finite number of them, at which point one must intersect with the boundary of $\Omega$; any point in the intersection will be where $u$ attains its maximum, and this point is on $\partial\Omega$, as desired. 
+
+\subsection{The Dirichlet Problem in the Exterior of a Ball}
+
+Let's now consider the opposite problem from the ball: our domain is now everything \textit{except} for a ball.
+
+\[ \begin{cases}
+    \Delta u = 0 \quad x^2 + y^2 > 1 \\ u|_{x^2 + y^2 = 1} = h(\theta)
+\end{cases} \]
+
+We begin with our \textit{master formula} we derived last week:
+
+\[ u = A_0 + B_0\log(r) + \sum_{\substack{n=-\infty \\ n \neq 0}}^\infty (A_nr^{|n|} + B_nr^{-|n|})e^{in\theta} \]
+
+But we've run into a problem. In the region we're working on, $r > 1$, meaning everything is well-defined and we cannot remove any constants. Not all hope is lost, however, as there is some information we know. Applying the boundary condition yields 
+
+\[ u|_{r = 1} = h(\theta) = A_0 + \sum_{\substack{n=-\infty \\ n \neq 0}}^\infty (A_n + B_n)e^{in\theta} \]
+
+So $A_0$, $A_n + B_n$ satisfy the equations for $h$'s Fourier coefficients in the full Fourier series:
+
+\[ A_0 = \frac{1}{2\pi}\int_{-\pi}^\pi h(\theta) \ d\theta \quad A_n + B_n = \frac{1}{2\pi}\int_{-\pi}^\pi h(\theta)e^{-in\theta} \ d\theta \]
+
+However, this doesn't give us a unique solution. To rectify this, we need to add an additional boundary condition \textit{at infinity}. Let's say that $u$ remains bounded as $r \to \infty$. Then because $\log(r) \to \infty$ and $r^{|n|} \to \infty$ as $r \to \infty$, we require that $B_0 = 0$ and $A_n = 0$ for all $n \neq 0$. This now gives us a unique solution given by 
+
+\[ A_n = \frac{1}{2\pi}\int_{-\pi}^\pi h(\theta)e^{-in\theta} \ d\theta \]
+
+This idea of including boundary conditions at infinity is not a new one. In fact, it was implicitely used in our study of the heat equation. All of our solutions went to 0 as $x$ went to $\pm \infty$. 
+
+\subsection{The Dirichlet Problem in an Annulus}
+
+We now shift focus to solving the Laplace Equation in an \textbf{annulus}, which may be thought of in this context as a disc with a hole cut out of it. Given $0 < a < b < \infty$, the problem becomes
+
+\[ \begin{cases}
+    \Delta u = 0 \quad a^2 < x^2+ y^2 < b^2 \\
+    u|_{r=a} = h(\theta), \quad u|_{r=b} = g(\theta)
+\end{cases} \]
+
+Again, since $r$ is always greater than 0, we cannot remove any terms from the master solution, but applying the boundary conditions does give information that can help us get to a unique solution. We have 
+
+\[ h(\theta) = u|_{r=a} = A_0 + B_0\log(a) + \sum_{\substack{n=-\infty \\ n\neq 0}}^\infty (A_n a^{|n|} + B_na^{-|n|})e^{in\theta} \]
+\[ g(\theta) = u|_{r=b} = A_0 + B_0\log(b) + \sum_{\substack{n=-\infty \\ n\neq 0}}^\infty (A_n b^{|n|} + B_nb^{-|n|})e^{in\theta} \]
+
+From this, we get two systems of equations:
+
+\begin{align*}
+    A_0 + B_0\log(a) & = h_0 \\
+    A_0 + B_0\log(b) & = g_0
+\end{align*}
+
+\begin{align*}
+    A_na^n + B_na^{-n} & = h_n \\
+    A_nb^n + B_nb^{-n} & = g_n
+\end{align*}
+
+corresponding to the matrices
+
+\[ \begin{bmatrix}
+        1 & \log(a) \\ 1 & \log(b) 
+    \end{bmatrix}\begin{bmatrix}
+        A_0 \\ B_0
+    \end{bmatrix} \quad \text{ and } \quad \begin{bmatrix}
+        a^n & a^{-n} \\ b^n & b^{-n}
+    \end{bmatrix}\begin{bmatrix}
+        A_0 \\ B_0
+    \end{bmatrix} \]  
+
+These indeed have unique solutions since, for the first matrix, $\log(a) \neq \log(b)$, and for the second one, 
+
+\[ \frac{a^n}{b^n} \neq \frac{b^n}{a^n} \]
