@@ -141,3 +141,58 @@ corresponding to the matrices
 These indeed have unique solutions since, for the first matrix, $\log(a) \neq \log(b)$, and for the second one, 
 
 \[ \frac{a^n}{b^n} \neq \frac{b^n}{a^n} \]
+
+\section{Fourier Transform}
+
+Earlier we introduced Fourier Series, where the coefficients had discrete inputs in $\Z$. Fourier Transform is very similar, but allows for continuous input values. 
+
+We consider a function $f: \R \to \C$ such that
+
+\[ \int_{-\infty}^\infty |f(x)| \ dx < \infty \]
+
+Then we may define the \textbf{Fourier Transform} of $f$ as the map $\hat{f}: \R \to \C$ given by 
+
+\[ \hat{f}(\xi) = \int_{-\infty}^\infty e^{-ix\xi}f(x) \ dx \]
+
+This is almost identical to full Fourier series, only this time we can plug in any real number. This requires us to use an integral instead of a sum. 
+
+One of the benefits of Fourier Transform, is that, like Fourier Series, an analytic operation on the original function corresponds to an algebraic operation on its Fourier Transform, and vice versa. To see this, we first introduce a fundamental theorem:
+
+\begin{theorem}[Fourier Inversion Theorem]
+    Suppose $f: \R \to \C$ such that 
+
+    \[ \int_{-\infty}^\infty |f(x)| \ dx < \infty \quad \text{ and } \quad \int_{-\infty}^\infty |\hat{f}(\xi)| \ d\xi < \infty \]
+
+    Then we have that
+
+    \[ f(x) = \frac{1}{2\pi}\int_{-\infty}^\infty e^{ix\xi}\hat{f}(\xi) \ d\xi \]
+\end{theorem}
+
+This is analagous to the formula for Fourier Series:
+
+\[ f(\theta) = \sum_{n=-\infty}^\infty \hat{f}(n)e^{in\theta} \]
+
+Using this formula, we can see that
+
+\begin{align*}
+    \dif{}{x}f & = \frac{1}{2\pi}\int_{-\infty}^\infty \pardif{}{x}\left[e^{ix\xi}\hat{f}(\xi)\right] \ d\xi \\
+    & = \frac{1}{2\pi}\int_{-\infty}^\infty i\xi e^{ix\xi}\hat{f}(\xi) \ d\xi
+\end{align*}
+
+We can write this more explicitely by considering a map that takes functions to their Fourier Transform. Given the map
+
+\[ \mathcal{F}[f](\xi) = \int_{-\infty}^\infty e^{-ix\xi}f(\xi)\ d\xi = \hat{f}(\xi) \]
+
+we get that 
+
+\[ \mathcal{F}[\partial_xf](x) = (i\xi)\hat{f}(\xi) \]
+
+We can also go backwards. We have
+
+\begin{align*}
+    \mathcal{F}[-ixf](\xi) & = \int_{-\infty}^\infty e^{-ix\xi}(-ix)f(x) \ dx \\
+    & = \pardif{}{\xi}\int_{-\infty}^\infty e^{ix\xi}f(x) \ dx \\
+    & = \pardif{}{\xi}\hat{f}(\xi)
+\end{align*}
+
+So $\partial_\xi \hat{f}(\xi) = \mathcal{F}[-ixf](\xi)$. 
