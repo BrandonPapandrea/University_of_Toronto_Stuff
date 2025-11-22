@@ -146,6 +146,8 @@ These indeed have unique solutions since, for the first matrix, $\log(a) \neq \l
 
 Earlier we introduced Fourier Series, where the coefficients had discrete inputs in $\Z$. Fourier Transform is very similar, but allows for continuous input values. 
 
+\subsection{Definition and the Inversion Formula}
+
 We consider a function $f: \R \to \C$ such that
 
 \[ \int_{-\infty}^\infty |f(x)| \ dx < \infty \]
@@ -153,6 +155,10 @@ We consider a function $f: \R \to \C$ such that
 Then we may define the \textbf{Fourier Transform} of $f$ as the map $\hat{f}: \R \to \C$ given by 
 
 \[ \hat{f}(\xi) = \int_{-\infty}^\infty e^{-ix\xi}f(x) \ dx \]
+
+Alternatively, we can define a function that sends $f$ to its Fourier transform
+
+\[ \mathcal{F}[f](\xi) = \int_{-\infty}^\infty e^{-ix\xi} f(\xi) \ d\xi = \hat{f}(\xi) \]
 
 This is almost identical to full Fourier series, only this time we can plug in any real number. This requires us to use an integral instead of a sum. 
 
@@ -179,11 +185,7 @@ Using this formula, we can see that
     & = \frac{1}{2\pi}\int_{-\infty}^\infty i\xi e^{ix\xi}\hat{f}(\xi) \ d\xi
 \end{align*}
 
-We can write this more explicitely by considering a map that takes functions to their Fourier Transform. Given the map
-
-\[ \mathcal{F}[f](\xi) = \int_{-\infty}^\infty e^{-ix\xi}f(\xi)\ d\xi = \hat{f}(\xi) \]
-
-we get that 
+Using the $\mathcal{F}$ function, this says that
 
 \[ \mathcal{F}[\partial_xf](x) = (i\xi)\hat{f}(\xi) \]
 
@@ -196,3 +198,138 @@ We can also go backwards. We have
 \end{align*}
 
 So $\partial_\xi \hat{f}(\xi) = \mathcal{F}[-ixf](\xi)$. 
+
+\subsection{Schwartz Space}
+
+There is a special class of functions which the Fourier Transform respects, thus making this class really useful for our purposes. 
+
+We define the \textbf{Schwartz Space} $\mathcal{S}(\R)$ to be the set of all functions $f: \R \to \C$ such that $f$ is smooth, and for all positive integers $i,j$,
+
+\[ \max_{x \in \R} |x|^i|\partial_x^j f| < C(i,j) \]
+
+for some constant $C$ that may or may not depend on $i,j$. In other words, $\mathcal{S}(\R)$ is the set of all functions that, alongside all derivatives, goes to 0 faster than any polynomial. 
+
+\begin{example}
+    \begin{enumerate}[label=(\roman*)]
+        \item If $f$ is smooth and compactly supported, then $f \in \mathcal{S}(\R)$
+        \item $f(x) = e^{-x^2} \in \mathcal{S}(\R)$.
+    \end{enumerate}
+\end{example}
+
+A non-example is the function $f(x) = x$. 
+
+The reason that $\mathcal{S}(\R)$ is good for our purposes is found in the following theorem:
+
+\begin{theorem}
+    If $f \in \mathcal{S}(\R)$, then so is $\hat{f}$. 
+\end{theorem}
+
+This also tells us that if $f \in \mathcal{S}(\R)$, then 
+
+\[ \int_{-\infty}^\infty |f| \ dx < \infty \]
+
+Finally, we have that if $\mathcal{F}[f] = f = \hat{f}$, we get 4 equations:
+
+\[ \mathcal{F}[\partial_x f](\xi) = i\xi \hat{f}(\xi) \]
+\[ \mathcal{F}[\partial_\xi \hat{f}](x) = -ixf(x) \] 
+\[ \mathcal{F}[ix f](\xi) = -\partial_\xi \hat{f}(\xi) \]
+\[ \mathcal{F}[i\xi \hat{f}](x) = -\partial_x f(x) \]  
+
+\subsection{Solving PDEs}
+
+Solving certain PDEs using Fourier Transform can be quite simple in the event that certain functions are in Schwartz Space. We demonstrate some examples of this here. 
+
+\subsubsection{The Heat Equation}
+
+Suppose we wish to solve the heat equation on an infinite rod.
+
+\[ \begin{cases}
+    \partial_t u - \partial_x^2 u = 0 \quad x \in (-\infty, \infty) \\
+    u(x,0) = \phi(x)
+\end{cases} \]
+
+and suppose that $\phi(x) \in \mathcal{S}(\R)$. Let $\hat{u}$ be the Fourier Transform of $u$. As the PDE is equal to 0, so too must the Fourier Transform of the PDE. We will take the Transform with respect to $x$.
+
+\[ \mathcal{F}_x[\partial_t u - \partial_x^2 u] = 0 \implies \mathcal{F}_x[\partial_t u] - \mathcal{F}_x[\partial_x^2 u] = 0 \]
+
+Computing, we have that 
+
+\begin{align*}
+    \mathcal{F}_x[\partial_t u] & = \int_{-\infty}^\infty e^{-ix\xi}\pardif{}{t}u(x,t) \ dx \\
+    & = \pardif{}{t}\int_{-\infty}^\infty e^{-ix\xi}u(x,t) \ dx \\
+    & = \pardif{\hat{u}}{t}(\xi,t)  \intertext{By the properties of Fourier Transform described above, we get that}\\
+    \mathcal{F}_x[\partial_x^2 u] & = (i\xi)\mathcal{F}_x[\partial_x u] \\
+    & = (i\xi)^2 \hat{u} \\
+    & = -\xi^2 \hat{u}
+\end{align*}
+
+Thus,
+
+\[ \pardif{\hat{u}}{t}(\xi,t) + \xi^2 \hat{u}(\xi,t) = 0 \]
+
+This is an ODE which has a solution given by 
+
+\[ \hat{u}(\xi,t) = A(\xi)e^{-t\xi^2} \] 
+
+One can think of this as the solution $A_ne^{-tn^2}$ from Fourier Series. To solve for $A(\xi)$, we see that 
+
+\[ A(\xi) = \hat{u}(\xi,0) = \hat{\phi}(\xi) \]
+
+so we get that $u(\xi,t) = \hat{\phi}(\xi)e^{-t\xi^2}$. As $\hat{\phi} \in \mathcal{S}(\R)$, and $e^{-t\xi^2}$ is exponential, we get that $u(\xi,t) \in \mathcal{S}(\R)$, meaning the we can use Fourier Inversion to conclude that 
+
+\begin{align*}
+    u(x,t) & = \frac{1}{2\pi}\int_{-\infty}^\infty e^{ix\xi}\hat{u}(\xi,t) \ d\xi \\
+    & = \frac{1}{2\pi}\int_{-\infty}^\infty e^{ix\xi - t\xi^2}\hat{\phi}(\xi) \ d\xi
+\end{align*}
+
+If you expand and simplify this equation, you will see that this is identical to the derivation we did many weeks ago. 
+
+\subsubsection{The Wave Equation}
+
+Sometimes this method can produce strange results. Consider solving the wave equation 
+
+\[ \begin{cases}
+    \partial_t^2 u - \partial_x^2 u = 0 \\
+    u(x,0) = \phi(x), \quad \partial_t u (x,0) = \psi(x)
+\end{cases} \]
+
+with $\phi, \psi \in \mathcal{S}(\R)$. Using the same process, we get that 
+
+\begin{align*}
+    & \mathcal{F}_x[\partial_t^2 u - \partial_x^2 u] = 0 \\
+    \implies & \frac{\partial^2}{\partial t^2}\hat{u}(\xi,t) - (i\xi)^2 \hat{u}(\xi,t) = 0 \\
+    \implies & \partial_t^2 \hat{u} + \xi^2 \hat{u} = 0 \\
+    \implies & \hat{u}(\xi,t) = A(\xi)\cos(\xi t) + B(\xi)\sin(\xi t)
+\end{align*}
+
+With $A(\xi) = \hat{u}(\xi,0) = \hat{\phi}(\xi)$. Moreover, 
+
+\begin{align*}
+    \hat{\psi}(\xi) & = \mathcal{F}_x[\partial_t u]\bigg|_{t = 0} \\
+    & = \pardif{}{t}[A(\xi)\cos(\xi t) + B(\xi)\sin(\xi t)]\bigg|_{t = 0} \\
+    & = \xi(B(\xi))
+\end{align*}
+
+meaning $B(\xi) = \dfrac{\hat{\psi}(\xi)}{\xi}$. This presents us with a problem when $\xi = 0$. What this means is that, since we already derived the solutions to this equation previously, this method isn't necessary. 
+
+\subsubsection{Another Example}
+
+Consider the problem 
+
+\[ \begin{cases}
+    \partial_t u + \partial_x^4 u = 0 \\ u(x,0) = \phi(x)
+\end{cases} \] 
+
+where $\phi$ is smooth and compactly supported, so it's in $\mathcal{S}(\R)$. We have that 
+
+\begin{align*}
+    & \mathcal{F}_x[\partial_t u + \partial_x^4 u] = 0 \\
+    \implies & \mathcal{F}_x[\partial_t u] + \mathcal{F}_x[\partial_x^4] = 0 \\
+    \implies & \pardif{\hat{u}}{t}(\xi,t) + (i\xi)^4\hat{u}(\xi,t) = 0 \\
+    \implies & \partial_t \hat{u}(\xi,t) + \xi^4 \hat{u}(\xi,t) = 0 \\
+    \implies & \hat{u}(\xi,t) = A(\xi)e^{-t\xi^4}
+\end{align*}
+
+where $A(\xi) = \hat{\phi}(\xi)$. As $\hat{u} \in \mathcal{S}(\R)$, by Fourier Inversion, we get 
+
+\[ u(x,t) = \frac{1}{2\pi}\int_{-\infty}^\infty e^{ix\xi - t\xi^4}\hat{\phi}(\xi) \ d\xi \] 
