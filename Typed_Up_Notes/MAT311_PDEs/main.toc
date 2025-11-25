@@ -77,3 +77,5 @@
 \contentsline {subsubsection}{The Heat Equation}{89}{subsection.11.2.3}%
 \contentsline {subsubsection}{The Wave Equation}{90}{subsection.11.2.3}%
 \contentsline {subsubsection}{Another Example}{91}{subsection.11.2.3}%
+\contentsline {chapter}{\numberline {12}Week 12}{92}{chapter.12}%
+\contentsline {section}{\numberline {12.1}Equivalence of Heat Equation Solutions}{92}{section.12.1}%

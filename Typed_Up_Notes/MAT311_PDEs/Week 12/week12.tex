@@ -1,0 +1,159 @@
+\chapter{Week 12}
+
+\section{Equivalence of Heat Equation Solutions}
+
+To wrap up our discussion on the Fourier Transform, and to conclude our larger discussion on PDEs as a whole, we will show that the solutions to the heat equation derived using the heat kernel, and the solutions derived using Fourier Transform, are equivalent. In particular, recall that the problem
+
+\[\begin{cases}
+    u_t - ku_{xx} = 0 \quad x \in (-\infty,\infty) \\
+    u(x,0) = \phi(x)
+\end{cases}\]
+
+has a solution given by 
+
+\[u(x,t) = \frac{1}{\sqrt{4\pi t}}\int_{-\infty}^\infty e^{\frac{-(x-y)^2}{4t}}\phi(y) \ dy \]
+
+We also know that, using Fourier Transform,
+
+\[u(x,t) = \frac{1}{2\pi}\int_{-\infty}^\infty e^{ix\xi - t\xi^2}\hat{\phi}(\xi) \ d\xi\]
+
+where $\hat{\phi}(xi) = \mathcal{F}[\phi](\xi) = \int_{-\infty}^\infty e^{ix\xi} f(x) \ dx$. 
+
+Before we can show they are equivalent, we first need to understand how Fourier Transform interacts with certain operation. 
+
+\subsection*{Dilation}
+
+Given an $a > 0$, we define the \textbf{dilation} function $D_a: \R \to \R$ as the map $x \mapsto ax$. For any function $f: \R \to \C$, the dilated version of $f$ is the map $f \circ D_a$. In other words, the point $f(x)$ is sent to $f(ax)$. 
+
+The Fourier Transform of a dilated function has a nice relationship to the Fourier Transform of the orignal function. We have 
+
+\begin{align*}
+    \mathcal{F}[f(ax)](\xi) & = \int_{-\infty}^\infty e^{-ix\xi}f(ax) \ dx \intertext{Setting $y = ax, dy = a \ dx$, we get} \\
+    & = \int_{-\infty}^\infty e^{-i\frac{y}{a}\xi}f(y) \frac{dy}{a} \\
+    & = \frac{1}{a}\int_{-\infty}^\infty e^{-iy\left(\frac{\xi}{a}\right)}f(y) \ dy \\
+    & = \frac{1}{a}\mathcal{F}[f](\xi/a)
+\end{align*}
+
+Thus, dilating $f$ results in a sort of ``reverse dilation'' of $\hat{f}$. 
+
+\subsection*{Convolution}
+
+Recall that for functions $f(x),g(x)$, their convolution is given by
+
+\[(f*g)(x) = \int_{-\infty}^\infty f(x-y)g(y) \ dy\]
+
+This operator is both commutative and associative. What's nice about convolution is that, under Fourier Transform, it turns into a pointwise product:
+
+\begin{theorem}
+    If $f,g \in \mathcal{S}(\R)$, 
+
+    \[\mathcal{F}[f * g](\xi) = \mathcal{F}[f](\xi) \cdot \mathcal{F}[g](\xi)\]
+\end{theorem}
+
+\begin{proof}
+    We have 
+
+    \begin{align*}
+        \int_{-\infty}^\infty e^{-ix\xi}(f*g)(x) \ dx & = \int_{-\infty}^\infty e^{-ix\xi}\left[\int_{-\infty}^\infty f(x-y)g(y) \ dy\right] \ dx \intertext{Switching the order of integration,} \\
+        & = \int_{-\infty}^\infty \left[\int_{-\infty}^\infty e^{-ix\xi}f(x-y) \ dx\right] g(y) \ dy \intertext{Setting $z = x-y, dx = dx$, we get} \\
+        & = \int_{-\infty}^\infty \left[\int_{-\infty}^\infty e^{-i(z+y)\xi}f(z) \ dz\right] g(y) \ dy \\
+        & = \int_{-\infty}^\infty \left[\int_{-\infty}^\infty e^{-iz\xi}f(z) \ dz\right]e^{-iy\xi}g(y) \ dy \\
+        & = \int_{-\infty}^\infty \hat{f}(\xi) e^{-iy\xi}g(y) \ dy \\
+        & = \hat{f}(\xi) \int_{-\infty}^\infty e^{-iy\xi}g(y) \ dy \\
+        & = \hat{f}(\xi) \cdot \hat{g}(\xi)
+    \end{align*}
+\end{proof}
+
+\subsection*{Fourier Transform of the Gaussian}
+
+The last thing we do before showing equivalence is compute the Fourier Transform of the Gaussian function $e^{-x^2}$. Becuase of the non-elementary nature of the integral of the Gaussian over $\R$, solving this will require some trickery: First we write $H(\xi) = \mathcal{F}[e^{-x^2}](\xi)$. Then it follows that 
+
+\[H(\xi) = \int_{-\infty}^\infty e^{-ix\xi}e^{-x^2} \ dx\]
+
+Taking the derivative of $H$, we get the following:
+
+\begin{align*}
+    H'(\xi) & = \dif{}{\xi}\int_{-\infty}^\infty e^{-ix\xi}e^{-x^2} \ dx \\
+    & = \int_{-\infty}^\infty \left[\pardif{}{\xi}e^{-ix\xi}\right]e^{-x^2} \ dx \\
+    & = \int_{-\infty}^\infty (-ix)e^{-ix\xi}e^{-x^2} \ dx \intertext{As $\dif{}{x}(e^{-x^2}) = -2xe^{-x^2}$, we can rewrite this as} \\
+    & = \frac{i}{2}\int_{-\infty}^\infty e^{-ix\xi}\left(\dif{}{x}e^{-x^2}\right) \ dx \\
+    & \overset{\text{IBP}}{=} \frac{i}{2}e^{-ix\xi}e^{-x^2}\bigg|_{-\infty}^\infty - \frac{i}{2}\int_{-\infty}^\infty \left(\pardif{}{x} e^{-ix\xi}\right)e^{-x^2} \ dx \\
+    & = -\frac{i}{2}\int_{-\infty}^\infty \left(\pardif{}{x} e^{-ix\xi}\right)e^{-x^2} \ dx \\
+    & = -\frac{i}{2}\int_{-\infty}^\infty (-i\xi)e^{-ix\xi}e^{-x^2} \ dx \\
+    & = -\frac{\xi}{2}\int_{-\infty}^\infty e^{-ix\xi}e^{-x^2} \ dx \\
+    & = -\frac{\xi}{2}H(\xi)
+\end{align*}
+
+Thus, we get an ODE 
+
+\[\dif{H}{\xi} + \frac{\xi}{2}H = 0\]
+
+which we know has a solution given by 
+
+\[H(\xi) = A\exp\left(-\frac{\xi^2}{4}\right)\]
+
+for a constant $A$. What is $A$?
+
+\[A = H(0) = \int_{-\infty}^\infty e^{-x^2} \ dx = \sqrt{\pi}\]
+
+so we conclude that $H(\xi) = \sqrt{\pi}\exp\left(-\frac{\xi^2}{4}\right)$.
+
+\subsection*{Showing Equivalence}
+
+We are now ready to show that the two types of solutions are in fact equivalent. We start with 
+
+\[u(x,t) = \frac{1}{2\pi}\int_{-\infty}^\infty e^{ix\xi - t\xi^2}\hat{\phi}(\xi) \ d\xi\]
+
+and we let $\hat{u}(x,t) = \mathcal{F}_x[u](\xi,t)$ be the Fourier Transform of $u$ in $x$. By Fourier Inversion, we get that 
+
+\[\hat{u}(\xi,t) = e^{-t\xi^2}\hat{\phi}(\xi)\]
+
+Now, we know from before that for a convolution $f * g$, 
+
+\[\mathcal{F}[f*g](\xi) = \hat{f}(\xi) \cdot \hat{g}(\xi)\]
+
+Thus,
+
+\[(f*g)(x) = \mathcal{F}^{-1}[\hat{f}(\xi)\cdot\hat{g}(\xi)]\]
+
+We can wrtie this in a more suggestive way by setting $h(\xi) = \hat{f}(\xi), k(\xi) = \hat{g}(\xi)$. Then it follows that 
+
+\[(\mathcal{F}^{-1}(h)*\mathcal{F}^{-1}(k)) = \mathcal{F}^{-1}(h(\xi) \cdot k(\xi))\]
+
+Using this on $u$, we get that 
+
+\[u(x,t) = (\mathcal{F}^{-1}(e^{-t\xi^2}) * \mathcal{F}^{-1}(\hat{\phi}(\xi)))(x) = (\mathcal{F}^{-1}(e^{-t\xi^2})*\phi)(x)\]
+
+So we just need to determine what $\mathcal{F}^{-1}(e^{-t\xi^2})$ is. Recall that 
+
+\[\mathcal{F}[e^{-x^2}] = \sqrt{\pi}e^{-\frac{\xi^2}{4}}\]
+
+As $-\dfrac{\xi^2}{4} = -\left(\dfrac{\xi}{2}\right)^2$, we need to turn $\dfrac{\xi}{2}$ into $\sqrt{t}\xi$. Doing this requires a multiplication by $2\sqrt{t}$, or a division by $\dfrac{1}{2\sqrt{t}}$. It follows by our discussion on dilations that 
+
+\[\mathcal{F}\left[e^{-\left(\frac{1}{2\sqrt{t}}x\right)^2}\right] = 2\sqrt{t}\sqrt{\pi}e^{-t\xi^2} = \sqrt{4\pi t}e^{-t\xi^2}\]
+
+Thus, 
+
+\[\mathcal{F}^{-1}(e^{-t\xi^2}) = \frac{1}{\sqrt{4\pi t}}e^{\frac{-x^2}{4t}}\]
+
+and we get that 
+
+\[u(x,t) = \frac{1}{\sqrt{4\pi t}}\int_{-\infty}^\infty e^{\frac{-(x-y)^2}{4t}}\phi(y) \ dy\]
+
+which is precisely what we got when we used the heat kernel!
+
+\chapter*{Beyond PDEs}
+
+Our disucssion of PDEs has been, in the broader context of the subject, somewhat restricted to a small class of really nice PDEs and certain PDE techniques. There are plenty of more interesting things to discover in this field. Reading deeper into the course textbook (which was mentioned in the opening remarks of these notes) is a good start, as it not only contains a lot of other PDE related topics, but also goes into the theory as to why certain techniques, which we took for granted, work. 
+
+For those who wish to see some related concepts outside of PDEs, I would recommend looking into the field of \textit{numerical analysis}, which study algorithms that can approximate things like solutions to polynomials, ODEs \& PDEs, etc. Some relevant courses for the interested reader at UofT include 
+
+\begin{itemize}
+    \item MAT264H5: Introduction to Numerical Analysis 
+    \item CSC336H1: Numerical Methods
+    \item CSC436H1: Numerical Algorithms
+    \item CSC456H1: High-Performance Scientific Computing
+    \item CSC466H1: Numerical Methods for Optimization Problems
+\end{itemize}
+
+while a lot of these courses are tailored towards computer science students and do require some knowledge of computers and coding, they're still quite interesting and might be the place to go if you want to see how PDEs are used in applications. 
