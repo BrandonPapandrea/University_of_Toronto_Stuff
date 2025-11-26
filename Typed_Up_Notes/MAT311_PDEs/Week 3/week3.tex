@@ -2,9 +2,9 @@
 
 \section{The Wave Equation}
 
-We will now begin a relatively deep discussion on one of the standard types of second order PDE: the hyperbolic case. By the theorem from last week, we know such a PDE can always be reduced to one that looks like the wave equation, so this is what we will focus on.
+We will now introduce and study the wave equation, a hyperbolic second order PDE. By the theorem from last week, we know hyperbolic PDEs can always be reduced to one that looks like the wave equation, so we study it in great detail.
 
-\subsection{A General Solution}
+\subsection{The General Solution}
 
 The wave equation is as follows:
 
@@ -13,13 +13,13 @@ The wave equation is as follows:
 
 as $x \in (-\infty, \infty)$, we can think of the physical problem of oscillating an infinitely long string of wire. 
 
-Such an equation will correspond to a polynomial
+Such an equation will correspond to a difference of squares,
 
 \[ t^2 = c^2x^2 = (t-cx)(t+cx) \]
 
-as it can be factored as a difference of squares, we can do the same with the equation itself:
+we can factor the partials in a similar way, yielding
 
-\[ \iff \left(\pardif{}{t} - c\pardif{}{x}\right)\left(\pardif{}{t} + c\pardif{}{x}\right)u = 0 \]
+\[ \left(\pardif{}{t} - c\pardif{}{x}\right)\left(\pardif{}{t} + c\pardif{}{x}\right)u = 0 \]
 
 From here there are a few methods that can solve it. For one, we can take $w = \left(\pardif{}{t} + c\pardif{}{x}\right)u$ and solve the equation
 
@@ -55,7 +55,13 @@ Recalling our solution to $u_{xy} = 0$ from week 1, we get that
 
 where $f,g$ are arbitrary $C^2$ functions. 
 
-What does this look like? Recalling the simple transport equation, we see that as $t$ increases, $f$ will move to the left at speed $c$, while $g$ will move to the right at speed $-c$. This makes the $f$ and $g$ functions look like waves as time progresses. Here, we say that $c$ is the \textbf{speed of propagation}. If you recall from physics, we denote the speed of light by $c$; the fact that we use $c$ for both of these is not a coincidence. 
+What does this look like? Recalling the simple transport equation, we see that as $t$ increases, $f$ will move to the left at speed $c$, while $g$ will move to the right at speed $-c$. This makes the $f$ and $g$ functions look like waves as time progresses. In the figure below, we set $f(x) = e^{-x^2}, g(x) = e^{-x^4}, c = 2.1$, and show the graphs of $f(x+ct) + g(x-ct)$ at $t = 0,0.5,1$, and 2:
+
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{Week 3/Wave of Functions.png}
+\end{center}
+
+We say that the constant $c$ is the \textbf{speed of propagation}. If you recall from physics, we denote the speed of light by $c$; the fact that we use $c$ for both of these is not a coincidence. 
 
 \begin{remark}
     This is a very special case, and not all PDEs of second order are going to have nice, easy to derive general solutions. 
@@ -70,14 +76,14 @@ In order for the problem to be well-posed, we require initial values to be added
 \[ u(x,t): \R \times [0,\infty) \to \R \text{ or } \C \]
 \[ u_{tt} - c^2u_{xx} = 0, \ u(x,0) = \varphi(x), \ u_x(x,0) = \psi(x) \]
 
-Recall that our general solution is $u(x,t) = f(x+ct) + g(x-ct)$, but now we have the added initial conditions, which correspond to two equations:
+Recall that our general solution is $u(x,t) = f(x+ct) + g(x-ct)$, but now we have initial conditions corresponding to two equations:
 
 \begin{align}
     \varphi(s) & = f(s) + g(s) \\
     \psi(s) & = cf'(s) - cg'(x)
 \end{align}
 
-To find the specific solution, we must solve for $f,g$. To do this, we first derive $\varphi$ to get
+To find the specific solution, we must solve for $f,g$. To do this, we first differentiate (3.1) to get
 
 \begin{equation}
     \varphi'(s) = f'(s) + g'(s)
@@ -95,7 +101,7 @@ Dividing by $2c$ and integrating gives us
     g(s) & = \frac{1}{2}\varphi(s) - \frac{1}{2c}\int_0^s \psi(\tau) \ d\tau + B
 \end{align*}
 
-Notice that the constants make $f,g$ not unique. This is ok, as long as $u$ is unique. To check this, we can plug $f,g$ into (3.1), which says
+Notice that the constants make $f,g$ not unique. This is ok, since we are only looking for uniqueness of $u$, not $f$ or $g$. To check that $u$ is unique, we can plug $f,g$ into (3.1), which says
 
 \[ \varphi(s) = \varphi(s) + A + B \iff A + B = 0 \]
 
@@ -103,11 +109,11 @@ Thus, our final solution is given by
 
 \begin{align*}
     u(x,t) & = f(x+ct) + g(x-ct) \\
-    & = \frac{1}{2}\left[\varphi(x+ct) + \varphi(x-ct)\right] + \frac{1}{2c}\int_0^{x+ct} \psi(\tau) \ d\tau - \frac{1}{2c}\int_0^{x-ct} \psi(\tau) \ d\tau \intertext{as $t > 0$, $x - ct < x  +ct$, so} \\
+    & = \frac{1}{2}\left[\varphi(x+ct) + \varphi(x-ct)\right] + \frac{1}{2c}\int_0^{x+ct} \psi(\tau) \ d\tau - \frac{1}{2c}\int_0^{x-ct} \psi(\tau) \ d\tau + A + B \intertext{as $t > 0$, $x - ct < x  +ct$. This, and that $A + B = 0$, we get} \\
     & = \frac{1}{2}\left[\varphi(x+ct) + \varphi(x-ct)\right] + \frac{1}{2c}\int_{x-ct}^{x+ct} \psi(\tau) \ d\tau
 \end{align*}
 
-This is indeed the unique solution for this problem that is continuous, as required.
+This is indeed the unique continuous solution for this problem.
 
 \begin{example}
     Solve $u_{tt} - c^2u_{xx} = 0$ such that $u(x,t): \R \times [0,\infty) \to \R$ and
@@ -120,6 +126,8 @@ This is indeed the unique solution for this problem that is continuous, as requi
         u(x,t) & = \frac{1}{2c}\int_{x-ct}^{x+ct} \cos(\tau) \ d\tau \\
         & = \frac{1}{2c}[\sin(x-ct) - \sin(x+ct)]
     \end{align*}
+
+    Graphically, this literally looks like a sine wave oscillating up and down as $t$ increases.
 \end{example}
 
 \begin{example}[The Plucked String Problem]
@@ -144,6 +152,10 @@ This is indeed the unique solution for this problem that is continuous, as requi
     \[ u(x,t) = \frac{1}{2}[\varphi(x+ct) + \varphi(x-ct)] \]
 
     Now, the graph becomes two waves, moving in opposite directions, with half the amplitude (height) from before.
+
+    \begin{center}
+        \includegraphics[width=0.7\textwidth]{Week 3/Plucked String Solution.png}
+    \end{center}
 \end{example}
 
 \subsection{The Path Light Cone}
@@ -158,7 +170,7 @@ We call this the \textbf{path light cone} or \textbf{domain of independence}; on
 
 From a physical perspective, if we were to consider this as light traveling as a wave through spacetime, this says that the speed of light is finite, as light can only affect future spacetime in a finite region. 
 
-As a consequence of this, for an interval $I$ on which $\varphi, \psi$ vanish, if $u(x,t)$ is such that its past light curve is inside $I$, then $u(x,t)$ = 0. Thus, if $\varphi, \psi$ are compactly supported, meaning they are nonzero in a bounded interval $[-A,A]$, then $u(x,t)$i s compactly supported at each time $t$. 
+As a consequence of this, for an interval $I$ on which $\varphi, \psi$ vanish, if $u(x_0,t_0)$ is such that the corresponding path ight curve intersects $I$, then $u(x_0,t_0)$ = 0. Thus, if $\varphi, \psi$ are compactly supported, meaning they are nonzero in a bounded interval $[-A,A]$, then $u(x,t)$ is compactly supported at each time $t$. 
 
 \subsection{Energy}
 
@@ -166,7 +178,7 @@ Let $u(x,t): \R \times [0,\infty) \to \R$ solve the wave equation, and suppose t
 
 \[ E(t) = \frac{1}{2}\int_{-\infty}^\infty [(u_t(x,t))^2 + c^2(u_x(x,t))^2] \ dx \]
 
-$E(t)$ is a well-defined function, since $u_x,u_t$ are compactly supported. We call this function \textbf{energy}.
+$E(t)$ is a well-defined function, since $u_x,u_t$ are compactly supported. We call this function the \textbf{energy} function of $u$.
 
 With this, we can prove a fundamental law of the physical world by simple algebra: the conservation of energy:
 
@@ -188,7 +200,7 @@ With this, we can prove a fundamental law of the physical world by simple algebr
 
 \section{The Heat Equation}
 
-We now move to studying the heat equation. Recall that it is given by
+We will return to the wave equation later on. For now, we move to studying the heat equation. Recall that it is given by
 
 \[ u(x,t): [0, \ell] \times [0, \infty) \to \R \]
 \[ u_t - ku_{xx} = 0 \]
@@ -198,7 +210,9 @@ where $k > 0$ is constant. Solving this equation is much more complicated than t
 \subsection{The Maximum Principle}
 
 \begin{theorem}[The Maximum Principle]
-    Suppose $u(x,t)$ solves the heat equation for $x \in [0,\ell]$ and $t \in [0,T]$. Then $u(x,t)$ attains a maximum, and it is attained on one of the line $\{x = 0\}, \{x = \ell\}$, or $\{t = 0\}$. 
+    Suppose $u(x,t)$ solves the heat equation for $x \in [0,\ell]$ and $t \in [0,T]$. Then $u(x,t)$ attains a maximum, and it is attained on one of the lines 
+    
+    \[ \{x = 0\} \quad \{x = \ell\} \quad \{t = 0\} \]
 \end{theorem}
 
 This follows from the Extreme Value Theorem, which holds because $u$ is a continuous function on a closed and bounded set. 
@@ -209,22 +223,20 @@ Intuitively, this just says that heat will flow from areas of high temperature t
 
 We can consider an initial value problem for the heat equation, given by
 
-\begin{align*}
-    u_t - ku_{xx} & = f(x,t) \\
-    u(x,0) & = \varphi(x) \\
-    u(0,t) & = g(t) \\
-    u(\ell,t) & = h(t)
-\end{align*}
+\[\begin{cases}
+    u_t - ku_{xx} = f(x,t) \\
+    u(x,0) = \varphi(x) \\
+    u(0,t) = g(t) \\
+    u(\ell,t) = h(t)
+\end{cases}\]
 
 where $f,\varphi, g, h$ are given functions. Note that $\varphi$ represents the initial heat distribution along the bar. 
 
-The Maximum Principle can help us show that this IVP attains at most one solution. 
-
 \begin{theorem}
-    There can only be at most one solution to the above IVP.
+    There is at most one solution to the above IVP.
 \end{theorem}
 
-We present two proofs:
+We present two proofs, one using the Maximum Principle, and another using energy:
 
 \begin{proof}[Proof 1]
     Let $u_1(x,t), u_2(x,t)$ be solutions to the IVP. By linearity, we can set 
@@ -248,14 +260,12 @@ We present two proofs:
     \[ w(x,t) = u_1(x,t) - u_2(x,t) = 0 \implies u_1(x,t) = u_2(x,t) \]
 \end{proof}
 
-The next proof uses what is called the \textbf{energy method}:
-
 \begin{proof}[Proof 2]
     We define the energy of this system as 
 
     \[ E(t) = \frac{1}{2}\int_0^\ell (u(x,t))^2 \ dx \]
 
-    where the $\dfrac{1}{2}$ is for a nicer calculation. Intuitively, heat dissipates over time, and so $\dfrac{dE}{dt}$ should be less than or equal to 0. If so, then we get 
+    where the $1/2$ is added for a nicer calculation. Intuitively, heat dissipates over time, and so $\dfrac{dE}{dt}$ should be less than or equal to 0. If so, then $E$ is decreasing in $t$, meaning that
 
     \[ \frac{1}{2}\int_0^\ell (w(x,t))^2 \ dx \leq \frac{1}{2}\int_0^\ell (w(x,0))^2 \ dx = 0 \]
 
@@ -268,8 +278,8 @@ The next proof uses what is called the \textbf{energy method}:
                    & = \frac{1}{2}\int_0^\ell \pardif{}{t}(u(x,t))^2 \ dx \\
                    & = \int_0^\ell uu_t \ dx \\
                    & = k\int_0^\ell uu_{xx} \ dx \tag{$u_t = ku_{xx}$} \\
-                   & = -k\int_0^\ell (u_x)^2 \ dx + kuu_x\big|_0^\ell \\
-                   & = -k\int_0^\ell (u_x)^2 \ dx + 0 \\
+                   & \overset{\text{IBP}}{=} -k\int_0^\ell (u_x)^2 \ dx + kuu_x\big|_0^\ell \\
+                   & = -k\int_0^\ell (u_x)^2 \ dx \\
                    & \leq 0
     \end{align*}
 

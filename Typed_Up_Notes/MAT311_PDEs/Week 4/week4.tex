@@ -4,11 +4,13 @@
 
 \subsection{The Heat Equation on an Infinite Rod}
 
-We will try and prove some formulas related to the heat equation, in the special case that we are dealing with a rod of infinite length. By doing this we are considering the case where $x \in \R$. We will also not consider 0 in the domain of $t$; the reason why will be obvious.
+We will prove some formulas related to the heat equation in the special case that our rod has infinite length. We thus consider the case where $x \in \R$. We will also not consider 0 in the domain of $t$; the reason why will be obvious.
 
 \begin{remark}
-    The derivation we present here will seem somewhat random, as the tool used for deriving it, called the Fourier Transform, is not a core part of this course. The textbook presents another similar derivation that may yield better insights for some as to how we derive the following.
+    The derivation we present here will seem somewhat random, as the tool used for understanding it, called the Fourier Transform, will not be disucssed until Weeks 11 \& 12. The textbook presents another similar derivation that may yield better insights for some as to how we derive the following.
 \end{remark}
+
+\subsubsection{The Heat Kernel}
 
 We first define a function $S(x,t): \R \times (0,\infty) \to \R$ by
 
@@ -35,22 +37,22 @@ Note that $S(x,t) > 0$ for all $x,t$ in the domain.
     Thus,
 
     \begin{align*}
-        \partial_tS - k\partial_{xx}S & = S\left(\frac{-1}{2t} + \frac{x^2}{4kt^2} + \frac{1}{2t} - \frac{x^2}{4kt^2}\right) \\
+        \partial_tS(x,t) - k\partial_{xx}S(x,t) & = S(x,t)\left(\frac{-1}{2t} + \frac{x^2}{4kt^2} + \frac{1}{2t} - \frac{x^2}{4kt^2}\right) \\
         & = 0
     \end{align*}
 
     as desired.
 \end{proof}
 
-Before we proceed, recall the Gaussian Integral:
+Before we proceed, recall that the integral of the Gaussian function $e^{-x^2}$ is given by
 
 \[ \int_{-\infty}^\infty e^{-x^2} \ dx = \sqrt{\pi} \]
 
-For each $t > 0$, we may consider 
+Now for each $t > 0$, we may consider 
 
 \[ \int_{-\infty}^\infty S(x,t) \ dx \]
 
-Informally, note that for fixed $t$, $S$ will go to 0 exponentially fast as $x \to \pm\infty$. Thus, this integral is well-defined. We write it as
+Informally, for a fixed $t$, $S$ will go to 0 exponentially fast as $x \to \pm\infty$. Thus, this integral is well-defined. We write it as
 
 \[ \frac{1}{\sqrt{4\pi kt}}\int_{-\infty}^\infty e^{-\left(\frac{x}{2\sqrt{kt}}\right)^2} \ dx \]
 
@@ -62,7 +64,7 @@ Under this change, we get
 
 \[ \frac{1}{\sqrt{\pi}}\int_{-\infty}^\infty e^{-y} \ dy = \frac{1}{\sqrt{\pi}}\sqrt{\pi} = 1 \]
 
-We sometimes call this function $S$ the \textbf{heat kernel}. Let's try and understand what happens to the heat kernel as $t \to 0$. We first make some observations:
+We sometimes call $S$ the \textbf{heat kernel}. Let's try and understand what happens to the heat kernel as $t \to 0$. We first make some observations:
 
 \begin{enumerate}
     \item When $x = 0$, 
@@ -76,13 +78,10 @@ We sometimes call this function $S$ the \textbf{heat kernel}. Let's try and unde
     as $t \to 0$, the exponential is moving to 0 faster than the $\sqrt{4\pi kt}$ can blow $S$ up to infinity, and so we are going to 0. 
 \end{enumerate}
 
-These observations help us understand what is going on: we start with a Gaussian-like curve with integral value 1. as $t$ gets smaller, this curve gets thinner and thinner, and $S$ is non-zero in a very small area around 0, while at 0 the value gets larger to preserve the area. Finally, at $t = 0$, we have a function that is 0 everywhere except at $x = 0$, where it has a value of infinity. This is shown below, where we show the graphs of $S$ for $t = 1, \dfrac{1}{2}, \dfrac{1}{10}$, and $t = \dfrac{1}{1000}$.
+These observations help us understand what is going on: we start with a Gaussian-like curve with integral value 1. As $t$ gets smaller and smaller, this curve gets thinner and thinner; $S$ is positive in a very small area around $x = 0$, while at $x = 0$, $S$ gets larger to preserve the value of the integral. Finally, at $t = 0$, we have a function that is 0 everywhere except at $x = 0$, where it has a value of infinity. This is shown below, where we show the graphs of $S$ for $t = 1, 0.5, 0.1$, and $t = 0.001$.
 
 \begin{center}
-    \includegraphics[width=0.7\textwidth]{Week 4/S at 1.png}
-    \includegraphics[width=0.7\textwidth]{Week 4/S at half.png}
-    \includegraphics[width=0.7\textwidth]{Week 4/S at tenth.png}
-    \includegraphics[width=0.7\textwidth]{Week 4/S at thousandth.png}
+    \includegraphics[width=0.7\textwidth]{Week 4/Heat Kernel as t goes to 0.png}
 \end{center}
 
 Informally, when $t = 0$:
@@ -91,9 +90,11 @@ Informally, when $t = 0$:
     \infty & x = 0 \\ 0 & x \neq 0
 \end{cases} \]
 
-We call $S$ an \textbf{approximation to the identity}. 
+Because the integral of $S$ over $\R$ is always 1, and because $S$ behaves in the above manner as $t \to 0$, we say $S$ is an \textbf{approximation to the identity}. 
 
-$S$ special because it is related to an important operation in PDE theory. For a continuous function $\phi(x)$ and $t > 0$, we can define
+\subsubsection{The Convolution}
+
+$S$ is special because it is related to an important operation in PDE theory. For a continuous function $\phi(x)$ and $t > 0$, we can define
 
 \[ u(x,t) = \int_{-\infty}^\infty S(x-y,t)\phi(y) \ dy \]
 
@@ -184,29 +185,36 @@ Note that this only deals with the \textit{existence} of a solution, not uniquen
 
 \subsection{Uniqueness on the Infinite Rod}
 
-What does it mean when a solution to the IVP is \textit{unique}? Given $\phi(x)$, suppose 
+What does it mean when a solution to the IVP is \textit{unique}? Given $\phi(x)$, suppose that
 
 \[ u_1(x,t) = u_2(x,t) \]
 
-solve the IVP defined at the start of last section. It follows that
+both solve the IVP
+
+\[ \begin{cases}
+    u_t - ku_{xx} = 0 & (x,t) \in \R \times (0,\infty) \\
+    u(x,0) = \phi(x)
+\end{cases} \]
+
+It follows that
 
 \[ (u_1)_t - k(u_1)_{xx} = (u_2)_t - k(u_2)_{xx} = 0 \]
 \[ u_1(x,0) = u_2(x,0) = \phi(x) \]
 
-so in general, is $u_1 = u_2$? No! 
+so in general, is $u_1 = u_2$? Surprisingly, no!
 
-Let's rephrase the above. Define $w = u_1 - u_2$. Now if
+Let's rephrase the above question. Define $w = u_1 - u_2$. Now if
 
 \[ w_t - kw_{xx} = 0 \]
 \[ w(x,0) = 0 \]
 
-does $w = 0$? Yes! But with more mild assumptions added onto it. 
+does $w = 0$? Now the answer is yes, but only with extra assumptions added. 
 
-Recall our solution from before
+Recall our solution from before:
 
-\[ u(x,t) = \frac{1}{\sqrt{4\pi kt}}\int_{-\infty}^\infty \exp\left(\frac{-(x,y)^2}{4kt}\right)\phi(y) \ dy \]
+\[ u(x,t) = \frac{1}{\sqrt{4\pi kt}}\int_{-\infty}^\infty \exp\left(\frac{-(x-y)^2}{4kt}\right)\phi(y) \ dy \]
 
-Let's assume that $\phi(x)$ is both continuous and \textit{compactly supported}, meaning it is nonzero only on some closed interval $[-R, R]$. What happens when we take $x$ to $\pm\infty$? Well, the exponential will go to 0, so the integral will also go to 0. Thus $u \to 0$
+Let's assume that $\phi(x)$ is both continuous and \textit{compactly supported}, meaning it is non-zero only on some closed interval $[-R, R]$. For a fixed $t$, what happens when we take $x \to \pm\infty$? Well, the exponential will go to 0, so the integral will also go to 0. Thus $u \to 0$.
 
 For any $T > 0$, define
 
@@ -249,14 +257,14 @@ By the above logic, we get that $\lim_{x \to \pm\infty}A(x) = 0$. This is our ex
 
 \section{Comparing the Heat and Wave Equations}
 
-There are several differences between the heat and wave equations that are of importance to us. We're focusing on qualatiative properties here, not quantitative ones.
+There are several differences between the heat and wave equations that are of importance to us. We'll focus on qualatiative properties here, not quantitative ones.
 
 \begin{enumerate}
-    \item The Speed of Propagation. 
+    \item \textbf{The Speed of Propagation} 
 
     We know that waves have a finite speed of propagation which is related to the value $c$. As $c \to \infty$, the speed of propagation increases, and in the limit, the light path curve will encompass the entire $(x,t)$ plane. 
 
-    Contrast this with the heat equation, which actually has \textit{infinite} speed of propagation.
+    Contrast this with the heat equation, which actually has an \textit{infinite} speed of propagation.
 
     \begin{theorem}
         Let $\phi(x)$ be continuous with $\phi(x) \geq 0$ and suppose there is an $x_0$ such that $\phi(x_0) > 0$. Set
@@ -283,11 +291,11 @@ There are several differences between the heat and wave equations that are of im
         Hyperbolic PDEs have finite speed of propagation, whereas almost all other PDEs have an infinite speed of propagation.
     \end{remark}
 
-    \item Singularities
+    \item \textbf{Singularities}
 
     How many derivatives do the solutions to the wave and heat equations have?
 
-    The wave equation has \textit{singularity propagation}, meaning that while the wave will move, it will always look the same. Solutions to the wave equation are of the form
+    The wave equation has \textit{singularity propagation}. Because the solutions just look like two functions moving in opposite directions, any singularites they have will move alongside them, and be present in the final solution. Solutions to the wave equation are of the form
 
     \[ u(x,t) = f(x+ct) + g(x-ct) \]
 
@@ -295,9 +303,9 @@ There are several differences between the heat and wave equations that are of im
 
     \[ u(x,0) = f(x) + g(x) \]
 
-    If $g = 0$, then $u(x,0) = f(x)$, meaning $u(x,t) = f(x+ct)$. Thus, if $f$ is, say, $C^2$ but not $C^3$, so must 3. The differentiability of $u$ thus corresponds to the differentiability of $f,g$. 
+    If $g = 0$, then $u(x,0) = f(x)$, meaning $u(x,t) = f(x+ct)$. Thus, if $f$ is, say, $C^2$ but not $C^3$, so must $u$. In other words, the differentiability of $u$ corresponds to the differentiability of $f,g$. 
 
-    On the other hand, the heat equation \textit{immediately} smoothens out the initial data once $t > 0$. Solutions are of the form
+    On the other hand, the heat equation \textit{immediately} smoothens out the initial data once $t > 0$, removing any singularites. Solutions are of the form
 
     \[ u(x,t) = \frac{1}{\sqrt{4\pi kt}}\int_{-\infty}^\infty e^{\frac{-(x-y)^2}{4kt}}\phi(y) \ dy \]
 
@@ -307,11 +315,11 @@ There are several differences between the heat and wave equations that are of im
 
     Notice that even if $y \to \infty$, the exponential will dominate the other term in the integral, so it still converges. This argument is valid for derivatives with respect to $t$, as well as all other higher order derivatives. This tells u that $u$ is a $C^\infty$ function, meaning it is smooth. 
 
-    \item Long-Time Behaviour.
+    \item \textbf{Long-Time Behaviour}
 
     What happens to $u(x,t)$ as $t \to \infty$?
 
-    For the wave equation, $f,g$ will just translate in opposite directions as $t \to \infty$, so let's make it interesting. Consider the problem
+    For the wave equation, $f,g$ will just translate in opposite directions as $t \to \infty$, which is boring so. Instead, consider the problem
 
     \[ \begin{cases}
         u_t - c^2u_{xx} = 0 \\
@@ -328,7 +336,7 @@ There are several differences between the heat and wave equations that are of im
 
     Think of this as fixed displacement. We flick a string, and after a long enough time, the string looks flat, but raised or lowered by the above distance. 
 
-    For the heat equation, assume that $\phi$ has compact support. Then we have that
+    For the heat equation, we again assume that $\phi$ has compact support. Then we have that
 
     \[ \lim_{t \to \infty} e^{\frac{-(x-y)^2}{4kt}} = e^0 = 1 \]
 
