@@ -2,25 +2,25 @@
 
 \section{What is a PDE?}
 
-We begin our study of partial differential equations by asking ourselves an important question: what actually \textit{is} a partial differential equation. If you've taken a course on ordinary differential equations, you'll find that PDEs are very similar, with one big difference. Before, we had an unknown function $u(x)$ that was dependent on a single variable. Now, in PDE world, we allow our unknown function to take on many variables:
+We begin our study of partial differential equations by asking ourselves an important question: what actually \textit{is} a partial differential equation? If you've taken a course on ordinary differential equations, you'll find that PDEs are very similar, with one big difference. Before, we had an unknown function $u(x)$ that was dependent on a single variable. Now, in PDE world, we allow our unknown function to take on many variables:
 
-\[ u(x,y,\ldots) \]
+\[ u(x,y,z,\ldots) \]
 
-This function can be real or complex valued. Moreover, instead of a single variable derivative, PDEs will now include \textit{partial derivatives}, which can be displayed in several forms. The partial derivative of $u$ with respect $x$ can be written as
+This function can be real or complex valued. Moreover, instead of just a single variable derivative, PDEs will now include \textit{partial derivatives}, which can be displayed in several forms. The partial derivative of $u$ with respect to $x$ can be written as
 
 \[ \pardif{u}{x}, \ \partial_xu, \ u_x \]
 
-The order of the PDE corresponds to what partials are included in the equation. A \textbf{first order partial differential equation} is of the form
+and we will use all 3 throughout these notes. The order of the PDE corresponds to what partials are included in the equation. A \textbf{first order partial differential equation} is of the form
 
 \[ F(x,y,\ldots, u_x(x,y,\ldots), u_y(x,y,\ldots), \ldots, u(x,y,\ldots)) = 0 \]
 
-Where $F$ is some function of the variables, the partial derivatives of $u$, and possibly $u$. Its a first order PDE becuase the first partial derivatives are used; if the second partial derivatives were used it would be a second order PDE. In general, an $n$th order equation involves up to the $n$th partial derivatives. 
+Where $F$ is some function of the variables, the partial derivatives of $u$, and possibly $u$. Its a first order PDE becuase the first partial derivatives are used; if the second partial derivatives were used it would be a \textbf{second order PDE}. In general, an \textbf{$n$-th order PDE} involves up to the $n$th partial derivatives. 
 
 As with ODEs, we can also consider a PDE system, where there is more that one unknown equation:
 
 \[ u_1(x,y,\ldots), u_2(x,y,\ldots), \ldots \]
 
-It should also be noted that there is \textit{no general theory} of PDEs. They are, on average, much harder to prove, and there is very little that can be deduced about general PDEs. We'll often be looking at very specific types of PDEs and seeing how to solve them.
+It should be noted that there is \textit{no general theory} of PDEs. They are, on average, much harder to prove, and there is very little that can be deduced about most PDEs. We'll often be looking at very specific types of PDEs for which the theory is well known.
 
 If they're so hard to solve, why should we even care about them? PDEs show up pretty much everywhere in the applied mathematical world, and are essential for modeling things in physics, finance, statistics, and much more.
 
@@ -47,18 +47,18 @@ In ODEs, we discussed both linear and nonlinear equations at length. However, in
         \item $\mathcal{L}(cu) = c\mathcal{L}(u)$, where $c$ is a constant. 
     \end{enumerate}
 
-    If the PDE for $u$ is of the form $\mathcal{L}(u) + g$ for some given function $g$, we say it is a \textbf{linear inhomogeneous PDE}. 
+    If the PDE for $u$ is of the form $\mathcal{L}(u) = g$ for some given function $g$, we say it is a \textbf{linear inhomogeneous PDE}. 
 \end{definition}
 
 What's nice about these equations is that if we have a single solution to the linear inhomogeneous PDE, we can rewrite the linear homogeneous one in terms of it: Suppose $\mathcal{L}(v) = g$. Then we have that
 
 \begin{align*}
-    & \iff \mathcal{L}(v) = \mathcal{L}(u) \\
-    & \iff \mathcal{L}(v) - \mathcal{L}(u) = 0 \\
-    & \iff \mathcal{L}(v-u) = 0 \tag{linearity of $\mathcal{L}$} 
+    &  \mathcal{L}(v) = \mathcal{L}(u) \\
+    \iff & \mathcal{L}(v) - \mathcal{L}(u) = 0 \\
+    \iff & \mathcal{L}(v-u) = 0 \tag{linearity of $\mathcal{L}$} 
 \end{align*}
 
-Similar to ODEs, the set of solutions to the $\mathcal{L}(u) = 0$ is a vector space, meaning 
+Similar to ODEs, the set of solutions to a linear homogeneous PDE $\mathcal{L}(u) = 0$ is a vector space, meaning 
 
 \begin{enumerate}
     \item $\mathcal{L}(u) = 0, \ \mathcal{L}(v) = 0 \implies \mathcal{L}(u+v) = 0$
@@ -69,7 +69,7 @@ however, unlike ODEs, this vector space is almost always infinite dimensional. W
 
 \section{PDEs that are ODEs}
 
-The simplest examples of partial differential equations are those that are actually just ODEs in disguise. These can very quickly solved using ODE techniques. Let's look at some examples:
+The simplest examples of partial differential equations are those that are actually just ODEs in disguise. These can be quickly solved using ODE techniques. Let's look at some examples:
 
 \begin{example}
     Consider the unknown $u(x,y)$. We'll find the general solution to 
@@ -87,7 +87,7 @@ The simplest examples of partial differential equations are those that are actua
     because $y_0$ changes, we get that $u(x,y) = f(y)$, where $f$ is a function of $y$.
 \end{example}
 
-Notice that $f$ can be \textit{any} function of $y$. This is very clearly an infinite dimensional vector space, as there is no real pattern to them at all. 
+Notice that $f$ can be \textit{any} function of $y$. Thus, the set of all solutions to this ODE is the set of functions in $y$, which is clearly an infinite dimensional vector space. 
 
 \begin{example}
     We'll find the general solution $u(x,y)$ for
@@ -157,11 +157,11 @@ For certain PDEs, it can be a good idea to reduce it down to an ODE and solve it
 
 \section{Constant Coefficient 1st Order Linear PDEs (in 2 Variables)}
 
-A \textbf{constant coefficient 1st order linear PDE (in 2 variables)} are equations of the form
+A \textbf{constant coefficient 1st order linear PDE (in 2 variables)} is an equation of the form
 
 \[ au_x + bu_y = 0 \]
 
-where $a,b \in \mathbb{R}$, and $u(x,y)$ is the unknown. This is a linear homogeneous equation. There are two main methods for solving them, which we will discuss now:
+where $a,b \in \mathbb{R}$. This is a linear homogeneous equation. There are two main methods for solving them, which we will discuss now:
 
 \subsection{The Geometric Method}
 
@@ -169,7 +169,7 @@ Consider the vector $\vec{v} = (a,b) \in \mathbb{R}^2$. Then can rewrite the equ
 
 \[ \vec{v} \cdot \vec{\nabla}u = 0 \]
 
-visually, this says that the function $u$ remains constant in the direction of $\vec{v}$, which is given by the lines shown below
+visually, this says that the function $u$ remains constant in the direction of $\vec{v}$, which is given by the black lines shown below
 
 \begin{center}
     \includegraphics[width=0.7\textwidth]{Week 1/Direction Vector.png}
@@ -179,7 +179,7 @@ The lines parallel to $\vec{v}$ are of the form $bx - ay = c$, where $c$ is some
 
 \[ (b,-a) \perp \vec{v} \]
 
-Because $u$ is constant in the $\vec{v}$ direction, it must be constant along each line $bx - ay = c$ for each $c$. However, it can take a different value for each $c$. Thus, the value of $u(x,y)$ depends exclusively on what line the point $(x,y)$ lies on, meaning 
+Because $u$ is constant in the $\vec{v}$ direction, it must be constant along each line $bx - ay = c$ for each $c$. However, it can take a different value for each $c$. Thus, the value of $u(x,y)$ depends exclusively on what line the point $(x,y)$ is on, meaning 
 
 \[ u(x,y) = f(bx-ay) \]
 
@@ -242,7 +242,7 @@ where $f$ is arbitrary. To see the theory in action, let's do an example:
 
     such that $u(0,y) = y^3$
 
-    Note the presence of a boundary condition. While before we were asking for a general class of functions that satisfy the PDE, this boundary condition restricts out set of valid answers to just a handful (usually just one). 
+    Note the presence of a boundary condition. While before we were asking for a general class of functions that satisfy the PDE, a boundary condition restricts our set of valid answers to just a handful (usually just one). We will disucss boundary conditions next week. 
 
     We know that the general solution is of the form
 
@@ -256,19 +256,13 @@ where $f$ is arbitrary. To see the theory in action, let's do an example:
 
     \begin{align*}
         & f(w) = \left(\frac{-w}{4}\right)^3 = \frac{-w^3}{64} \\
-        \implies & u(x,y) = f(-3x-4y) = \frac{(-3x-4y)^3}{64}
+        \implies & u(x,y) = f(-3x-4y) = \frac{-(-3x-4y)^3}{64}
     \end{align*}
-
-    What does this look like visually?
-
-    \begin{center}
-        \includegraphics[width=0.7\textwidth]{Week 1/Direction Vector (3,-4).png}
-    \end{center}
 \end{example}
 
 \section{Variable Coefficients}
 
-Before, we considered $a,b$ to be real number constants, however, we can also consider situations where these are in fact functions of $x$ and $y$. What's more interesting is that the general theory behind their solutions remains relatively unchanged, and relies on understand which curves. To see this, we'll first consider an example:
+Before, we considered $a,b$ to be real number constants, however, we can also consider situations where these are in fact functions of $x$ and $y$. What's more interesting is that the general theory behind their solutions remains relatively unchanged, and relies on understand the curves on which our unknown function remains constant. To see this, we'll first consider an example:
 
 \begin{example}
     Find the general solution $u(x,y)$ of
@@ -304,7 +298,7 @@ Before, we considered $a,b$ to be real number constants, however, we can also co
         \includegraphics[width=0.7\textwidth]{Week 1/Characteristic Curves 1.png}
     \end{center}
 
-    It should be noted that every point in the plane must lie on a unique characteristic curve. Why? EXPLANATION REQUIRED
+    It should be noted that every point in the plane must lie on a unique characteristic curve.
 \end{example}
 
 \begin{example}
@@ -332,7 +326,11 @@ Before, we considered $a,b$ to be real number constants, however, we can also co
 
     \[ u(x,y) = F(C) = F\left(-\frac{1}{y}-x^2\right) \]
 
-    where $F$ is arbitrary. What about the case where $y = 0$? Consider the picture:
+    where $F$ is arbitrary. What about the case where $y = 0$? Here, we get that 
+
+    \[\dif{y}{x} = 0 \implies y(x) = 0\]
+
+    meaning that the line $y = 0$ is also a characteristic curve. The curves are shown in the figure below. Lines in red are those for which $C < 0$ and black lines are those for which $C > 0$. 
 
     \begin{center}
         \includegraphics[width=0.5\textwidth]{Week 1/Characteristic Curves 2.png}
@@ -344,5 +342,7 @@ Before, we considered $a,b$ to be real number constants, however, we can also co
 
     \[ u_x + \frac{g(x,y)}{f(x,y)}u_y = 0 \]
 
-    In the case that $f(x,y) = 0$ at some point, we can just do the opposite and divide by $g(x,y)$, and the solution is symmetric. 
+    In the case that $f(x,y) = 0$ at some point, we can just do the opposite and divide by $g(x,y)$, and the solution is symmetric. Even more generally, we can just use the formula 
+
+    \[\frac{f(x,y)}{dx} = \frac{g(x,y)}{dy}\]
 \end{remark}

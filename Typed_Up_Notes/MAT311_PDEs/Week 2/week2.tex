@@ -2,7 +2,7 @@
 
 \section{The Essential PDEs}
 
-In this section we introduce the main class of PDEs that will be studied in this class, which all come from physics. We will study them (usually) in their simplest form, using the least number of variables. 
+In this section we introduce the PDEs that will be studied in this class, all of which come from physics. We will study them (usually) in their simplest form, using the least number of variables. 
 
 \subsection*{The Simple Transport Equation}
 
@@ -26,7 +26,7 @@ where $T$ is the tension in the string, and $\rho$ is the density of the string.
 
 This is called the \textbf{wave equation}, and plays an important role in general relativity, fluid dynamics, and electromagnetism through Maxwell's Equations. 
 
-There are also many variations one the wave equation that are of relevance:
+There are also many variations of the wave equation that are of relevance:
 
 \begin{enumerate}[label=(\roman*)]
     \item Air resistance: given a constant $r > 0$ representing friction (or air resistance), we get
@@ -48,11 +48,11 @@ The higher dimensional versions of these equations also show up often; the 3D ve
 
 \subsection*{The Diffusion/Heat Equation}
 
-Suppose we have a chemical substance diffusing in a fluid, or say we are heating up an metal object. Given a function $u(t,x)$ representing this spread of the substance or heat with respect to position and time, then we have
+Suppose we have a chemical substance diffusing in a fluid, or say we are heating up an metal object. Given a function $u(t,x)$ representing the spread of the substance or heat with respect to position and time, then we have
 
-\[ u_t = ku_{xx} \]
+\[ u_t - ku_{xx} = 0 \]
 
-where $k > 0$ is a constant related to the properties of the fluid or material. This is called the \textbf{heat/diffusion equation}. The higher dimensional forms are also relevant and play an interesting role in statistics through Brownian Motion.
+where $k > 0$ is a constant related to the properties of the fluid or material. This is called the \textbf{heat/diffusion equation}; we will just call it the heat equation. The higher dimensional forms are also relevant and play an interesting role in statistics through Brownian Motion.
 
 \subsection*{The Laplace Equation}
 
@@ -64,7 +64,7 @@ The higher dimensional forms also exist and are extremely relevant to complex an
 
 \section{Initial and Boundary Conditions}
 
-Solutions to PDEs are generally a large class of functions; as we have seen previously, the set of solutions is an infinite dimensional vector space. To get a unique solution to a PDE, we often require additional conditions to be present. There are two common ways this can be achieved, which we discuss now.
+Solutions to PDEs are generally a large class of functions; as we have seen previously, the set of solutions is often an infinite dimensional vector space. To get a unique solution to a PDE, we often require additional conditions to be present. There are two common ways this can be achieved, which we discuss now.
 
 \subsection*{Initial Conditions}
 
@@ -103,12 +103,12 @@ where $\phi, \psi, \chi$ are given.
     The term $\pardif{u}{n}$ is the normal derivative, the directional derivative in the direction that is normal to the curve at the desired point. 
 \end{remark}
 
-If the given function is the zero function, then we call the condition a \textbf{homogeneous condition}, otherwise, it is a \textbf{inhomogeneous condition}.
+If the given function $\phi,\psi,\chi$ is the zero function, then we call the condition a \textbf{homogeneous condition}, otherwise, it is an \textbf{inhomogeneous condition}.
 
 \begin{example}
     Consider the problem of the vibrating string. If we include a Dirichlet condition, then this can be thought of as holding the ends of the string fixed while the rest of the string vibrates. Think of this like the strings of a guitar.
 
-    Including a Neumann condition can be thought of as tying the ends of the string to vertical poles and pulling the string tight, meaning only the ends of the string move freely. 
+    If instead we include a Neumann condition, it can be thought of as tying the ends of the string to vertical poles and pulling the string tight, meaning only the ends of the string move freely. 
 \end{example}
 
 \begin{example}
@@ -117,13 +117,13 @@ If the given function is the zero function, then we call the condition a \textbf
     Including a homogeneous Neumann condition may be thought of as insulating the rod, ensuring that no heat leaves the system. 
 \end{example}
 
-Note that boundary conditions can also exist at infinity. For instance if $D = \mathbb{R} = \mathbb{R}^2$. For the 1-dimensional heat equation, we may require that
+Note that boundary conditions can also exist at infinity. For instance, suppose $D = \mathbb{R}$. Then for the 1-dimensional heat equation, we may require that
 
-\[ \lim_{x \to \infty} u(t,x) = 0 \]
+\[ \lim_{x \to \pm\infty} u(t,x) = 0 \]
 
 \section{Well-Proved Problems}
 
-For a PDE problem to exist as a physical problem; that is, a problem that can exist in the real world and can be done in a physics class, three conditions must hold:
+For a PDE to be representative of a physical problem; that is, a problem that can exist in the real world and can be done in a physics class, three conditions must hold:
 
 \begin{enumerate}
     \item \textbf{Existence}: There is a solution to the PDE (under reasonable assumptions)
@@ -139,12 +139,12 @@ Such equations are of the form
 
 \[ a_{11}u_{xx} + 2a_{12}u_{xy} + a_{22}u_{yy} + a_1u_x + a_2u_y + a_0u = 0 \]
 
-where $a_{11}, a_{12}, a_{22}, a_1, a_2, a_0$ are real coefficients. Like in ODEs where we cared more about the terms with first derivatives compared to other terms, we now care about the terms with second derivatives compared to the lower order terms. 
+where $a_{11}, a_{12}, a_{22}, a_1, a_2, a_0$ are real coefficients. Like in ODEs where we cared more about the terms with first derivatives compared to other terms, we now care about the terms with second derivatives more than lower order terms. 
 
-Understanding the type of 2nd order PDE is of great importance and allows up to better understand how to approach solving them. There is a relatively simple algorithm for determining type, and how to simplify the equation:
+Understanding the type of 2nd order PDE we're dealing with is of great importance and allows us to better understand how to solve them. There is a relatively simple algorithm for determining its type, and how to simplify the equation based on its type:
 
 \begin{theorem}
-    Given a constant coefficient 2nd order PDE in two variables, then there exists a change of variables
+    Given a constant coefficient 2nd order PDE in two variables, there exists a change of variables
 
     \[ x' = b_1x + b_2y \]
     \[ y' = b_3x  +b_4y \]
@@ -172,7 +172,7 @@ Understanding the type of 2nd order PDE is of great importance and allows up to 
     \end{enumerate}
 \end{theorem}
 
-Notice that the elliptic case is the 2D Laplace equation, while the second case is the wave equation.
+Notice that the elliptic case is the 2D Laplace equation, while the hyperbolic case is the wave equation.
 
 \begin{example}
     Consider $u_{xx} - 5u_{xy} = 0$. We have that $a_{11} = 1, a_{12} = \dfrac{5}{2}, a_{22} = 0$, hence
@@ -215,7 +215,7 @@ Completing the square yields
     & = \left(x - \frac{5}{2}y\right)^2 - \left(\frac{5}{2}y\right)^2
 \end{align*}
 
-Surprisingly, this same idea also works for partial derivatives:
+Surprisingly, this idea also works for partial derivatives:
 
 \begin{align*}
     u_{xx} - 5u_{yy} & = \pardif{}{x}\pardif{}{x}u - 5\pardif{}{x}\pardif{}{y}u \\
@@ -224,11 +224,11 @@ Surprisingly, this same idea also works for partial derivatives:
 
 Now, we need $(x',y')$ such that
 
-\[ \pardif{}{x'} = \pardif{}{x} - \frac{5}{2}\pardif{}{y} \ , \ \pardif{}{y'} = \frac{5}{2}\pardif{}{y} \]
+\[ \pardif{}{x'} = \pardif{}{x} - \frac{5}{2}\pardif{}{y} \quad \pardif{}{y'} = \frac{5}{2}\pardif{}{y} \]
 
 We see that
 
-\[ \pardif{}{x} = \pardif{}{x'} + \pardif{}{y'} \ , \ \pardif{}{y} = \frac{2}{5}\pardif{}{y'} \]
+\[ \pardif{}{x} = \pardif{}{x'} + \pardif{}{y'} \quad \pardif{}{y} = \frac{2}{5}\pardif{}{y'} \]
 
 Recalling the definition of $x',y'$, we get by the Chain Rule that
 
