@@ -16,9 +16,9 @@ We will consider the problem
     v(x,0) = \phi(x), \ v(0,t) = 0
 \end{cases} \]
 
-Recall that $v(0,t) = 0$ is a (homogeneous) Dirichlet boundary condition that means there is no heat at one end of the rod. Let's also assume that $\phi(0) = 0$. 
+Recall that $v(0,t) = 0$ is a (homogeneous) Dirichlet boundary condition, meaning there is no heat at one end of the rod. Let's also assume that $\phi(0) = 0$. 
 
-The trick to solve this problem is to use \textbf{odd extension}. 
+The trick to solve this problem is to use an \textbf{odd extension}. 
 
 \begin{definition}
     A function $\psi: \R \to \R$ is \textbf{odd} if $\psi(-x) = -\psi(x)$. 
@@ -47,12 +47,12 @@ Notice that $S(-x,t) = S(x,t)$, as we square $x$. Thus,
 \begin{align*}
     u(-x,t) & = \int_{-\infty}^\infty S(-x-y,t)\phi_{odd}(y) \ dy \\
     & = \int_{-\infty}^\infty S(x+y,t)\phi_{odd}(y) \ dy \intertext{Set $z = -y, dz = dy$. This flips the integral, and so the minus signs cancel out, hence we get}\\
-    & = \int_{-\infty}^\infty S(x-z,t)\phi_{odd}(y) \ dy \\
+    & = \int_{-\infty}^\infty S(x-z,t)\phi_{odd}(-z) \ dz \\
     & = -\int_{-\infty}^\infty S(x-z,t)\phi_{odd}(z) \ dz \\
     & = -u(x,t)
 \end{align*}
 
-as desired. Thus, $u(x,t)$ is also continuous when $t > 0$ and is odd in $x$. We also have that $u(0,t) = -u(0,t)$, so $u(0,t) = 0$. Graphically, this looks like some function which flips over the $x$-axis at $x = 0$: 
+as desired. We also have that $u(0,t) = -u(0,t)$, so $u(0,t) = 0$. Graphically, this looks like some function which flips over the $x$-axis at $x = 0$: 
 
 \begin{center}
     \includegraphics[width=0.7\textwidth]{Week 5/Odd Extension.png}
@@ -129,7 +129,7 @@ We find $v(x,t): (0,\infty) \times (0,\infty) \to \R$ satisfying
     v(0,t) = 0
 \end{cases} \]
 
-If we mimic the strategy for the heat equation by consider the odd extensions of $\phi, \psi$, then we will see that
+If we mimic the strategy for the heat equation by considering the odd extensions of $\phi, \psi$, then we will see that
 
 \[ v(x,t) = \frac{1}{2}[\phi_{odd}(x+ct) + \phi_{odd}(x-ct)] + \frac{1}{2c}\int_{x-ct}^{x+ct}\psi(s) \ ds \]
 
@@ -213,14 +213,14 @@ where $S(x,t)$ is as before. Let's first check that this works. Without loss of 
 
 Then setting $u := u_1 + u_2$, $u$ solves the problem we are dealing with. 
 
-To derive our solution, we use the following formula for differentiation of a definite integral:
+To check our solution, we use the following formula for differentiation of a definite integral:
 
 \[ \frac{d}{dt}\int_{a(t)}^{b(t)} h(t,x) \ dx = h(b(t),x)b'(t) - h(a(t),x)a'(t) + \int_{a(t)}^{b(t)}h_t(t,x) \ dx \]
 
 Since the integral sends $t-s$ to 0, we get that 
 
 \begin{align*}
-    u_t & = \lim_{\tau \to 0}\int_{-\infty}^\infty S(x,y,\tau)f(y,t) \ dy + \int_0^t \int_{-\infty}^\infty \partial_tS(x-y,t-s) f(y,s) \ dy \ ds \\
+    u_t & = \lim_{\tau \to 0}\int_{-\infty}^\infty S(x-y,\tau)f(y,t) \ dy + \int_0^t \int_{-\infty}^\infty \partial_tS(x-y,t-s) f(y,s) \ dy \ ds \\
     & = f(x,t) + \int_0^t \int_{-\infty}^\infty \partial_tS(x-y,t-s) f(y,s) \ dy \ ds \\
     u_x & = \int_0^t\int_{-\infty}^\infty \partial_xS(x-y,t-s)f(y,s) \ dy \ ds \\
     u_{xx} & = \int_0^t\int_{-\infty}^\infty \partial_x^2S(x-y,t-s)f(y,s) \ dy \ ds

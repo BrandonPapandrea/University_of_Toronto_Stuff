@@ -110,7 +110,7 @@ We now seek to solve both the wave and heat equations where the spatial variable
 
 \subsection{The Wave Equation on a Finite Interval with Dirichlet B.C}
 
-We now wish to solve the wave equation on a finite interval. We will consider the equation with Dirichlet boundary conditions:
+We want to solve the wave equation on a finite interval with Dirichlet boundary conditions:
 
 \[ \begin{cases}
     u_{tt} - c^2u_{xx} = 0 & 0 < x < \ell, \quad t > 0 \\
@@ -142,7 +142,7 @@ and assuming $X,T$ don't vanish,
     The minus sign is convention and will make the next part easier.
 \end{remark}
 
-So we have that a function of $t$ is equal to a function of $x$. Clearly the only way this is possible is when these functions are both equal to a \textit{constant} value.
+So a function of $t$ is equal to a function of $x$. Clearly the only way this is possible is when these functions are both equal to a \textit{constant} value.
 
 \[ -\frac{T''(t)}{c^2T(t)} = -\frac{X''(x)}{X(x)} = \lambda \in \R \]
 
@@ -179,7 +179,7 @@ Both of these are ODEs that we already know how to solve. The only thing we need
     \begin{align*}
         0 = X(\ell) & = Ae^{-\sqrt{-\lambda}\ell} + Be^{\sqrt{-\lambda}\ell} \\
         & = -Be^{-\sqrt{-\lambda}\ell} + Be^{\sqrt{-\lambda}\ell} \\
-        & = -B(e^{-\sqrt{-\lambda}\ell} - e^{\sqrt{-\lambda}\ell}
+        & = -B(e^{-\sqrt{-\lambda}\ell} - e^{\sqrt{-\lambda}\ell})
     \end{align*}
 
     We assume $B \neq 0$ (otherwise we get the degenerative case), and so we get that
@@ -215,7 +215,7 @@ We thus attain a solution when $\lambda > 0$. We denote
 \[ \lambda_n = \left(\frac{n\pi}{\ell}\right)^2 \]
 \[ X_n(x) = \sin\left(\frac{n\pi x}{\ell}\right) \]
 
-The $\lambda_n$'s are called \textbf{eigenvalues}, while the $X_n(x)$'s are called \textbf{eigenfunctions}, which are related to the concept of eigenvectors (we will explain this later). It should also be noted that, without loss of generality, we're assume the constant is 1 since we can always absorb it into $T_n(t)$. 
+The $\lambda_n$'s are called \textbf{eigenvalues}, while the $X_n(x)$'s are called \textbf{eigenfunctions}, which are related to the concept of eigenvectors (we will explain this later). It should also be noted that, without loss of generality, we assume the constant $B = 1$, since we can always absorb it into $T_n(t)$. 
 
 Now to deal with $T$. First fixing $n$, we get
 
@@ -279,7 +279,7 @@ for a constant $\lambda$. We thus need to solve
 \end{equation*}
 
 \begin{equation*}
-    T'(x) = K\lambda T(t) = 0 
+    T'(x) = k\lambda T(t) = 0 
 \end{equation*}
 
 We've done some of this in our analysis of the wave equation already: For $n = 1,2,3, \ldots$,
@@ -326,9 +326,9 @@ Now, if we take $A = \partial_x^2$ to be the second derivative of a function wit
 
 the dot product is given by 
 
-\[ (f,g) = \int_0^\ell f(x)g(x) \ dx \]
+\[ (f,g) = \int_0^\ell f(x)\overline{g(x)} \ dx \]
 
-and one can see that $(\partial_x^2f,g) = (f,\partial_x^2g)$. Another version of the spectral theorem says that there is an orthonormal basis 
+and one can check that $(\partial_x^2f,g) = (f,\partial_x^2g)$. Another version of the spectral theorem says that there is an orthonormal basis 
 
 \[ x_1, \ldots, x_n \]
 
