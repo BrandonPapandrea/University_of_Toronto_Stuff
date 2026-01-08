@@ -1,0 +1,133 @@
+\chapter{Week 1}
+
+Throughout this course, we will explore several different concepts that will, when combined, make up our theory of algebraic curves. Some of the concepts we will talk about will include:
+
+\begin{itemize}
+    \item Projective Geometry
+    \item B\'{e}zout's Theorem about intersections of curves in the plane.
+    \item Riemann Surfaces, which are related to algebraic curves over $\mathbb{C}$. These will help motivate some ideas we will see much later on, such as differentials.
+    \item Curves over finite fields, including elliptic curves, which are related to concepts in number theory.
+\end{itemize}
+
+\section{A First Glimpse at Projective Geometry}
+
+\subsection{The Projective Plane in 2 Dimensions}
+
+Let $\mathbb{F}$ be any field. Then $\mathbb{F}^3$ is a 3D space. Notice that the 2D space $\mathbb{F}^2$ is contained within $\mathbb{F}^3$ as a slice of the 3D space. An explicit map may be constructed as
+
+\[(x,y) \mapsto (x,y,1)\]
+
+There is thus a projection of the 2D space into the 3D space. 
+
+Now, consider the set of all lines in $\mathbb{F}^3$ that pass through the origin. They all meet at the origin, and nowhere else. This means any point in $\mathbb{F}^3 \setminus \{0\}$ corresponds to a unique line in this space. If we scale this point, we stay on the line. Thus, if we quotient by the set of scalars, also known as $\mathbb{F}^*$, then we will get a set of points that correspond uniquely to a single line in the 3D space. This set,
+
+\[(\mathbb{F}^3 \setminus \{0\})/\mathbb{F}^*\]
+
+is known as the \textbf{Projective Plane}, and is denoted by $\mathbb{P}^2$. Going back to our $\mathbb{F}^2$ discussion, any $(x,y) \in \mathbb{F}^2$ can be thought of as the point $(x,y,1) \in \mathbb{F}^3$. Taking the representative $[(x,y,1)] \in \mathbb{P}^2$, we get that each point in $\mathbb{F}^2$ corresponds to a point in $\mathbb{P}^2$, and so $\mathbb{F}^2 \subset \mathbb{P}^2$. The set $\mathbb{P}^2 \setminus \mathbb{F}^2$ only contains the points of the form $[(x,y,0)]$.
+
+To visualize the projective plane, consider the below figure:
+
+The square $\mathbb{F}^2$ is the \textbf{affine plane}, whilst the point $\mathbb{F}^0$ and the line $\mathbb{F}^1$ combine to become the \textbf{line at infinity}.
+
+Let's use a finite field $\mathbb{F}_q$. The set $\mathbb{F}_q^3 \setminus\{0\}$ has $q^3 - 1$ points, while $\mathbb{F}_q^*$ has $q-1$ points. Thus, the projective plane with repsect to $\mathbb{F}_q$ has
+
+\[\frac{q^3 - 1}{q-1} = q^2 + q + 1\]
+
+points. In particular, there are $q^2$ points of the form $(a,b,1)$, $q$ points of the form $(a,1,0)$, and 1 point of the form $(1,0,0)$. 
+
+The exponent should make clear that $\mathbb{P}^2$ is a 2D space. There is a nice correlation between the geometry in the projective plane and that of the underlying field. By construction, any point in $\mathbb{P}^2$ is a line in $\mathbb{F}^3$ passing through the origin. Similarly, any line in $\mathbb{P}^2$ is a plane in $\mathbb{F}^3$ that passes through the origin. For example, consider the plane $ax + by + cz = 0$ in $\mathbb{F}^3$. This corresponds to the line $(a,b,c)$ in $\mathbb{P}^2$. The set of all lines in $\mathbb{P}^2$ is given by the set
+
+\[(\mathbb{F}^3) \setminus \{0\}/\text{scaling}\]
+
+This idea that connects lines and points is known as \textbf{line-point duality}, and is very important. 
+
+Another way to see the connection between lines and points is through a graph. Consider two sets of vertices, one for points in $\mathbb{P}^2$, and one for lines in the same space, where the underlying field is $\mathbb{F}_q$. An edge connects any point to any line that the point lies on. There are $q^2 + q + 1$ vertices in each set, and each vertex has degree $q-1$. This graph is bipartite, and is the largest bipartite graph with this number edges that does not contain a $K_{2,2}$ subgraph. This is because two lines cannot intersect at two distinct points.
+
+\subsection{The Projective Plane in n Dimensions}
+
+We can generalize what we just did to $n$ dimensions to get $\mathbb{P}^n$, which is defined to be
+
+\[\mathbb{P}^n = (\mathbb{F}^{n+1} \setminus \{0\})/\mathbb{F}^*\]
+
+Over a finite field $\mathbb{F}_q$, we get that
+
+\[|\mathbb{P}^n| = q^n + q^{n-1} + \cdots + 1\]
+
+where each $q^k$ is a copy of $\mathbb{F}_q^k$. Instead of lines, we are now considering \textbf{hyperplanes}, which are codimension 1 subspaces of $\mathbb{F}^{n+1}$, that pass through the origin. Similar to before, a point in $\mathbb{P}^n$ corresponds to a hyperplane in $\mathbb{F}^{n+1}$, given by an equation 
+
+\[a_0x_0 + \cdots a_nx_n = 0\]
+
+The space of all hyperplanes is also a $\mathbb{P}^n$. This gives us \textbf{hyperplane-point duality}.
+
+\subsection{The Riemann Sphere}
+
+There are some operations that allow us to take equations in the affine plane and convert them into equations in the projective space. Let's consider $\mathbb{P}^1$, where the underlying field is $\mathbb{C}$. This is the set of pairs $(a,b) \in \mathbb{C}^2 \setminus \{0\}$, modulo scaling. One can think of this space as the set
+
+\[\mathbb{P}^1 = (\mathbb{C} \times \{1\}) \cup (1,0) \cong \mathbb{C} \cup \{\infty\}\]
+
+This can be thought of as the complex numbers, with a single point, the point at infinity, lying above it. If we fold $\mathbb{C}$ onto this point at infinity, we get a sphere, called the \textbf{Riemann Sphere}: 
+
+To go from one to the other, we use \textbf{stereographic projection}. If we define the point at inifnity as the north pole $N$, we get a map which sends $S^2\setminus N \to \mathbb{C}$, and $N \to (1,0)$.
+
+\section{Algebraic Sets}
+
+We now begin introducing some relevant concepts in algebraic geometry. We let $\mathbb{F}$ be an algebraically closed field, and consider $\mathbb{F}[x_1,\ldots,x_n]$, the field of polynomials in $n$ variables with coefficients in $\mathbb{F}$. 
+
+We say that $S \subseteq \mathbb{F}^n$ is an \textbf{algebraic set} if there exists a set $U \subseteq \mathbb{F}[x_1,\ldots,x_n]$ such that we can write 
+
+\[S = \{x \in \mathbb{F}^n : f(x) = 0 \quad \forall f \in U\}\]
+
+meaning $S$ vanishes for every polynomial in $U$. 
+
+We should note some important facts:
+
+\begin{enumerate}
+    \item The algebraic sets in $\mathbb{C}$ are $\mathbb{C}$, and all finite subsets.
+    \item Every finite subset of $\mathbb{C}^n$ is algebraic: For a point $(\alpha_1, \ldots, \alpha_n)$, take $U = \{x_1 - \alpha_1, \ldots, x_n - \alpha_n\}$. 
+\end{enumerate}
+
+Now, we want to pick $U$ so that it is as large as possible. For an algebraic set $S$, the \textbf{ideal} of $S$ is the set $I(S)$ of all polynomials that are equal to 0 on $S$. Recall by the Hilbert Basis Theorem that $\mathbb{F}[x_1,\ldots, x_n]$ is Noetherian, and thus $I(S)$ is always finitely generated. This means that there are polynomials $p_1, \ldots, p_k$ for which
+
+\[I(S) = \{\sum_i A_i p_i : A_i \in \mathbb{F}[x_1,\ldots, x_n]\}\]
+
+We can also go in the other direction. For any ideal $I \subseteq \mathbb{F}[x_1,\ldots, x_n]$, we can define the \textbf{vanishing set} $V(I)$ to be the set
+
+\[\{x \in \mathbb{F}^n : P(x) = 0 \quad \forall P \in I\}\]
+
+which is all values that map to 0 for every polynomial in $I$. This gives a nice duality: If $S$ is algebraic, then $V(I(S)) = S$, and for an ideal $J$, 
+
+\[I(V(J)) = \sqrt{J} = \{P(x_1,\ldots,x_n) : P^m \in J \, \text{ for some $m$}\}\]
+
+This idea that $I(V(J)) = \sqrt{J}$ is refered to as \textbf{Hilbert's Nullstellensatz}, or Hilbert's theorem of zeroes. It allows us to translate a problem about algebraic curves or surfaces into a question about algebra. 
+
+Given an algebraic set $S$, we can also form the ring 
+
+\[\mathbb{F}[x_1,\ldots,x_n]/I(S)\]
+
+called the \textbf{coordinate ring of $S$}.
+
+Let's consider an example to see everything in action. In $\mathbb{C}^2$, consider the curve 
+
+\[y^2 = x^3 + 1\]
+
+which is the polynomial $y^2 - x^3 + 1$. We take $S = V(y^2 - x^3 - 1)$. The set 
+
+\[\{Q(x,y)\big|_S\} = \{f(x) + yg(x) : f,g \in \mathbb{C}[x]\}\]
+
+is the coordinate ring of $S$ with operations modulo $y^2 - x^3 + 1$, since all polynomials will be linear in $y$. 
+
+Notice that, in a small enough neighbourhood of $x = 0$, we can write $y = \sqrt{x^3 + 1}$, which equals the power series
+
+\[1 + \frac{x^3}{2} + \cdots \]
+
+or the negative of that power series. This corresponds to the fact that there are two points at which the line $x = 0$ and our curve intersect. To see this more explictely, we can notice that 
+
+\begin{align*}
+    \mathbb{C}[x,y]/(y^2 - x^3 - 1, x) & = \mathbb{C}[x,y]/(y^2 - 1) \\
+    & = \mathbb{C}[x,y]/(y-1) \oplus \mathbb{C}[x,y]/(y+1) \\
+    & \cong \mathbb{C}^2
+\end{align*}
+
+as it is 2D, we get 2 solutions. 
+
+Note that this is not always something we can do. For example, near $x = 0$, the curve $y^2 = x^3 + x^2$ looks like the curve $y^2 = x^2$, which is a cross, giving us a singularity. 

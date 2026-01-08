@@ -1,0 +1,58 @@
+\documentclass[11pt, oneside]{book}
+\usepackage{fix-cm}
+\newcommand{\dif}[2]{\dfrac{d#1}{d#2}}
+\newcommand{\pardif}[2]{\dfrac{\partial #1}{\partial #2}}
+\newcommand{\twopardif}[2]{\dfrac{\partial ^2 #1}{\partial #2^2}}
+
+
+\input{header.tex}
+
+\definecolor{left} {HTML}{293133}
+
+\renewcommand{\maketitle}{
+    \begin{titlepage}
+        \begin{tikzpicture}[remember picture,overlay]
+            \node [
+                shading = axis,
+                rectangle,
+                left color=left,
+                right color=left!85!white,
+                shading angle=90,
+                anchor=north west,
+                minimum width=\paperwidth,
+                minimum height=\paperheight
+            ] at (current page.north west) {};
+        \end{tikzpicture}
+
+        \begin{center}
+        \hspace{0pt}
+            \vfill
+            \fontsize{35}{35}\selectfont \textbf{ \color{white} APM461} \\
+            \vspace{0.3cm}
+            \fontsize{35}{35}\selectfont \textbf{ \color{white} Combinatorial Methods} \\
+            \vspace{0.3cm}
+            \fontsize{20}{20}\selectfont \textbf{ \color{white} by Brandon Papandrea}
+            \vfill
+        \end{center}
+    \end{titlepage}
+}
+
+\begin{document}     
+\pagenumbering{roman}
+\maketitle
+
+\newpage
+
+The following is based on lecture notes taken during the Winter 2026 offering of APM461: Combinatorial Methods, at the University of Toronto. No set textbook was used, but reference books included \textit{Probabalistic Methods} by Allen \& Spencer, \textit{The Linear Algebra Methods in Combinatorics} by Babai and Frankl, and \textit{A Course in Combinatorics} by van Lint and Wilson. The notes are broken up in sections based on the week they were taught, and not necessarily broken up based on the textbook chapters. The intention is for these notes to be a polished version of my own lecture notes that allows me to revise and look over the material multiple times, and thus should not be considered a primary source for learning about combinatorial methods 
+
+\newpage
+
+\tableofcontents
+\clearpage
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\include{Lectures/week1}
+
+\end{document}

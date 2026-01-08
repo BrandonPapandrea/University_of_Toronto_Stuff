@@ -1,0 +1,4 @@
+\contentsline {chapter}{\numberline {1}Week 1}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Matchings in Bipartite Graphs}{1}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}Hall's Theorem}{1}{subsection.1.1.1}%
+\contentsline {subsection}{\numberline {1.1.2}An Algorithm to Check for Matchings}{3}{subsection.1.1.2}%

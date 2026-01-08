@@ -1,0 +1,170 @@
+\chapter{Week 1}
+
+\section{Matchings in Bipartite Graphs}
+
+We let $G = (L,R,E)$ be a bipartite graph, where $E \subseteq L \times R$.
+
+\begin{center}
+    \includegraphics[width=0.3\textwidth]{Lectures/Example Bipartite.png}
+\end{center}
+
+A \textbf{matching} in $G$ is a subset $M \subseteq E$ such that no two edges in $M$ share a vertex. If $|L| = |R| = n$, then we can consider a \textbf{perfect matching}, which is a matching $M$ such that $|M| = n$. 
+
+\subsection{Hall's Theorem}
+
+Given an bipartite graph $G$ with $|L| = |R|$, when does $G$ contain a perfect matching? 
+
+Obviously, one condition is that each vertex must have a non-zero degree. The graph on the left has vertices of the degree 0, so no perfect matching exists, where as the graph on the right has a perfect matching, shown in pink. 
+
+\begin{center}
+    \includegraphics[width=0.5\textwidth]{Lectures/No Perfect v Perfect.png}
+\end{center}
+
+Even if this condition is met, we might still have problems. Conside the graph below:
+
+\begin{center}
+    \includegraphics[width=0.3\textwidth]{Lectures/Graph Bottleneck.png}
+\end{center}
+
+Notice that there are bottlenecks, areas where vertices have degree 1, and their repsective edges meet at the same vertex. No matter which edge we choose, we will have to exclude one of these vertices from our matching, hence no perfect matching exists. 
+
+Surprisingly, finding one of these bottlenecks is necessary and sufficient in showing that a graph has no perfect matching. This is known as \textbf{Hall's Theorem}, and while it is an if and only if condition, it is not efficient if we do not know where the bottleneck is; this is called an NP Problem.
+
+To formulate the theorem, we first state a definition. For a subset of vertices $S \subseteq L$ in a bipartite graph $G$, we define the neighbourhood of $S$ in $G$ as 
+
+\[N_G(S) = \{v \in R : \exists u \in S, (u,v) \in E\}\]
+
+\begin{theorem}[Hall's Theorem]
+    If $G$ has no perfect matching, then there exists a set $S \subseteq L$ such that $|N_G(S)| < |S|$. 
+\end{theorem}
+
+\begin{proof}
+    We proceed by induction on $n$, the number of vertices in $L$ and $R$. We seek to prove the contrapositive, that is, if $G$ is such that for all $S \subseteq L$, $|N_G(S)| \geq |S|$, then $G$ has a perfect matching. The claim is obvious if $n = 1$, so suppose $n > 1$ and the theorem is true for all values less than $n$. We split our proof into two cases:
+
+    First, suppose that for all subsets $S$ with $0 < |S| < n$, $|N_G(S)| \geq |S| + 1$. Then let $(u,v) \in E$ be an edge and consider the graph 
+
+    \[G' = (L\setminus\{u\}, R\setminus\{v\}, E\setminus\{(u,v)\})\]
+
+    For all $S \subseteq L\setminus\{u\}$, $|N_{G'}(S)| \geq |S|$, so by the induction hypothesis, we have a perfect matching $M'$ in $G'$. Then the matching 
+
+    \[M' \cup \{(u,v)\}\]
+
+    is perfect in $G$, as desired.
+
+    Now, suppose that there is a subset $S \subseteq L$ with $0 < |S| < n$ such that $|N_G(S)| = |S|$. We define two subgraphs,
+
+    \[G' = (S, N_G(S), E \cap (S \times N_G(S))) \quad G'' = (L\setminus S, R \setminus N_G(S), E \cap (L\setminus S \times R\setminus N(S)))\]
+
+    By the induction hypothesis, $G'$ has a perfect matching, $M'$. Does it hold for $G''$. Let $T \subseteq L \setminus S$. We know by assumption that
+
+    \[|N_G(S \cup T)| \geq |S \cup T| = |S| + |T|\]
+
+    But we also know that 
+
+    \[|N_G(S \cup T)| = |N_G(S)| + |N_{G''}(T)| = |S| + |N_{G''}(T)|\]
+
+    Thus, $|N_{G''}(T)| \geq |T|$, and the induction hypothesis applies, giving us a perfect matching $M''$ in $G''$. Combining $M'$ and $M''$ gives the desired perfect matching in $G$. 
+\end{proof}
+
+\subsection{An Algorithm to Check for Matchings}
+
+Let $G = (L,R,E)$ be a bipartite graph with $|L| = |R| = n$. How can we check if there is a perfect matching in $G$? There's actually a really easy way to compute algorithm that can allows us to check with near perfect accuracy if there is one. For now, let $G$ be the graph shown below:
+
+\begin{center}
+    \includegraphics[width=0.3\textwidth]{Lectures/Example Graph.png}
+\end{center}
+
+Let $A$ be the $n \times n$ adjacency matrix corresponding to $G$. The rows will represent vertices in $L$, and the columns will represent those in $R$. We let $A_{ij} = 1$ if $(i,j) \in E$, and 0 otherwise. For the above graph, it is
+
+\[A = \begin{pmatrix}
+    1 & 0 & 0 \\ 1 & 1 & 0 \\ 0 & 1 & 1
+\end{pmatrix}\]
+
+Now let's replace every non-zero value in $A$ with some random, non-zero real number. This will give us a new, modified adjacency matrix $\tilde{A}$:
+
+\[\begin{pmatrix}
+    7 & 0 & 0 \\ e & 13 & 0 \\ 0 & 1 & \pi
+\end{pmatrix}\]
+
+Now, we compute the determinant of $\tilde{A}$, which is $7 \cdot 13 \cdot \pi = 91\pi \neq 0$. Because the determinant is non-zero, we conclude that $G$ has a perfect matching. 
+
+More explicitely, the algorithm to check for the existence of a perfect matching is as follows:
+
+\begin{enumerate}
+    \item Compute the adjacency matrix $A$
+    \item For each edge $(i,j)$, pick a random number $\tilde{A}_{ij} \in \{1,2,\ldots, M\}$. For all other $(i,j)$, set $\tilde{A}_{ij} = 0$
+    \item If $\det{\tilde{A}} = 0$, we have no perfect matching. If it is not zero, we do have a perfect matching
+\end{enumerate}
+
+One may look at this algorithm and ask if the choice of $\tilde{A}_{ij}$ for edges $(i,j)$ matters. Indeed it does. If $G$ has a perfect matching, not all choices will lead to a matrix with non-zero determinant, however, most choices will. If $G$ has no perfect matching, no matter what choices we make, the determinant will be 0. We formalize this in the following theorem:
+
+\begin{theorem}
+    If $G$, with $|L| = |R| = n$, has a perfect matching, and we let $\tilde{A}_{ij} \in \{1,\ldots, M\}$ for all edges $(i,j)$, then the probability that the above algorithm tells us $G$ has a perfect matching is at least $1 - \dfrac{n}{M}$.
+
+    If $G$ has no perfect matching, the probability the algorithm tell us $G$ has no perfect matching is 1.
+\end{theorem}
+
+To prove this, we need to understand what the determinant function is representing when it is applied to an adjacency matrix. Given an $n \times n$ matrix $M$, the formula for the determinant is 
+
+\[\det{M} = \sum_{\sigma \in S_n} (-1)^{\operatorname{sgn}(\sigma)}\prod_{i=1}^n M_{i,\sigma(i)}\]
+
+\begin{example}
+    Taking 
+
+    \[M = \begin{pmatrix}
+        a & b \\ c & d
+    \end{pmatrix}\]
+
+    Then as the only permutations in $S_2$ are the identity permuation and the transposition $(1 \ 2)$, we get that 
+
+    \[\det{M} = M_{11}M_{22} + (-1)M_{12}M_{21} = ad - bc\]
+
+    which we know to be the classic formula for the determinant of a $2 \times 2$ matrix. 
+\end{example}
+
+What happens when $M$ is an adjacency matrix? Well, each permutation in the sum will correspond to a hypothetical pairing of vertices in $L$ and $R$, meaning each term in the corresponding product is a hypothetical edge. Edges that do not exist in $G$ will be ommitted, as the corresponding entry in the matrix is 0.
+
+Notice that if a perfect matching exists, there will be a permutation $\sigma$ that corresponds to it, meaning that the pairings $(i,\sigma(i))$ correspond to the edges in the matching. If $G$ has no perfect matching, then for all $\sigma \in S_n$, there is an $i$ such that $(i,\sigma(i)) \notin E$. Thus, $\prod_i \tilde{A}_{i,\sigma(i)} = 0$, and so $\det{\tilde{A}} = 0$. 
+
+Now suppose that $G$ has a perfect matching. We define a matrix $M(x_{11},x_{12},x_{13},\ldots, x_{nn})$ by
+
+\[M_{ij} = \begin{cases}
+    x_{ij} & \text{ if } (i,j) \in E \\
+    0 & \text{ otherwise}
+\end{cases}\]
+
+This is technically a function of $n^2$ variables that maps to a modified adjacency matrix. We then define $P(X_{11}, \ldots, X_{nn})$ to be the polynomial $\det{M}$. It suffices to show that $P(x_{11},\ldots,x_{nn})$ is a non-zero polynomial. The rough proof of this is as follows: take the permutation $\sigma$ corresponding to the perfect matching. We know this gives a non-zero term in $P$. Moreover, as this permuation does not appear in another term in the sum, it cannot be cancelled out by another term, hence we get a non-zero output to $P$. This is formalized as follows:
+
+\begin{lemma}[Schwarz-Zippel Lemma]
+    Let $|A| = M$ be a subset of $\R$. If $Q(y_1,\ldots, y_k)$ is a non-zero polynomial of degree at most $d$, then 
+
+    \[\Pr[Q(\vec{y}) = 0] \leq \frac{d}{M}\]
+
+    where $\vec{y} \in A^k$ is chosen uniformly.
+\end{lemma}
+
+\begin{proof}
+    We proceed by induction on $k$, the number of variables in $Q$. First suppose that $k = 1$. Then we know that $Q$ has at most $d$ roots as it is of degree at most $d$. The probability of one of $M$ chosen numbers being one of these roots is at most $\dfrac{d}{M}$, as desired.
+
+    Now let $k > 1$ and suppose the claim holds for $k-1$. We may write $Q$ as 
+
+    \[Q(y_1, \ldots, y_{k-1},z) = Q_0(y_1,\ldots,y_{k-1}) + Q_1(y_1,\ldots,y_{k-1})z + \ldots + Q_t(y_1,\ldots,y_{k-1})z^t\]
+
+    where $Q_i(y_1, \ldots, y_{k-1})$ is non-zero with degree at most $d-i$. We define a new set 
+
+    \[B = \{\vec{y} : Q(\vec{y},z) = 0\}\]
+
+    Now, observe that if all of $Q$ is non-zero, so too must $Q_t$. Using the induction hypothesis and conditional probability, we conclude that 
+
+    \begin{align*}
+        \Pr_{\substack{\vec{y} \in A^{k-1} \\ z \in A}}[Q(\vec{y},z) = 0] & = \Pr_{\vec{y} \in A^{k}}[\vec{y} \in B] + \Pr[Q(\vec{y},z) = 0 | \vec{y} \notin B] \cdot \Pr[\vec{y} \notin B] \\
+        & = \frac{d - t}{M} + \frac{t}{M} \\
+        & = \frac{d}{M}
+    \end{align*}
+
+    The first term on the second line comes from the fact that there are $d-t$ roots of $Q_t$, while the second term follows from there being $t$ roots of $Q$ that are not roots of $Q_t$. This completes the proof. 
+\end{proof}
+
+There is also a combinatorial way of phrasing this lemma, where we say that
+
+\[|\{\vec{y} \in A^k : Q(\vec{y}) = 0\}| \leq dM^{k-1}\]
