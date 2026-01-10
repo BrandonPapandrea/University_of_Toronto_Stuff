@@ -1,0 +1,9 @@
+\contentsline {chapter}{\numberline {1}Lecture 1: Two Conceptions of Sets}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Why Should I Care About Sets?}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}What is a Set?}{1}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}The Logicist Conception of Sets}{1}{subsection.1.2.1}%
+\contentsline {subsubsection}{Russell's Paradox}{2}{Item.8}%
+\contentsline {subsection}{\numberline {1.2.2}The Generative Conception of Sets}{4}{subsection.1.2.2}%
+\contentsline {subsubsection}{The Theory of Stages}{4}{subsection.1.2.2}%
+\contentsline {subsection}{\numberline {1.2.3}Which is Better?}{5}{subsection.1.2.3}%
+\contentsline {chapter}{\numberline {2}Lecture 2: The ABCs of Set Theory}{7}{chapter.2}%

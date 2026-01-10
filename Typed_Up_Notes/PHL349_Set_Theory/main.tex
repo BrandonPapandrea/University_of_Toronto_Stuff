@@ -1,0 +1,59 @@
+\documentclass[11pt, oneside]{book}
+\usepackage{fix-cm}
+\newcommand{\dif}[2]{\dfrac{d#1}{d#2}}
+\newcommand{\pardif}[2]{\dfrac{\partial #1}{\partial #2}}
+\newcommand{\twopardif}[2]{\dfrac{\partial ^2 #1}{\partial #2^2}}
+
+
+\input{header.tex}
+
+\definecolor{left} {HTML}{293133}
+
+\renewcommand{\maketitle}{
+    \begin{titlepage}
+        \begin{tikzpicture}[remember picture,overlay]
+            \node [
+                shading = axis,
+                rectangle,
+                left color=left,
+                right color=left!85!white,
+                shading angle=90,
+                anchor=north west,
+                minimum width=\paperwidth,
+                minimum height=\paperheight
+            ] at (current page.north west) {};
+        \end{tikzpicture}
+
+        \begin{center}
+        \hspace{0pt}
+            \vfill
+            \fontsize{35}{35}\selectfont \textbf{ \color{white} PHL349} \\
+            \vspace{0.3cm}
+            \fontsize{35}{35}\selectfont \textbf{ \color{white} Set Theory} \\
+            \vspace{0.3cm}
+            \fontsize{20}{20}\selectfont \textbf{ \color{white} by Brandon Papandrea}
+            \vfill
+        \end{center}
+    \end{titlepage}
+}
+
+\begin{document}     
+\pagenumbering{roman}
+\maketitle
+
+\newpage
+
+The following text is based on lecture notes written during the Winter 2026 offering of PHL349 - Set Theory at the University of Toronto, and are in large part based on the textbook \textit{Elements of Set Theory} by Herbet Enderton, but also include notes based on the books \textit{Conceptions of Sets and the Foundations of Mathematics} by Luca Incurvati, and \textit{The Joy of Sets} by Kieth Delvin. The inention for these notes is to be a more polished and complete version of my own handwritten notes I take during class, and thus are not intended to be a primary source for learning set theory.
+
+\newpage
+
+\tableofcontents
+\clearpage
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\include{Lectures/lecture1}
+\include{Lectures/lecture2}
+
+\end{document}
