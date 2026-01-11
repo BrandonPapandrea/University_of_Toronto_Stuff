@@ -1,0 +1,58 @@
+\documentclass[11pt, oneside]{book}
+\usepackage{fix-cm}
+\newcommand{\dif}[2]{\dfrac{d#1}{d#2}}
+\newcommand{\pardif}[2]{\dfrac{\partial #1}{\partial #2}}
+\newcommand{\twopardif}[2]{\dfrac{\partial ^2 #1}{\partial #2^2}}
+
+
+\input{header.tex}
+
+\definecolor{left} {HTML}{293133}
+
+\renewcommand{\maketitle}{
+    \begin{titlepage}
+        \begin{tikzpicture}[remember picture,overlay]
+            \node [
+                shading = axis,
+                rectangle,
+                left color=left,
+                right color=left!85!white,
+                shading angle=90,
+                anchor=north west,
+                minimum width=\paperwidth,
+                minimum height=\paperheight
+            ] at (current page.north west) {};
+        \end{tikzpicture}
+
+        \begin{center}
+        \hspace{0pt}
+            \vfill
+            \fontsize{35}{35}\selectfont \textbf{ \color{white} MAT425} \\
+            \vspace{0.3cm}
+            \fontsize{35}{35}\selectfont \textbf{ \color{white} Differential Topology} \\
+            \vspace{0.3cm}
+            \fontsize{20}{20}\selectfont \textbf{ \color{white} by Brandon Papandrea}
+            \vfill
+        \end{center}
+    \end{titlepage}
+}
+
+\begin{document}     
+\pagenumbering{roman}
+\maketitle
+
+\newpage
+
+The following is based on lecture notes taken during the Winter 2026 offering of MAT425: Differential Topology, at the University of Toronto, with the textbook used being \textit{Differential Topology} by Guillemin \& Pollack. The intention is for these notes to be a polished version of my own lecture notes that allows me to revise and look over the material multiple times, and thus should not be considered a primary source for learning about differential topology.
+
+\newpage
+
+\tableofcontents
+\clearpage
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\include{Chapters/chapter1}
+
+\end{document}

@@ -1,0 +1,78 @@
+\chapter{Manifolds and Smooth Maps}
+
+\section{Definitions}
+
+Differential Topology is a field of math that specializes in the study of what are called ``smooth manifolds.'' Before we get anywhere, we first need to define what these are.
+
+The cool thing about calculus is that it is built upon the geometry of Euclidean space. What this means is that if something ``looks like'' Euclidean space, the same techniques will apply. Such spaces are called \textbf{manifolds}, spaces where if you zoom in far enough, you will get something that looks a lot like Euclidean space. If, upon zooming in, we find that the space looks like Euclidean space in $k$ dimensions, then we say that the space is a \textbf{$k$-dimensional manifold}, or just a \textbf{$k$-manifold}. Some notable examples of 2-manifolds include the sphere and torus. 
+
+Let's make this idea more precise. First, we need to define the idea of smoothness.
+
+\begin{definition}
+    A mapping $f: U \to \R^m$, where $U \subset \R^n$ is open, is called \textbf{smooth} if it has continuous partial derivatives of all orders. 
+\end{definition}
+
+This is great when our domains are open subsets, but this isn't always true. To recitfy this, we need to use a local definition:
+
+\begin{definition}
+    A mapping $f: X \to \R^m$, $X \subset \R^n$ is an arbitary subset, is called \textbf{smooth} if, for each $x \in X$, there is an open set $U \subset \R^n$ and a smooth map $F: U \to \R^m$ such that $F\big|_{U \cap X} = f$. In other words, $f$ can be \textit{locally extended} to a smooth map on open sets.
+\end{definition}
+
+In other words, we define smoothness to be a local property: a map is smooth if it is smooth in a neighbourhood of every point in the domain. This is in contrast to it being a global property, where we consider $X$ as a single, unified object. 
+
+With smooth now defined, we move to defining when two spaces looks ``the same.''
+
+\begin{definition}
+    A smooth map $f: X \to Y$ of subsets of Euclidean space is a \textbf{diffeomorphism} if it is a bijection with a smooth inverse $f^{-1}: Y \to X$. We call $X,Y$ \textbf{diffeomorphic} if there is a diffeomorphism between them. 
+\end{definition}
+
+For our purposes, two diffeomorphic spaces sets are basically the same set, just situated differented in the ambient space. Below are some examples of diffeomorphic and non-diffeomorphic spaces. 
+
+Finally, we are able to define what a manifold actually is. 
+
+\begin{definition}
+    Let $X \subset \R^n$. We call $X$ a \textbf{$k$-dimensional manifold} if it is locally diffeomoprhic to $\R^k$. That is, for each $x \in X$, there is a neighbourhood $V$ of $x$ that is diffeomorphic to an open set $U \subseteq \R^k$. We call the corresponding diffeomoprhism $\phi: U \to V$ a \textbf{parameterization} of $V$, while the inverse $\phi^{-1}: V \to U$ is called a \textbf{coordinate system} on $V$.  
+\end{definition}
+
+The map $\phi^{-1}$ can be written as $k$ smooth functions in a tuple $(x_1, \ldots, x_k)$, called \textbf{coordinate functions}. Sometimes these are called \textbf{local coordinates} on $V$, and one writes a point of $V$ as this tuple. There is some subtly here, as these functions identify $V$ with $U$ implicitely. A point $v \in V$ is identified with 
+
+\[(x_1(v), \ldots, x_k(v))\]
+
+We will also write the dimension of $X$, the dimension of the space it is locally diffeomorphic to, as just $\dim X$. 
+
+\begin{example}
+    Consider the circle $S^1 = \{(x,y) \in \R^2 : x^2 + y^2 = 1\}$. We claim this is a 1-dimensional manifold. 
+
+    We will parameterize it with 4 maps. First suppose $(x,y)$ is such that $y > 0$, then the map 
+
+    \[\phi_1(x) = (x,\sqrt{1 - x^2})\]
+
+    maps $I = [-1,1]$ bijectively to the upper semicircle. The inverse map, which just projects $(x,y)$ to the $x$-coordinate, is also smooth. Thus, $\phi_1$ is a parameterization. A similar parameterization, $\phi_2$, for the lower semicircle where $y < 0$, is defined as $\phi_2(x) = (x,-\sqrt{1-x^2})$. These maps give local parameterizations for all points of $S^1$ except $(1,0)$ and $(-1,0)$. To get those, we use the maps $\phi_3(y) = (\sqrt{1-y^2},y)$ and $\phi_4 =(-\sqrt{1-y^2},y)$ to send $I$ to the left and right semi-circles. 
+
+    We have thus shown the circle is a 1-dimensional manifold by parameterizing it with 4 maps to between it and a 1-dimensional interval. Note that this can also be done with 2 maps using stereographic projection. In general, $S^n$ is an $n$-dimensional manifold, which can be proven in a similar way. 
+\end{example}
+
+\begin{example}
+    Given manifolds $X,Y$ in $\R^N$ and $R^M$ respectively, one can form a new manifold by taking their cartesian product $X \times Y \subset \R^{M+N}$. 
+
+    Suppose $X,Y$ have dimension $k,l$ repsectively. For each $x \in X$ we have an open set $W \subset \R^k$ and a local parameterization $\phi: W \to X$ at $x$. Similarly, for each $y \in Y$, we have an open set $U \subset \R^l$ and a local parameterization $\psi: U \to Y$ at $y$. Then we can define a map $\phi \times \psi: W \times U \to X \times Y$ by 
+
+    \[(\phi \times \psi)(w,u) = (\phi(w),\psi(u))\]
+
+    $W \times U$ is open in $\R^{k+l}$, and more importantly, $\phi \times \psi$ is a local parameterization of $X \times Y$ at $(x,y)$. Thus, $X \times Y$ is a manifold of dimension $k + l$. 
+\end{example}
+
+One final thing to define in this section is the idea that manifolds can sit inside larger manifolds. 
+
+\begin{definition}
+    If $X,Z$ are manifolds in $\R^N$ and $Z \subset X$, we call $Z$ a \textbf{submanifold} of $X$. 
+\end{definition}
+
+As a trivial example, any manifold $X$ is a submanifold of its ambient space $\R^N$. Similarly, every open set of $X$ is a submanifold of $X$. As a non-trivial example, $S^m$ is a submanifold of $S^n$ whenever $m < n$.  
+
+
+\section{Derivatives and Tangent Spaces}
+
+\section{The Inverse and Implicit Function Theorems}
+
+\section{Immersions and Submersions}

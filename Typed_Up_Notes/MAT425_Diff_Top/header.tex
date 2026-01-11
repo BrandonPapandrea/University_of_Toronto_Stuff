@@ -1,0 +1,255 @@
+
+\usepackage[margin=1.1in]{geometry}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{hyperref}
+\usepackage{esdiff}
+\usepackage{tocloft}
+\usepackage{titlesec}
+\usepackage{caption}
+\usepackage{array}
+\usepackage{dsfont}
+\RequirePackage[breakable, skins, theorems]{tcolorbox}
+
+% Tikz and PGFPlots setup
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{intersections} % Add this line to load the intersections library
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{patterns}
+\usetikzlibrary{fadings}
+\usetikzlibrary{matrix}
+\usetikzlibrary{backgrounds}
+\usetikzlibrary{calc}
+\usetikzlibrary{graphs}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{decorations.markings}
+
+\makeatletter 
+\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+\renewcommand\ps@plain{\let\@mkboth\@gobbletwo
+     \let\@oddhead\@empty
+     \def\@oddfoot{\reset@font\hfil}
+     \let\@evenhead\@empty\let\@evenfoot\@oddfoot}
+\makeatother
+
+
+% Table of Contents, plus various title formattings
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\cfttoctitlefont}{\sffamily\Huge\bfseries\filcenter}
+\renewcommand{\cftaftertoctitle}{\par\noindent\hrulefill\par}
+\renewcommand{\cftchapfont}{\sffamily\Large\bfseries\vspace*{0.5em}}
+\renewcommand{\cftchappagefont}{\Large\bfseries}
+\renewcommand{\cftpartfont}{\sffamily\Large\bfseries\hfill}
+\renewcommand{\cftpartpagefont}{\color{white}}
+\renewcommand{\cftbeforepartskip}{2.0em}
+\setlength{\cftbeforechapskip}{2.0em} 
+% \setlength{\cftbeforesecskip}{1pt} 
+\setlength{\cftchapnumwidth}{25pt} 
+\setlength{\cftsecindent}{2.5em} % Increase the indentation for sections
+\titleformat{\chapter}[display]
+  {\normalfont\sffamily\Huge\bfseries}
+  {\normalfont \bfseries \flushright\fontsize{44}{44}\selectfont\thechapter} 
+  {20pt} 
+  {\Huge\bfseries} 
+  [\vspace{5pt}\titlerule] 
+
+
+\titlespacing*{\chapter}{0pt}{-20pt}{40pt} 
+\titleformat{\section}
+  {\sffamily\large\bfseries\MakeUppercase} % Uppercase section titles in text
+  {\thesection}{1em}{}
+
+
+
+\titleformat*{\subsection}{\sffamily \bfseries \MakeUppercase}
+\titleformat*{\subsubsection}{\sffamily \bfseries}
+\titleformat{\part}[display]
+    {\sffamily\Huge\bfseries\filcenter}
+    {\partname\space\thepart}
+    {20pt}
+    {}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\linespread{1.05}
+
+% Suppress warnings 
+\setlength{\headheight}{15pt}
+\addtolength{\topmargin}{-2.5pt}
+
+% List spacing
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setlist[enumerate]{%
+	itemsep=0.0625em,
+	topsep=0.125em%
+}%
+
+\setlist[itemize]{%
+	itemsep=0.25em,
+	topsep=0.25em%
+}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Header and links
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{fancy}
+\rhead{\sffamily \bfseries \thepage}
+\lhead{\sffamily Chap. \thechapter \quad \leftmark}
+\cfoot{}  % Clear center footer
+\renewcommand{\headrulewidth}{0pt}
+% Hyperref
+\usepackage{hyperref}
+    \hypersetup{
+        colorlinks=true,
+		    linkcolor=black,
+    }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{xcolor}
+\definecolor{custombg}{HTML}{293133}
+\definecolor{randombs}{HTML}{fff3ec}
+% \pagecolor{custombg}
+% \color{white}
+
+
+% Boxes for Questions, Theorems, etc.
+\newtcolorbox{pbox}[1]{
+	colback = custombg!100,
+	colframe = black!5,
+	title = #1,
+	parbox = false,
+	fontupper = \color{white},
+	title=\textcolor{black}{#1},
+}
+
+% Theorems
+\newtheoremstyle{boldslanted}
+  {\topsep}  
+  {\topsep}   
+  {\slshape}  
+  {0pt}
+  {\bfseries}
+  {.}        
+  {5pt plus 1pt minus 1pt} 
+  {} 
+
+  \NewDocumentCommand{\newtheoremstyled}{m m m}{%
+  \newtcbtheorem[number within=chapter]{#1}{#2}{%
+    colback=custombg,
+    colframe=#3,
+    fonttitle=\bfseries,
+    fontupper=\color{#3}\slshape,
+    enhanced,
+    sharp corners,
+    coltitle=#3,
+    attach boxed title to top left={%
+      xshift=2ex,
+      yshift=-3.5mm,
+      yshifttext=-2mm},
+    boxed title style={%
+      sharp corners,
+      colframe=custombg,
+      colback=custombg}
+  }{th}
+}
+
+\definecolor{lightcoral}{HTML}{FFE0D6}
+\definecolor{coral}{HTML}{FFDBCA}
+\definecolor{mintblue}{HTML}{D6F2EE} 
+\definecolor{purple}{HTML}{E4C4E6}
+
+\newtheoremstyled{mytheo}{Theorem}{lightcoral}
+\newtheoremstyled{mydef}{Definition}{mintblue}
+\newtheoremstyled{myex}{Excursion}{purple}
+
+% Theorems
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\theoremstyle{boldslanted}
+\newtheorem*{aim}{Aim}
+\newtheorem*{claim}{Claim}
+\newtheorem{corollary}{Corollary}
+\newtheorem*{conjecture}{Conjecture}
+\newtheorem{example}{Example}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem*{notation}{Notation}
+\newtheorem{prop}[theorem]{Proposition}
+\newtheorem{question}{Question}
+\newtheorem*{qc}{Quick Check}
+\newtheorem*{jp}{Journal Prompt}
+
+\newtheorem*{remark}{Remark}
+\newtheorem*{solution}{Solution}
+
+\theoremstyle{definition}
+\newtheoremstyle{sfaxiom}
+  {\topsep}   
+  {\topsep}   
+  {\normalfont} 
+  {0pt}       
+  {\sffamily\bfseries} % <-- Sans serif heading
+  {.}         
+  {5pt plus 1pt minus 1pt}
+  {}   
+\newtheorem{com}{Comment}
+\newtheorem{excursion}{Excursion}[chapter]
+\newtheorem{problem}{Problem}
+\newtheorem*{note}{Note}
+\newtheorem{exercise}{Exercise}[chapter]
+\theoremstyle{sfaxiom}
+\newtheorem{axiom}{Axiom}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\renewcommand{\labelitemi}{--}
+\renewcommand{\labelitemii}{$\circ$}
+% \renewcommand{\labelenumi}{(\alph{*})}
+
+% Special sets
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Brackets
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\abs}[1]{\left\lvert #1\right\rvert}
+\newcommand{\brak}[1]{\left\{#1\right\}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Adding text above eqal sign
+\newcommand{\eqtext}[1]{\ensuremath{\stackrel{\text{#1}}{=}}}
+
+%new commands
+\renewcommand{\d}{\,\mathrm{d}}
+
+% Proof environment
+\newenvironment{myproof}[1][\proofname]{%
+  \proof[\rm \bf #1]%
+}{\endproof}
+
+\definecolor{blurple}{HTML}{5539CC}
+% Custom colored footnote
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\pfootnote}[2][black]{%
+    \renewcommand{\thefootnote}{\textcolor{#1}{\arabic{footnote}}}%
+    \footnote{\textcolor{#1}{#2}}%
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% Centered subsubsection command
+\newcommand{\centeredsubsubsection}[1]{%
+  \subsubsection*{\centering#1}
+}
