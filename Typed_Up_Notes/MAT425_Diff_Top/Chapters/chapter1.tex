@@ -6,6 +6,10 @@ Differential Topology is a field of math that specializes in the study of what a
 
 The cool thing about calculus is that it is built upon the geometry of Euclidean space. What this means is that if something ``looks like'' Euclidean space, the same techniques will apply. Such spaces are called \textbf{manifolds}, spaces where if you zoom in far enough, you will get something that looks a lot like Euclidean space. If, upon zooming in, we find that the space looks like Euclidean space in $k$ dimensions, then we say that the space is a \textbf{$k$-dimensional manifold}, or just a \textbf{$k$-manifold}. Some notable examples of 2-manifolds include the sphere and torus. 
 
+\begin{center}
+    \includegraphics[width=0.5\textwidth]{Chapters/Manifold Examples.png}
+\end{center}
+
 Let's make this idea more precise. First, we need to define the idea of smoothness.
 
 \begin{definition}
@@ -20,18 +24,26 @@ This is great when our domains are open subsets, but this isn't always true. To 
 
 In other words, we define smoothness to be a local property: a map is smooth if it is smooth in a neighbourhood of every point in the domain. This is in contrast to it being a global property, where we consider $X$ as a single, unified object. 
 
+\begin{center}
+    \includegraphics[width=0.5\textwidth]{Chapters/Smooth Picture.png}
+\end{center}
+
 With smooth now defined, we move to defining when two spaces looks ``the same.''
 
 \begin{definition}
     A smooth map $f: X \to Y$ of subsets of Euclidean space is a \textbf{diffeomorphism} if it is a bijection with a smooth inverse $f^{-1}: Y \to X$. We call $X,Y$ \textbf{diffeomorphic} if there is a diffeomorphism between them. 
 \end{definition}
 
-For our purposes, two diffeomorphic spaces sets are basically the same set, just situated differented in the ambient space. Below are some examples of diffeomorphic and non-diffeomorphic spaces. 
+For our purposes, two diffeomorphic spaces sets are basically the same set, just situated differently in the ambient space. Below are some examples of diffeomorphic and non-diffeomorphic spaces. 
+
+\begin{center}
+    \includegraphics[width=0.5\textwidth]{Chapters/Diffeomorphisms.png}
+\end{center}
 
 Finally, we are able to define what a manifold actually is. 
 
 \begin{definition}
-    Let $X \subset \R^n$. We call $X$ a \textbf{$k$-dimensional manifold} if it is locally diffeomoprhic to $\R^k$. That is, for each $x \in X$, there is a neighbourhood $V$ of $x$ that is diffeomorphic to an open set $U \subseteq \R^k$. We call the corresponding diffeomoprhism $\phi: U \to V$ a \textbf{parameterization} of $V$, while the inverse $\phi^{-1}: V \to U$ is called a \textbf{coordinate system} on $V$.  
+    Let $X \subset \R^n$. We call $X$ a \textbf{$k$-dimensional manifold} if it is locally diffeomoprhic to $\R^k$. That is, for each $x \in X$, there is a neighbourhood $V$ of $x$ that is diffeomorphic to an open set $U \subseteq \R^k$. We call the corresponding diffeomorphism $\phi: U \to V$ a \textbf{parameterization} of $V$, while the inverse $\phi^{-1}: V \to U$ is called a \textbf{coordinate system} on $V$.  
 \end{definition}
 
 The map $\phi^{-1}$ can be written as $k$ smooth functions in a tuple $(x_1, \ldots, x_k)$, called \textbf{coordinate functions}. Sometimes these are called \textbf{local coordinates} on $V$, and one writes a point of $V$ as this tuple. There is some subtly here, as these functions identify $V$ with $U$ implicitely. A point $v \in V$ is identified with 
@@ -73,6 +85,307 @@ As a trivial example, any manifold $X$ is a submanifold of its ambient space $\R
 
 \section{Derivatives and Tangent Spaces}
 
+We move to talking about derivatives. Recall from multivariate calculus that for a smooth map $f: \R^n \to \R^m$ and point $x$ in the domaain, the \textbf{directional derivative} in the direction of $h \in \R^n$ is 
+
+\[df_x(h) = \lim_{t\to 0} \frac{f(x+th) - f(x)}{t}\]
+
+If we fix $x$, we get a linear map $df_x: \R^n \to \R^m$ mapping vectors $h$ to their corresponding directional derivative. We call this map the \textbf{derivative} of $f$ at $x$. This map is oftentimes represented by a matrix of partial derivatives called the Jacobian matrix of $f$ at $x$:
+
+\[
+\begin{pmatrix}
+    \pardif{f_1}{x_1}(x) & \cdots  & \pardif{f_1}{x_n}(x) \\
+    \vdots              &        & \vdots              \\
+    \pardif{f_n}{x_1}   & \cdots & \pardif{f_n}{x_n}
+\end{pmatrix}
+\]
+
+For our purposes, we will think of the derivative as a linear map. 
+
+This is a very natural definition, and we can see this in the chain rule. Let $U \subset \R^n, V \subset \R^m$ be open, with smooth maps $f: U \to V, g: V \to \R^l$. Then by the chain rule, for $x in U$,
+
+\[d(g \circ f)_x = dg_{f(x)} \circ df_x\]
+
+This gives us a commutative diagram of derivative maps:
+
+\[\begin{tikzcd}
+	{\R^n} && {\R^m} && {\R^l}
+	\arrow["{df_x}", from=1-1, to=1-3]
+	\arrow["{d(g \circ f)_x}"', curve={height=18pt}, from=1-1, to=1-5]
+	\arrow["{dg_{f(x)}}", from=1-3, to=1-5]
+\end{tikzcd}\]
+
+Note that, as $df_x$ gives a linar approximation to $f$ at $x$, if $f: U \to \R^m$ is a linear map, $L$, then $df_x = L$ for all $x$. In particular, the inclusion map $\iota: U \to \R^n$ at any $x$ is just the identity map of $\R^n$. 
+
+Since the derivative is the best linear approximation of a mapping, we can use them to find the linear space that best approximates a manifold $X$ at a point $x$. Let $X$ be a manifold in $\R^N$ and $\phi: U \to X$ a local parameterization at $x$, with $U$ open in $\R^k$. Assume that $\phi(0) = x$. Then the best linear approximation to $\phi$ at 0 is 
+
+\[u \mapsto \phi(0) + d\phi_0(u) = x + d\phi_0(u)\]
+
+The image of this map is a space centered at $x$. If we ignore the translation to $x$, we can define what this space is.
+
+\begin{definition}
+    The \textbf{tangent space} of $X$ at $x$ is the image of $d\phi_0: \R^k \to \R^N$, denoted $TX_x$. It is a vector subspace of $X$ whose translation to $x$, $x + TX_x$, is the closest flat approximation to $X$ at $x$. 
+
+    A point $v \in TX_x$ is called a \textbf{tangent vector to $X$ at $x$}, though it is more natural to view $v$ as a vector from $x$ to $x + v$. 
+\end{definition}
+
+\begin{center}
+    \includegraphics[width=0.5\textwidth]{Chapters/Tangent Space.png}
+\end{center}
+
+Because this definition is based on the local parameterization, one should ask if the tangent space depends on the choice of local parameterization. Suppose that $\psi: V \to X$ is another choice with $\psi(0) = x$. $U \cap V \neq \varnothing$, so without loss of generality we can shrink both sets so that $\psi(U) = \psi(V)$. The map
+
+\[h = \psi^{-1} \circ \phi: U \to V\]
+
+is a diffeomorphism (composition of diffeomorphisms), and $\phi = \psi \circ h$. Differentiating gives us 
+
+\[d\phi_0 = d\psi_0 \circ dh_0\]
+
+Thus, the image of $d\phi_0$ is in $d\psi_0$. Reversing the roles of $\phi,\psi$ gives the other direction, meaning the images are the same, and $TX_x$ is well-defined. 
+
+The dimension of the tangent space is the same as the dimension of the manifold. Suppose $\dim X = k$, and let $W \subset \R^N$ be open. Let $\Phi': \R^N \to \R^k$ be smooth and extend $\phi^{-1}$ to all of $\R^N$. $\Phi' \circ \phi$ is the identity map on $U$. Smoothness of $\phi^{-1}$, and the chain rule, then imply that 
+
+\[\operatorname{id} = d\Phi_x \circ d\phi_0\]
+
+on $\R^k$. Hence, $d\phi_0: \R^k \to TX_x$ is an isomorphism, so the dimensions are the same. 
+
+We are now ready to define the derivative of a map on arbitary manifolds $f: X \to Y$. Assuming $f(x) = y$, it should be a map of tangent space $df_x: TX_x \to TY_y$. It must satisfy two things. First, if the map is in Euclidean space, we should just get the usual derivative. Second, the chain rule must be satisfied. 
+
+With all the usual terms and definitions, and assuming that $\phi(0) = x, \psi(0) = y$, we have a commutative diagram:
+
+\[\begin{tikzcd}
+	X && Y \\
+	U & {} & V
+	\arrow["f", from=1-1, to=1-3]
+	\arrow["\phi", from=2-1, to=1-1]
+	\arrow["{h=\psi^{-1} \circ f \circ \phi}"', from=2-1, to=2-3]
+	\arrow["\psi"', from=2-3, to=1-3]
+\end{tikzcd}\]
+
+We already know what $d\phi_0,d\psi_0,dh_0$ must be, and the chain rule tells us that taking derivatives turns our above diagram into a diagram of linear maps:
+
+\[\begin{tikzcd}
+	{TX_x} && {TY_y} \\
+	{\R^k} && {\R^l}
+	\arrow["{df_x}", from=1-1, to=1-3]
+	\arrow["{d\phi_0}", from=2-1, to=1-1]
+	\arrow["{dh_0}"', from=2-1, to=2-3]
+	\arrow["{d\psi_0}"', from=2-3, to=1-3]
+\end{tikzcd}\]
+
+Recalling that $d\phi_0$ is an isomorphism, we get exactly one acceptable definition of $df_x$:
+
+\begin{definition}
+    Let $f: X \to Y$ be a map of manifolds, with $f(x) = y$. Let $\phi,\psi$ be local parameterizations of $x,y$ repsectively, on open sets $U \subset \R^k, V \subset \R^l$ repsectively. Then the \textbf{derivative of $f$ at $x$} is the linear map
+
+    \[df_x: TX_x \to TY_y \quad df_x(v) = (d\psi_0 \circ dh_0 \circ d\phi_0^{-1})(v)\]
+\end{definition}
+
+Again, we need to check that this definition does not depend on the choice of parameterization. Suppose that $\phi',\psi'$ parameterize $x,y$ as well, and without loss of generality assume the images of $\phi,\phi'$ and $\psi,\psi'$ are equal. We get new diffeomorphisms
+
+\[\Phi = \phi'^{-1} \circ \phi \quad \Psi = \psi'^{-1} \circ \psi\]
+
+with $\Phi(0) = \Psi(0) = 0$. Setting $h' = \psi'^{-1} \circ f \circ \phi'$, we get that 
+
+\[ h = \Psi^{-1} \circ h' \circ \Phi \]
+
+so at 0, we get that $dh_0 = d\Psi^{-1}_0 \circ dh'_0 \circ d\Phi_0$. Thus, 
+
+\begin{align*}
+    df_x & = d\psi_0 \circ dh_0 \circ d\phi_0^{-1} \\
+         & = d\psi_0 \circ d\Psi^{-1}_0 \circ dh'_0 \circ d\Phi_0 \circ d\phi_0^{-1}\\
+         & = d\psi'_0 \circ dh'_0 \circ d\phi'^{-1}_0
+\end{align*}
+
+as required. 
+
+We also need to check that our definition satisfies the chain rule. 
+
+\begin{theorem}[Chain Rule]
+    If $f: X \to Y, g: Y \to Z$ are smooth maps of manifolds, then 
+
+    \[d(g\circ f)_x = dg_{f(x)} \circ df_x\]
+\end{theorem}
+
+\begin{proof}
+    Let $\eta: W \to Z$ at $z = g(y)$, with $W$ open in $\R^m$ and $\eta(0) = z$, be a parameterization of $Z$ at $z$. We get a commutative diagram 
+
+    \[\begin{tikzcd}
+        X && Y && Z \\
+        \\
+        U && V && W
+        \arrow["f", from=1-1, to=1-3]
+        \arrow["g", from=1-3, to=1-5]
+        \arrow["\phi", from=3-1, to=1-1]
+        \arrow["{h = \psi^{-1} \circ f \circ \phi}"', from=3-1, to=3-3]
+        \arrow["\psi", from=3-3, to=1-3]
+        \arrow["{j = \eta^{-1} \circ g \circ \psi}"', from=3-3, to=3-5]
+        \arrow["\eta"', from=3-5, to=1-5]
+    \end{tikzcd}\]
+
+    and which reduces to 
+
+    \[\begin{tikzcd}
+        X && Z \\
+        \\
+        U && W
+        \arrow["{g \circ f}", from=1-1, to=1-3]
+        \arrow["\phi", from=3-1, to=1-1]
+        \arrow["{j \circ h}"', from=3-1, to=3-3]
+        \arrow["\eta", from=3-3, to=1-3]
+    \end{tikzcd}\]
+
+    Thus, by definition,
+
+    \[d(g \circ f)_x = d\eta_0 \circ d(j \circ h)_0 \circ d\phi_0^{-1}\]
+
+    The standard chain rule applies for $j \circ h$, so $d(j \circ h)_0 = (dj)_0 \circ (dh)_0$. Hence,
+
+    \[d(g \circ f)_x = (d\eta_0 \circ dj_0 \circ d\psi^{-1}_0) \circ (d\psi_0 \circ dh_0 \circ d\phi_0^{-1}) = dg_y \circ df_x\]
+
+    as required. 
+\end{proof}
+
 \section{The Inverse and Implicit Function Theorems}
 
+Before we start talking about the topology of manifolds, we need to study the local behavior of smooth maps. 
+
+\subsection{The Inverse Function Theorem}
+
+Suppose $X,Y$ are manifolds of the same dimension, and $f: X \to Y$ is smooth. The simplest behavior this map can have at a point $x$, is that it sends neighbourhoods of $x$ to neighbourhoods of $f(x)$ via a diffeomorphism. We call such maps \textbf{local diffeomorphisms}. How can we check if a map is a local diffeomorphism? A necessary condition of such maps is that the derivative $df_x$ is an isomorphism of tangent spaces. Suprisingly, this is also a sufficient condition:
+
+\begin{theorem}[The Inverse Function Theorem]
+    Let $f: X \to Y$ be smooth such that $df_x$ at $x$ is an isomorphism. Then $f$ is a local diffeomorphism at $x$. 
+\end{theorem}
+
+This is a powerful theorem, the map $df_x$ can be thought of as a matrix of numbers, and this matrix is invertible (hence yielding an isomorphism), precisely when it has non-zero determinant. Thus, checking for a local property of smooth maps amounts to just showing that a matrix has a non-zero determinant! 
+
+Proofs of the Inverse Function Theorem when $X,Y$ are open subsets of Euclidean space are abundant. Generalizing to manifolds amounts to using local parameterization. 
+
+\begin{proof}[Proof of Inverse Function Theorem]
+    Take parameterizations $\phi: U \to X, \psi: V \to Y$ around $x$ and $f(x)$ and set $h = \psi \circ f \circ \phi^{-1}$. By assumption, $df_x = d\psi_0 \circ dh_0 \circ d\phi^{-1}_0$ is an isomorphism, so $dh_0$ must be an isomorphism. The Inverse Function Theorem on Euclidean space applies, meaning there is an open neighbourhood $W \subset \phi(U)$ of $\phi^{-1}(x)$ such that $h(W)$ is an open neighbourhood of $\psi^{-1}(f(x))$, and $h$ restricts to a diffeomorphism $W \to h(W)$. It then follows that $f = \psi^{-1} \circ h \circ \phi$ is a diffeomorphism from $\phi^{-1}(W)$, an open neighbourhood of $x$, to $\psi^{-1}(h(W))$, an open neighbourhood of $f(x)$.
+\end{proof}
+
+Another way of viewing the inverse function theorem is to say that, when $df_x$ is an isomorphism, one can choose local coordinates $x_1, \ldots, x_k$ around $x$ and $y$ such that $f$ looks like the identity near $x$. In general, we say two maps $f: X \to Y$ and $f': X' \to Y'$ are \textbf{equivalent} if there are diffeomorphisms $\phi: X' \to X, \psi: Y' \to Y$ such that the resulting diagram commutes. From this angle, we can say that if $df_x$ is an isomorphism, when $f$ is locally equivalent, at $x$, to the identity. 
+
+\subsection{The Implicit Function Theorem}
+
+Unfortunately, our maps will sometimes go between manifolds with different dimensions. For example, suppose $f: X \to Y$ goes between manifolds of dimension $k,l$ respectively, such that $l < k$. Can we say anything about the local behavior of $f$? Yes! In fact, we get another farily important theorem.
+
+\begin{theorem}[The Implicit Function Theorem]
+    Let $f: X \to Y$ be a map between manifolds of dimension $n + m$ and $n$ repsectively, and let $x \in X$. Suppose that the matrix of partial derivatives corresponding to the first $n$ variables at $x$ is invertible. Then there exist open sets $U_1 \subset \R^n, U_2 \subset \R^m$ with $(x_1, \ldots, x_n) \in U_1$ and a map $\phi: \R^n \to \R^m$ such that for every $x' \in U_1$, there is a unique point $\phi(x') \in U_2$ such that 
+
+    \[f(x',\phi(x')) = f(x)\]
+\end{theorem}
+
+In other words, near $x$, $f$ acts like projection onto the first $n$ coordinates. Like before, the proof essentially boils down to the proof in Euclidean space, which can easily be found. The proof for manifolds then amounts to using local parameterizations.
+
+Something else that should be noted is that the implicit and inverse function theorems are equivalent, meaning you can use one to prove the other. 
+
 \section{Immersions and Submersions}
+
+\subsection{Immersions}
+
+What is the best local behavior $f: X \to Y$ can have when $\dim X < \dim Y$? The best we can expect is for $df_x$ to be an injective map. 
+
+\begin{definition}
+    If $f: X \to Y$ is such that $\dim X < \dim Y$ and $df_x$ is injective, then we say $f$ is an \textbf{immersion} at $x$. 
+
+    The \textbf{canonical immersion} is the inclusion map $(a_1, \ldots, a_k) \to (a_1, \ldots, a_k, 0, \ldots, 0)$ from $\R^k \to \R^{l}$ for $k \leq l$. 
+\end{definition}
+
+The canonical immersion is special. Up to diffeomorphism, all immersions are locally the canonical one.
+
+\begin{theorem}[Immersion Theorem]
+    Let $f: X \to Y$ be an immersion at $x$ and $y = f(x)$. Then there are local coordinates around $x$ and $y$ such that 
+
+    \[f(x_1, \ldots, x_k) = (x_1, \ldots, x_k, 0, \ldots, 0)\]
+\end{theorem}
+
+\begin{proof}
+    Choose local parameterizations $\phi: U \to X, \psi: V \to Y$ for $x,y$, with $\phi(0) = x, \psi(0) = y$. We need to augment the map $h = \psi^{-1} \circ f \circ \phi$ to apply the Inverse Function Theorem. 
+
+    $dg_0$ is injective, so we may apply a change of basis to $\R^l$ to make it a matrix of the form
+
+    \[\begin{pmatrix}
+        I_k \\
+        \hline 0
+    \end{pmatrix}\]
+
+    We can now define a map $G: U \times \R^{l-k} \to \R^l$ by 
+
+    \[G(x,z) = h(x) + (0,z)\]
+
+    so apply $h$ to the first $k$ coords, and leave the rest unchanged. $G$ maps an open set of $\R^l$ to $\R^l$, and $dG_0$ is just the identity matrix, so the Inverse Function Theorem applies. Thus, $G$ is a local diffeomorphism of $\R^l$ at 0. We also get that $\psi \circ G$ is a local diffeomorphism at 0, and so we may use it as a local parameterization of $Y$ at $y$. By construction, $h = G \circ (\text{canonical immersion})$, so if we make $U,V$ sufficiently small, we get the following commutative diagram:
+
+    \[\begin{tikzcd}
+        X && Y \\
+        \\
+        U && V
+        \arrow["f", from=1-1, to=1-3]
+        \arrow["\phi", from=3-1, to=1-1]
+        \arrow["{\text{canonical immersion}}"', from=3-1, to=3-3]
+        \arrow["{\psi \circ G}"', from=3-3, to=1-3]
+    \end{tikzcd}\]
+
+    and the claim is proven. 
+\end{proof}
+
+\begin{corollary}
+    If $f$ is an immersion at $x$, it is an immersion in a neighbourhood of $x$. 
+\end{corollary}
+
+\subsection{Submersions}
+
+Now suppose that $\dim X \geq \dim Y$. Now the best we can say about $df_x$ is that it is surjective. 
+
+\begin{definition}
+    If $f: X \to Y$ is such that $df_x$ is surjective, we say $f$ is a \textbf{submersion} at $x$. 
+
+    The \textbf{canonical submersion} is just projection $(x_1, \ldots, x_k) \to (x_1, \ldots, x_l)$ where $k \geq l$. 
+\end{definition}
+
+Like immersions, every submersion is locally equivalent to the canonical submersion near $x$. 
+
+\begin{theorem}[Submersion Theorem]
+    Suppose $f: X \to Y$ is a submersion at $x$ and $y = f(x)$. Then there are local coordinates around $x$ and $y$ such that $f(x_1,\ldots, x_k) = (x_1,\ldots,x_l)$. 
+\end{theorem}
+
+\begin{proof}
+    The proof is similar to that of the Immersion Theorem. We now define $G: U \to \R^k$ by 
+
+    \[G(a) = (h(a), a_{l+1}, \ldots, a_k)\]
+
+    Inverse Function Theorem then applies and we get a local diffeomorphism $G^{-1}$ of a neighbourhood $U'$ of 0 to $U$. $\phi \circ G^{-1}$ is also a local diffeomorphism, and $h = (\text{canonical isomorphism}) \circ G$, so $h \circ G^{-1}$ is the canonical submersion. We get a similar commutative diagram and the claim follows. 
+\end{proof}
+
+\begin{corollary}
+    If $f$ is a submerison of $x$, it is a submersion in a neighbourhood of $x$. 
+\end{corollary}
+
+\subsection{The Preimage Theorem}
+
+The most valuable insights of these classification theorems is the geometric nature of solutions. Let $f: X \to Y$ and $y \in Y$. Then we call the set $f^{-1}(y)$ the \textbf{preimage} of $y$. This isn't always a nice object, but suppose $f$ is a submersion at $x \in f^{-1}(y)$. By the Submersion Theorem we can choose local coordinates around $x$ and $y$ such that 
+
+\[f(x_1, \ldots, x_k) = (x_1, \ldots, x_l)\]
+
+and $y$ corresponds to $(0,\ldots, 0)$. Thus, near $x$, $f^{-1}(y)$ is just the set of points 
+
+\[\{(0,\ldots, 0, x_{l+1},\ldots, x_k)\}\]
+
+In more formal terms, let $V$ be the neighbourhood of $x$ on which these coordinates are defined. Then $f^{-1}(y) \cap V$ is the set of points for which the first $l$ coordinates of $x$ are 0. The functions $x_{k+1}, \ldots, x_l$ form a coordinate system on $f^{-1}(y) \cap V$, a relatively open subset of $f^{-1}(y)$. 
+
+\begin{center}
+    \includegraphics[width=0.5\textwidth]{Chapters/Preimage Theorem.png}
+\end{center}
+
+We are thus led to a new definition:
+
+\begin{definition}
+    For a map $f: X \to Y$, a point $y \in Y$ is a \textbf{regular value} for $f$ if $df_x$ is surjective at all $x \in f^{-1}(y)$. It is called a \textbf{critical value} if it is not regular. The point $x$ for which $df_x$ is subjective is called a \textbf{regular point}, and called a \textbf{critical point} if it is not regular. 
+\end{definition}
+
+Our above argument proves another important theorem:
+
+\begin{theorem}[Preimage Theorem]
+    If $y$ is a regular value of $f: X \to Y$, then $f^{-1}(y)$ is a submanifold of $X$ with dimension $\dim X - \dim Y$. 
+\end{theorem}
