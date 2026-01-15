@@ -372,11 +372,15 @@ and $y$ corresponds to $(0,\ldots, 0)$. Thus, near $x$, $f^{-1}(y)$ is just the 
 
 \[\{(0,\ldots, 0, x_{l+1},\ldots, x_k)\}\]
 
-In more formal terms, let $V$ be the neighbourhood of $x$ on which these coordinates are defined. Then $f^{-1}(y) \cap V$ is the set of points for which the first $l$ coordinates of $x$ are 0. The functions $x_{k+1}, \ldots, x_l$ form a coordinate system on $f^{-1}(y) \cap V$, a relatively open subset of $f^{-1}(y)$. 
+In more formal terms, let $V$ be the neighbourhood of $x$ on which these coordinates are defined. Then $f^{-1}(y) \cap V$ is the set of points for which the first $l$ coordinates of $x$ are 0. The functions $x_{l+1}, \ldots, x_k$ form a coordinate system on $f^{-1}(y) \cap V$, a relatively open subset of $f^{-1}(y)$. This proves an important theorem:
 
 \begin{center}
     \includegraphics[width=0.5\textwidth]{Chapters/Preimage Theorem.png}
 \end{center}
+
+\begin{theorem}[Preimage Theorem]
+    If $f: X \to Y$ is a smooth map and $y \in Y$ is such that $df_x$ is surjective at all $x \in f^{-1}(y)$, then $f^{-1}(y)$ is a submanifold of $X$ with dimension $\dim X - \dim Y$. 
+\end{theorem}
 
 We are thus led to a new definition:
 
@@ -384,8 +388,94 @@ We are thus led to a new definition:
     For a map $f: X \to Y$, a point $y \in Y$ is a \textbf{regular value} for $f$ if $df_x$ is surjective at all $x \in f^{-1}(y)$. It is called a \textbf{critical value} if it is not regular. The point $x$ for which $df_x$ is subjective is called a \textbf{regular point}, and called a \textbf{critical point} if it is not regular. 
 \end{definition}
 
-Our above argument proves another important theorem:
+The Preimage Theorem is very powerful, in that it allows us to create many submanifolds without needing to create local parameterizations.
 
-\begin{theorem}[Preimage Theorem]
-    If $y$ is a regular value of $f: X \to Y$, then $f^{-1}(y)$ is a submanifold of $X$ with dimension $\dim X - \dim Y$. 
+\begin{example}[The Orthogonal Group]
+    We let $M(n) \cong \R^{n^2}$ be the space of $n \times n$ matrices with real-valued entries; this is a manifold of dimension $n^2$. The subspace $O(n)$, called the \textbf{orthogonal group}, is the group of matrices satisfying the equation
+    \[AA^t = I\]
+    In other words, it is the group of linear transformation on $\R^n$ that preserve distance. We claim that $O(n)$ is a manifold. 
+
+    For any matrix $A$, the matrix $AA^t$ is symmetric, since 
+    \[(AA^t)^t = (A^t)^tA^t = AA^t\]
+    The vector space of such $n \times n$ matrices, $S(n)$, is a submanifold of $M(n)$ of dimension $n(n+1)/2$ (we only need to define elements on or above the diagonal). Moreover, the map
+
+    \[f: M(n) \to S(n) \quad f(A) = AA^t\]
+
+    is smooth. Now, since $AA^t = I$ for all $A \in O(n)$, we know that 
+
+    \[O(n) = f^{-1}(I)\]
+
+    hence by the Preimage Theorem, we only need to show that $I$ is a regular value of $f$. The derivative of $f$ at $A$ is 
+
+    \begin{align*}
+        df_A(B) & = \lim_{s\to 0}\frac{f(A + sB) - f(A)}{s} \\
+        & = \lim_{s\to 0} \frac{(A + sB)(A + sB)^t - AA^t}{s} \\
+        & = \lim_{s\to 0} \frac{AA^t + sBA^t + sAB^t + s^2BB^t - AA^t}{s} \\
+        & = \lim_{s\to 0} BA^t + AB^t + sBB^t \\
+        & = BA^t + AB^t
+    \end{align*}
+
+    Is this map $df_A: T_AM(n) \to T_{f(A)}S(n)$ surjective when $A \in f^{-1}(I)$? We know that 
+
+    \[T_AM(n) = M(n), \ T_{f(A)}S(n) = S(n)\]
+
+    so it suffices to show that $df_A: M(n) \to S(n)$ is surjective when $A \in O(n)$: for all $C \in S(n)$, there's a $B \in M(n)$ such that 
+
+    \[BA^t + AB^t = C\]
+
+    $C$ is symmetric, so we may write 
+
+    \[C = \frac{1}{2}C + \frac{1}{2}C^t\]
+
+    and solve $BA^t = \dfrac{1}{2}C$, since the transpose will correspond to the other term. We get 
+
+    \[BA^t = \frac{1}{2}C \implies BA^tA = \frac{1}{2}CA \implies B = \frac{1}{2}CA\]
+
+    Indeed, 
+
+    \[df_A(B) = (1/2)CAA^t + A(1/2 CA)^t = 1/2C + 1/2C^t = C\]
+
+    as desired. $O(n)$ is a submanifold of $M(n)$, of dimension
+    
+    \[\dim M(n) - \dim S(n) = n^2 - \frac{n(n+1)}{2} = \frac{n(n-1)}{2}\]
+\end{example}
+
+\section{Embeddings}
+
+Given an arbitary immersion $f: X \to Y$, there is no guarantee that the image of $f$ will be a submanifold of $Y$. We know from the Immersion Theorem that $f$ maps neighbourhoods of any $x$ diffeomorphically to $f(W)$ in $Y$. The problem is that these subsets, $f(W)$, need not be open, so while points in the image have parameterizable subsets, they need not be neighbourhoods. 
+
+Take, for example, this map twisting a circle into a figure eight. This is an immersion map $f: S^1 \to \R^2$, but the figure eight is not a manifold. The problem is the crossing point, which cannot be parameterized. 
+
+Does this mean that the immersion must be injective for the image to be a manifold? Nope! We can turn this figure eight map into an injective immersion $f: \R^1 \to \R^2$, and we will still get an issue at the crossing point. 
+
+A more interesting example is a loop around the torus. We define a map
+
+\[g: \R^1 \to S^1 \quad g(t) = (\cos 2\pi t, \sin 2\pi t)\]
+
+that loops the real line around the circle. Then define the map $\R^2 \to S^1 \times S^1$ by
+
+\[G(x,y) = (g(x),g(y))\]
+
+which is a local diffeomorphism of the plane to the torus. We may also think of the torus as the product of gluing opposite sides of a square together. We define a new map $h$ by restricting $G$ to a line through the origin with irrational slope, which results in an injective immersion of $\R^1$ onto the torus. The problem now is that the image of $h$ is dense in the torus, so we can't create any neighbourhoods! 
+
+These counterexamples do not mean all hope is lost. We just need some additional assumptions. Notice that the above examples map many points near infinity to a small parts of the image. We express points near infinity as the exterior of a compact set. What we want, then, is for points near infinity near $X$ should be mapped near infinity in $Y$. 
+
+\begin{definition}
+    A map $f: X \to Y$ is \textbf{proper} if the preimage of every compact set in $Y$ is compact in $X$.
+
+    An injective, proper immersion is called an \textbf{embedding}. 
+\end{definition}
+
+This is enough to draw global conclusions from our local immersion theorem:
+
+\begin{theorem}
+    An embedding $f: X \to Y$ mapps $X$ diffeomorphically onto a submanifold of $Y$. 
 \end{theorem}
+
+\begin{proof}
+    We prove that the image of an open set $W \subseteq X$ is open in $f(X)$. Suppose $f(W)$ is not open. Then it contains a limit point $y$, meaning there is a sequence of points $y_i \notin f(W)$ that converge to $y$. The set $\{y, y_i\}$ is compact, so as $f$ is proper, its preimage is compact in $X$. Each point in this set has one preimage point, $x_i$ for $y_i$ and $x$ for $y$, so $\{x,x_i\}$ is compact. This set has a convergent subsequence, so we can say that $x_i$ converges to some $z \in X$. Thus,
+
+    \[f(x_i) \to f(z)\]
+
+    and as $f(x_i) \to f(x)$, we conclude by injectivity of $f$ that $z = x$. As $W$ is open, and $x_i \to x$, we know that for a large enough $i$, $x_i \in X$, so $f(x_i) = y_i \in f(W)$, a contradiction. Thus, $f(X)$ is a manifold, and we know $f: X \to f(X)$ is a local diffeomorphism. It is a bijection, so the inverse $f^{-1}$ is well-defined, and since we know it to be locally smooth, we're done. 
+\end{proof}

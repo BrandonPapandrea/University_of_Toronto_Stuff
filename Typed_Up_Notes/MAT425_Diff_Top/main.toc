@@ -8,3 +8,4 @@
 \contentsline {subsection}{\numberline {1.4.1}Immersions}{8}{subsection.1.4.1}%
 \contentsline {subsection}{\numberline {1.4.2}Submersions}{9}{subsection.1.4.2}%
 \contentsline {subsection}{\numberline {1.4.3}The Preimage Theorem}{9}{subsection.1.4.3}%
+\contentsline {section}{\numberline {1.5}Embeddings}{11}{section.1.5}%
