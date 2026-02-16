@@ -1,0 +1,350 @@
+\chapter{Lecture 4: Number Systems}
+
+After constructing the natural numbers, we continue constructing new number systems by building the integers, rationals, and the reals. 
+
+\begin{remark}
+    We're not going to construct the complex numbers, as $\C = \R \times \R$. 
+
+    We also will not go into depth on the hyperreals, which is $\R$ alongside infinitesimals and infinitely large numbers. 
+\end{remark}
+
+\section{The Integers}
+
+To construct the integers, we need to define what a negative number is. All negative numbers are the difference of two positive numbers. For instance, $2 - 4 = -2$, and $5 - 8 = -3$. A na\"{i}ve definition of a negative number can thus be an ordered pair.
+
+\[-2 := \Ang{2,4}\]
+
+But this leads to a problem. Under this definition, we'd get that 
+
+
+\[-2 = \Ang{0,2} = \Ang{1,3} = \Ang{3,5} = \cdots\]
+
+in fact, there are an infinite number of such ordered pairs that would equal $-2$. What we need to do is to collapse this infinite set into a single object that we can say is $-2$. Equivalence classes are perfect for this!
+
+\begin{definition}
+    We define the relation $\sim$ on $\omega \times \omega$ as follows:
+
+    \[\Ang{m,n} \sim \Ang{p,q} \iff m+q = p+n\]
+\end{definition}
+
+This definition is natural; we want $m - n = p - q$, which is equivalent to the above by placing $q$ on the left and $n$ on the right. 
+
+\begin{theorem}
+    $\sim$, as defined above, is an equivalence relation. 
+\end{theorem}
+
+\begin{proof}
+    Reflexivity is obvious since $m + n = m + n$. 
+    For symmetry, suppose $\Ang{m,n} \sim \Ang{p,q}$. Then by commutativity of addition,
+    
+    \[m + q = p + n \iff p + n = m + q\]
+
+    so $\Ang{p,q} = \Ang{m,n}$. 
+
+    For transitivity, suppose $\Ang{m,n} \sim \Ang{p,q}$ and $\Ang{p,q} \sim \Ang{r,s}$. Then we have that 
+
+    \[m + q + p + s = p + n + r + q\]
+
+    Cancelling $q + p$ on both sides gives us 
+
+    \[m + s = r + n\]
+
+    and so $\Ang{m,n} \sim \Ang{r,s}$. 
+\end{proof}
+
+\begin{definition}
+    The \textbf{integers} $\Z$ is the set $(\omega \times \omega)/\sim$, the set of ordered pairs modulo $\sim$. 
+\end{definition}
+
+For example
+
+\[2_Z = [\Ang{2,0}] = \{\Ang{2,0}, \Ang{3,1}, \ldots\}\]
+
+\[-3_Z = [\Ang{0,3}] = \{\Ang{0,3}, \Ang{1,4}, \ldots\}\]
+
+We should quickly check that $\Z$ is actually a set. Indeed, if $x \in [\Ang{m,n}]$, then 
+
+\[\phi(x) = \exists k \exists l[k \in \omega, l \in \omega, x = \Ang{k,l}, \Ang{k,l} \sim \Ang{m,n}]\]
+
+holds. From here, we see that 
+
+\[[\Ang{m,n}] = \{x \in \omega \times \omega : \phi(x)\}\]
+
+which is a set by the separation schema. Finally $\mathbb{Z}$ has these sets as elements, so $\Z \in \mathcal{P}(\omega \times \omega)$, and thus is a set. 
+
+We must now give $\Z$ an addition operation. Intuitively we should be able to add differences, 
+
+\[(m - n) + (p-q) = (m+p) - (n+q)\]
+
+so we will define our addition operation $+_Z$ as 
+
+\[[\Ang{m,n}] +_Z [\Ang{p,q}] := [\Ang{m+p,n+q}]\]
+
+but we're not done. Recall that we are working with equivalence classes. To show that $+_Z$ is indeed the correct addition operator, we need to show that the value does not change if we use a different representative of a class: 
+
+\begin{lemma}
+    If $\Ang{m,n} \sim \Ang{m',n'}$ and $\Ang{p,q} \sim \Ang{p',q'}$, then 
+
+    \[\Ang{m+p,n+q} \sim \Ang{m' + p', n' + q'}\]
+\end{lemma}
+
+\begin{proof}
+    Follows from commutativity and associativity of $+$. 
+\end{proof}
+
+The properties of $+$ also extend to $+_Z$. In particular,
+
+\begin{theorem}
+    $+_Z$ is commutative and associative. 
+\end{theorem}
+
+\begin{proof}
+    Straightforward
+\end{proof}
+
+$\Z$ with $+_Z$ has a group structure. In particular, it has an identity element $0_Z$ and inverses:
+
+\begin{theorem}
+    $0_Z = \Ang{0,0}$ is the identity element of $+_Z$: for any $a \in \Z$, $a +_Z 0_Z = a$. Moreover, there is an integer $b$ such that $a +_Z b = 0_Z$, and this $b$ is unique
+\end{theorem}
+
+\begin{proof}
+    The first claim is obvious. For the second claim, we let $b = [\Ang{n,m}]$. Then 
+
+    \[a +_Z b = [\Ang{m+n,n+m}] = [\Ang{0,0}] = 0_Z\]
+
+    as desired. For uniqueness, let $b,b'$ be inverses of $a$. Then observe that 
+
+    \[b = b +_Z (a +_Z b') = (b +_Z a) +_Z b' = b'\]
+
+    as desired. 
+\end{proof}
+
+As inverse are unique, we can denote the inverse of $a$ to be $-a$. These give us a subtraction operation, defined as 
+
+\[b - a := b +_Z (-a)\]
+
+We are also able to give $\Z$ a multiplication operation, which we define in a very similar way to addition. We have 
+
+\[(m-n) \cdot (p-q) = (mp + nq) - (mq + np)\]
+
+Thus, we define $\cdot_Z$ as follows:
+
+\[[\Ang{m,n}] \cdot_Z [\Ang{p,q}] := [\Ang{mp + nq, mp + np}]\]
+
+Again, we'd need to verify that this is well-defined and does not change value if we use other representatives, a proof we omit. We can also prove some results analagous to those for addition:
+
+\begin{theorem}
+    $\cdot_Z$ is commutative, associative, and distributive over $+_Z$.
+\end{theorem}
+
+\begin{theorem}
+    \begin{enumerate}[label=(\roman*)]
+        \item The integer $1_Z = [\Ang{1,0}]$ is the multiplicative identity element: for all $a \in \Z$, $a \cdot_Z 1_Z = a$.
+        \item $0_Z \neq 1_Z$
+        \item If $a \cdot_Z b = 0_Z$, then $a = 0_Z$ or $b = 0_Z$.  
+    \end{enumerate}
+\end{theorem}
+
+\begin{example}
+    One can show that 
+
+    \[[\Ang{0,1}] \cdot_Z [\Ang{m,n}] = [\Ang{n,m}]\]
+
+    telling us that $-1_Z \cdot_Z a = -a$. 
+\end{example}
+
+\begin{remark}
+    All of theses results combine to tell us that $\Z$ is a \textbf{integral domain}, a concept that shows up in abstract algebra and ring theory. 
+\end{remark}
+
+We also need to develop some sort of ordering of the integers. Again, this follows from the ordering on the naturals. Recall that 
+
+\[m - n < p - q \iff m + q < p + n\]
+
+Thus, we will define our ordering $<_Z$ as follows:
+
+\[[\Ang{m,n}] <_Z [\Ang{p,q}] \iff m + q \in p + n\]
+
+Like addition and multiplication, $<_Z$ is well-defined under equivalence classes (we again omit the proof).
+
+\begin{theorem}
+    $<_Z$ is a linear ordering on $\Z$, meaning it is transitive and satisfies the trichotomy on $\Z$.
+\end{theorem}
+
+\begin{definition}
+    An integer $b$ is \textbf{positive} if $0_Z <_Z b$. 
+\end{definition}
+
+Equivalently, one can say that $0 <_Z -b$ (this is easy to prove). A consequence of trichotomy is thus that for any integer $b$, it is either positive, negative, or zero. 
+
+\begin{theorem}
+    For any $a,b,c \in \Z$,
+    \begin{enumerate}[label=(\roman*)]
+        \item $a <_Z b \iff a +_Z c <_Z b +_Z c$
+        \item If $0_Z <_Z c$, then $a <_Z b \iff a \cdot_Z c <_Z b \cdot_Z c$. 
+    \end{enumerate}
+\end{theorem}
+
+\section{The Rationals}
+
+From now on we drop the subscript on elements and operations on the integers. We now need to construct fractions, the set of which is the rational numbers. The obvious idea is to define a rational number, say $2/3$, as a fraction. In other words,, it is an ordered pair $\Ang{a,b}$ where $b \neq 0$. We call $b$ the \textbf{denominator} and $a$ the \textbf{numerator}. Like the integers, this definition can lead to different ordered pairs equalling the same fraction. We can avoid this by again defining an equivalence relation: Let $\Z'$ be $\Z$ without 0.
+
+\begin{definition}
+    We define $\sim$ to be the binary relation on $\Z \times \Z'$ satisfying
+
+    \[\Ang{a,b} \sim \Ang{c,d} \iff a\cdot d = c \cdot d\]
+\end{definition}
+
+\begin{theorem}
+    $\sim$ is an equivalence relation on $\Z \times \Z'$. 
+\end{theorem}
+
+\begin{proof}
+    We just prove transitivity, as the remaining items are easy to prove by commutativity and associativity of multiplication on the naturals. Suppose $\Ang{a,b} \sim \Ang{c,d}$ and $\Ang{c,d} \sim \Ang{e,f}$. Then 
+
+    \[ad = cb \quad \text{and} \quad cf = ed\]
+
+    Take the first equation and multiply by $f$, then take the second and multiply it by $b$. We get 
+
+    \[adf = bcf \quad \text{and} \quad cfb = edb\]
+
+    Thus, $adf = edb$, and cancelling the nonzero $d$, we get $af = eb$. Thus, $\Ang{a,b} \sim \Ang{e,f}$. 
+\end{proof}
+
+\begin{definition}
+    The \textbf{rationals} $\Q$ is the set $(\omega \times \omega)/\sim$. 
+\end{definition}
+
+We define the constants $0_Q = \Ang{0,1}$ and $1_Q = \Ang{1,1}$. Most of the proofs for rationals follow from proofs of similar results for the integers, so we will exclude them here and invite the reader to give them a try. 
+
+Our intuitive notions of addition and multiplication on rationals guides our formal definitions:
+
+\[a/b + c/d = (ad+cb)/bd \quad a/b \cdot c/d = ac/bd\]
+
+Thus, we define
+
+\[[\Ang{a,b}] +_Q [\Ang{c,d}] := [\Ang{ad + cb, bd}]\]
+\[[\Ang{a,b}] \cdot_Q [\Ang{c,d}] := [\Ang{ac,bd}]\]
+
+both of which are well-defined under equivalence classes. These operations also work in the ways we want:
+
+\begin{theorem}
+    \begin{enumerate}[label=(\roman*)]
+        \item $+_Q,\cdot_Q$ are commutative and associative. $\cdot_Q$ is distributive over $+_Q$. 
+        \item $0_Q$ is an additive identity for $+_Q$, and $1_Q$ is a multiplicative identity for $\cdot_+$.
+        \item For all $r \in \Q$, there is an $s \in Q$ such that $r +_Q s = 0_Q$. For all $r \neq 0_Q$, there is a $q \neq 0_Q$ such that $r \cdot_Q q = 1_Q$. 
+    \end{enumerate}
+\end{theorem}
+
+This additive and multiplicative inverses are unique, and we denote them as $-r$ and $r^{-1}$ respectively. We have subtraction as in the integers, as well as division, which we define by 
+
+\[s \div r := s \cdot_Q r^{-1}\]
+
+We also need to define an ordering on the rationals. Informally we know that 
+
+\[\frac{a}{b} < \frac{c}{d} \iff ad < cb\]
+
+whenever $b,d$ are positive, but this is not always guaranteed. However, we know that 
+
+\[[\Ang{a,b}] = [\Ang{-a,-b}]\]
+
+so by the trichotomy on the integers, every rational number can be expressed with a positive denominator. We can then define our ordering
+
+\[[\Ang{a,b}] <_Q [\Ang{c,d}] \iff ad < cb\]
+
+\begin{lemma}
+    Assume $\Ang{a,b} \sim \Ang{a',b'}$ and $\Ang{c,d} \sim \Ang{c',d'}$, and also assume that $b,b',d,d'$ are positive. Then 
+
+    \[ad < cb \iff a'd' < c'b'\]
+\end{lemma}
+
+\begin{theorem}
+    $<_Q$ is a linear ordering on $\Q$, as it is transitive and satisfies the trichotomy.
+\end{theorem}
+
+We call $r$ \textbf{positive} if $0_Q <_Q r$. By trichotomy, for any rational $r$, either $r$ is positive, $-r$ is positive, or $r$ is zero. From this, we can define the \textbf{absolute value} of $r$, $|r|$, as
+
+\[|r| = \begin{cases}
+    -r & -r \text{ is positive} \\ r & \text{otherwise}
+\end{cases}\]
+
+Order is preserved by the operations on the rationals. 
+
+\begin{theorem}
+    For rationals $r,s,t$,
+
+    \begin{enumerate}[label=(\roman*)]
+        \item $r <_Q s \iff r +_Q t <_Q s +_Q t$.
+        \item If $t$ is positive, then $r <_Q s \iff r \cdot_Q t <_Q s \cdot_Q t$. 
+    \end{enumerate}
+\end{theorem}
+
+Finally, we can prove the basic cancellation laws, which will make certain arithmetic proofs much simpler in future. 
+
+\begin{theorem}
+    For any rationals $s,t,r$,
+
+    \begin{enumerate}[label=(\roman*)]
+        \item If $r +_Q t = s +_Q t$, then $r = s$
+        \item If $r \cdot_Q t = s \cdot_Q t$ and $t \neq 0_Q$, then $r = s$. 
+    \end{enumerate}
+\end{theorem}
+
+\section{The Reals}
+
+Something that surprised early mathematicians, particularly those in Ancient Greece, was that the rationals were not sufficient in expressing all values. Take for instance the diagonal of a square with side length 1. The Pythagoreans showed that this value, $\sqrt{2}$, cannot be a rational number, and thus forced them to go beyond the rationals. 
+
+Our previous derivations of simpler number systems like the integers and rationals were based on equivalence classes of ordered pairs, building the new number system from established ones. We cannot achieve a similar construction of the reals using the rationals, because as we will later see, the reals are much larger than the rationals. There are, however, many known ways of constructing the reals. We will use the method most well known as \textit{Dedekind cuts}. While it is not the method that provides the best proofs for the arithmetical properties of the reals, it is the one that provides the simplest definition of them. 
+
+\begin{definition}
+    A \textbf{Dedekind cut} is a subset $x$ of $\Q$ such that 
+
+    \begin{enumerate}[label=(\roman*)]
+        \item $\varnothing \neq x \neq \Q$
+        \item If $q \in x$ and $r < q$, then $r \in x$; $x$ is closed downwards
+        \item $x$ has no largest element. 
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    We define the \textbf{real numbers} $\R$ to be the set of all Dedekind cuts. 
+\end{definition}
+
+Note there are no equivalence classes; the reals are just the set of Dedekind cuts. We get operations $+_R$ and $\cdot_R$ which are applied based on their Dedekind cuts (we omit the definition and proofs of their properties). We also get an ordering on $\R$ given by 
+
+\[x <_R y \iff x \subset y\]
+
+\begin{theorem}
+    $<_R$ is a linear ordering on $\R$. 
+\end{theorem}
+
+This allows us to prove a very important quality of $\R$, one that in fact makes it unique amongst all similar structures.
+
+\begin{definition}
+    Let $A$ be a set of reals. A real number $x$ is an \textbf{upper bound} of $A$ iff for all $y \in A$,
+
+    \[y \leq_R x\]
+
+    The set $A$ is \textbf{bounded (above)} iff there is an uppper bound of $A$. A \textbf{least upper bound} of $A$ is an upper bound that is less than any other upper bound. 
+\end{definition}
+
+\begin{example}
+    Consider the set $\{r \in \Q| r \cdot r < 2\}$ in $\R$. This set is bounded but has no least upper bound in $\Q$ (this follows from $\sqrt{2}$ being irrational, but we will not prove it).
+\end{example}
+
+The example above can be rectified by considering the set in $\R$. Now it does have a least upper bound, $\sqrt{2}$. This is a general property of subsets of the reals:
+
+\begin{theorem}[The Least Upper Bound Property]
+    Any bounded, nonempty subset of $\R$ has a least upper bound in $\R$. 
+\end{theorem}
+
+\begin{proof}
+    Let $A$ be the set in question. We claim that the least upper bound is $\bigcup A$.
+    
+    By definition of $\bigcup A$, for all $x \in A$, $x \subseteq \bigcup A$. Let $z$ be an upper bound for $A$, so $x \subseteq z$ for all $x \in A$. Then 
+
+    \[\bigcup A \subseteq z\]
+
+    Thus, $\bigcup A$ is the least upper bound of $A$ with respect to ordering by inclusion. We now show that $\bigcup A$ is a real number. $\bigcup A \neq \varnothing$ since $A$ is nonempty. Moreover, as $\bigcup A \subseteq z$ for an upper bound $z$ of $A$, $\bigcup A \neq \Q$. Finally, $\bigcup A$ is closed downwards and has no largest element, since if either claim failed, it would fail on an element of $A$, thus contradicting that $A$ is bounded. 
+\end{proof}

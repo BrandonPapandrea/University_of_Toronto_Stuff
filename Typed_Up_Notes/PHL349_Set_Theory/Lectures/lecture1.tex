@@ -96,7 +96,7 @@ but notice that this is an instance of the comprehension schema. We have that th
 
 There are a handful of ways people have thought of to fix this problem. The first way involves modifying our comprehension schema to make it more predicative. One may argue that, since we are defining a set using a quantifier that runs over all sets, which would include the set we're defining, we are using circular logic. To remedy this, we can either ban the use of quantifiers in our scheme, or use some sort of level system: variables are put into levels $0,1,2,\ldots,n,\ldots$ Then a set of level $n$ may only be defined using variables of levels below $n$. This is quite complicated, and leads to more complexity than its worth, at least for some.
 
-Another way is to look back at Frege's assumption and modify it: instead of saying all concepts have extensions, we say that only ``safe'' ones do. What is ``safe?'' That takes some work, and many of done work in this area. Some, however, have argued that the idea that certain concepts have no extensions, called the \textbf{limitation of size} is unnatural. 
+Another way is to look back at Frege's assumption and modify it: instead of saying all concepts have extensions, we say that only ``safe'' ones do. What is ``safe?'' That takes some work, and many of done work in this area. Some, however, have argued that the idea that certain concepts have no extensions, called the \textbf{limitation of size} is unnatural. In general, the problem of distinguishing between concepts that have extensions, and those that do not, is called the \textbf{Bad Company Problem}.
 
 \subsection{The Generative Conception of Sets}
 
@@ -141,6 +141,10 @@ The long and short of our discussion on stage theory is that it has a surprising
 
 \subsection{Which is Better?}
 
-Is one of these conceptions better than the other, or is there a compramise we have to make? Some have argued that neither of these viewpoints is sufficient in justifying ZFC, and so we will have to make choices about which viewpoint to use depending on circumstances. How do we decide? That's a question outside the scope of the course, but the curious reader can find answers. 
+Is one of these conceptions better than the other, or is there a compramise we have to make? Some have argued that neither of these viewpoints is sufficient in justifying ZFC, and so we will have to make choices about which viewpoint to use depending on circumstances. How do we decide? That's a question outside the scope of the course, but the curious reader can find answers. In these notes we will spend most of our time working with the iterative conception of sets. 
 
 A particularly interesting concept that arises in both of these conceptions, more so in the logicist approach because of the limitation of size, is the idea that the set-theoretic universe in \textbf{ineffable}. We can talk about sets, and we know there is some set of all sets, but can we say anything about the entire universe we are working in. More concretely, consider the cone from the generative conception. We can talk about individual sets in the cone or levels of the cone, but can we talk about the cone itself using the language of set theory? This idea actually has some applications to theology, since God acts similarly to this set-theoretic universe. Many have argued that, while God cannot be described using language, language can be used to approach God. There is an analagouse idea in set theory: while it may not be possible to describe our universe using the language of set theory, we can approach it. There is work to be done in this direction. 
+
+\subsection{The Arithmetical Conception}
+
+There is one more notion of sets that is worth mentioning. In the \textbf{arithmetic conception} of sets, numbers form the basic mathematical objects. In this way, ZFC can be formed by combining two things: the theory behind finite collections (called Peano Arithmetic) and some notion of infinity. It is a well-known piece of folklore in math that Peano Arithmetic is equivalent to ZFC with the axiom of infinity negated. 

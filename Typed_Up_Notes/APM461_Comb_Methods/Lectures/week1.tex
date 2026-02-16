@@ -66,7 +66,11 @@ To formulate the theorem, we first state a definition. For a subset of vertices 
     Thus, $|N_{G''}(T)| \geq |T|$, and the induction hypothesis applies, giving us a perfect matching $M''$ in $G''$. Combining $M'$ and $M''$ gives the desired perfect matching in $G$. 
 \end{proof}
 
-\subsection{An Algorithm to Check for Matchings}
+\newpage
+
+Second Half of Lecture Scribed by Brandon Papandrea.
+
+\subsection*{An Algorithm to Check for Matchings}
 
 Let $G = (L,R,E)$ be a bipartite graph with $|L| = |R| = n$. How can we check if there is a perfect matching in $G$? There's actually a really easy way to compute algorithm that can allows us to check with near perfect accuracy if there is one. For now, let $G$ be the graph shown below:
 
@@ -150,19 +154,18 @@ This is technically a function of $n^2$ variables that maps to a modified adjace
 
     \[Q(y_1, \ldots, y_{k-1},z) = Q_0(y_1,\ldots,y_{k-1}) + Q_1(y_1,\ldots,y_{k-1})z + \ldots + Q_t(y_1,\ldots,y_{k-1})z^t\]
 
-    where $Q_i(y_1, \ldots, y_{k-1})$ is non-zero with degree at most $d-i$. We define a new set 
-
-    \[B = \{\vec{y} : Q(\vec{y},z) = 0\}\]
-
-    Now, observe that if all of $Q$ is non-zero, so too must $Q_t$. Using the induction hypothesis and conditional probability, we conclude that 
+    where $Q_i(y_1, \ldots, y_{k-1})$ is non-zero with degree at most $d-i$. Now, observe that if all of $Q$ is non-zero, so too must $Q_t$. Using the induction hypothesis and conditional probability, we conclude that 
 
     \begin{align*}
-        \Pr_{\substack{\vec{y} \in A^{k-1} \\ z \in A}}[Q(\vec{y},z) = 0] & = \Pr_{\vec{y} \in A^{k}}[\vec{y} \in B] + \Pr[Q(\vec{y},z) = 0 | \vec{y} \notin B] \cdot \Pr[\vec{y} \notin B] \\
-        & = \frac{d - t}{M} + \frac{t}{M} \\
+        \Pr_{\substack{\vec{y} \in A^{k-1} \\ z \in A}}[Q(\vec{y},z) = 0] & = \Pr_{\substack{\vec{y} \in A^{k-1} \\ z \in A}}[Q(\vec{y},z) = 0 \cap Q_t(\vec{y}) = 0] + \Pr_{\substack{\vec{y} \in A^{k-1} \\ z \in A}}[Q(\vec{y},z) = 0 \cap Q_t(\vec{y}) \neq 0] \\
+        & = \Pr_{\substack{\vec{y} \in A^{k-1} \\ z \in A}}[Q(\vec{y},z) = 0 | Q_t(\vec{y}) = 0]\Pr_{\substack{\vec{y} \in A^{k-1}}}[Q_t(\vec{y}) = 0] \\
+        & \qquad  + \Pr_{\substack{\vec{y} \in A^{k-1} \\ z \in A}}[Q(\vec{y},z) = 0 | Q_t(\vec{y}) \neq 0]\Pr_{\substack{\vec{y} \in A^{k-1}}}[Q_t(\vec{y}) \neq 0] \\
+        & \leq \Pr_{\substack{\vec{y} \in A^{k-1}}}[Q_t(\vec{y}) = 0] + \Pr_{\substack{\vec{y} \in A^{k-1} \\ z \in A}}[Q(\vec{y},z) = 0 |Q_t(\vec{y}) \neq 0] \\
+        & = \Pr_{\substack{\vec{y} \in A^{k-1}}}[Q_t(\vec{y}) = 0] + \Pr_{\substack{z \in A}}[Q(\vec{y},z) = 0 | Q_t(\vec{y}) \neq 0] \\
+        & \leq \frac{d-t}{M} + \Pr_{\substack{z \in A}}[Q(\vec{y},z) = 0 | Q_t(\vec{y}) \neq 0] \tag{$Q_t$ as at most $d-t$ roots by I.H} \\
+        & \leq \frac{d-t}{M} + \frac{t}{M} \tag{$Q$ has at most $t$ roots} \\
         & = \frac{d}{M}
     \end{align*}
-
-    The first term on the second line comes from the fact that there are $d-t$ roots of $Q_t$, while the second term follows from there being $t$ roots of $Q$ that are not roots of $Q_t$. This completes the proof. 
 \end{proof}
 
 There is also a combinatorial way of phrasing this lemma, where we say that

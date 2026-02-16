@@ -1,0 +1,182 @@
+\newcommand{\card}[1]{\operatorname{card}(#1)}
+
+\chapter{The Size of Sets}
+
+We've constructed several different sets. We now study the size of these sets. The size of sets will form the basis for our notion of cardinal numbers and cardinal arithmetic. 
+
+\section{Equinumerosity}
+
+Given two sets $A,B$, we want to determine when $A$ and $B$ have the same size, or when $A$ has more elements than $B$. This question is easily answered when these sets are finite, as well as when one is finite and the other is infinite. But what if $A$ and $B$ are both infinite? Now we need to define what it means for two infinite sets have the same size. Maybe we can use the definition that $A$ is smaller than $B$ if $A \subsetneq B$, but this is not satisfactory. Let $B = \N$ and $A = 2\N$, the set of even natural numbers. Both sets have the same size, even though one is contained within the other.
+
+To give a good definition, we consider an analogy: suppose you are in grade school, and are given a box of circles and a box of triangles, and tasked with determining whether or not these boxes have the same size. Because you cannot count higher than 3, and there are clearly more than three of each, you seem stuck. But not all hope is lost. You take out one circle and pair it with one triangle. You repeat this process and are able to pair every circle with every triangle, showing that the boxes did have the same size! This idea is what we will use.
+
+\begin{definition}
+    A set $A$ is \textbf{equinumerous} to a set $B$, denoted $A \approx B$, iff there is a injective function $A$ onto $B$. Such a function is called an \textbf{one-to-one correspondence} between $A$ and $B$.
+\end{definition}
+
+\begin{example}
+    Using a diagonalization argument, one can show that $\omega \approx \omega \times \omega$. We define a map $J: \omega \times \omega \to \omega$ by 
+    
+    \[J(m,n) = [1+2+\cdots +(m+n)] + m = \frac{1}{2}[(m+n)^2 + 3m + n]\]
+
+    This map is indeed a one-to-one correspondence between these sets. Geometrically, this amounts to drawing diagonal lines on $\omega \times \omega$, where each line contains the ordered pairs whose coordinates sum to the same value. Consider the point $\Ang{k,m}$ so that $k+m = n$. Note that to get to a diagonal we must count all diagonals below it. Convince yourself that the dialgonal whose elements sum to $p$ has $p+1$ elements. Hence for $\Ang{k,m}$ we must count at least 
+
+    \[(0+1) + (1 + 1) + \cdots + ((m-1) + 1) = \sum_{i=1}^m i = \frac{m(m+1)}{2}\]
+
+    The number of elements in these diagonals corresponds to the value
+
+    \[\frac{(k+m)(k+m+1)}{2}\]
+
+    and since $\Ang{k,m}$ is the $k+1$th element of the diagonal, we add $k$, giving us 
+
+    \[\frac{(k+m)(k+m+1)}{2} + k = \frac{1}{2}((k+m)^2 + 3k + n)\]
+
+    To show then that this map is injective, let $J(\Ang{k_0,m_0}) = J(\Ang{k_1,m_1})$, where $k_0 + m_0 = n_0$ and $k_1 + m _1 = n_1$. Assume that $n_0 \neq n_1$ and WLOG let $n_0 > n_1$. The map 
+
+    \[\tau(x) = \frac{x(x+1)}{2}\]
+
+    is strictly increasing on the natural numbers. Thus,
+
+    \begin{align*}
+        \tau(n_0) > \tau(n_1) & \implies \tau(n_0) \geq \tau(n_1 + 1) \\
+        & \implies \tau(n_0) \geq \frac{(n_1+1)(n_1 + 2)}{2} \\
+        & \implies \tau(n_0) \geq \frac{n_1(n_1+1)}{2} + n_1 + 1 \\
+        & \implies \tau(n_0) \geq \tau(n_1) + n_1 + 1 \\
+        & \implies \tau(n_0) \geq \tau(n_1) + k_1
+    \end{align*}
+
+    But from this, we get that 
+
+    \[J(\Ang{k_0,m_0}) = \tau(n_0) + k_0 \geq \tau(n_0) \geq \tau(n_1) + k_1 = J(\Ang{k_1,m_1})\]
+
+    a contradiction. 
+    
+    Similarly, one can show that $\omega \approx \Q$. 
+\end{example}
+
+\begin{example}
+    The open unit interval $(0,1)$ is equinumerous to $\R$. Bending $(0,1)$ into a semicircle $P$, we can form a one-to-one correspondence with $\R$ by projecting each point of $P$ onto the real line. 
+\end{example}
+
+\begin{example}
+    For any set $A$, the power set $\mathcal{P}A$ is equinumerous to the set of all functions from $A$ to $2$. Indeed, for any $B \subseteq A$, we define $f_B: A \to 2$ by 
+
+    \[f_B(x) = \begin{cases}
+        1 & x \in B \\ 0 & x \in A\setminus B
+    \end{cases}\]
+
+    Similarly, any function $g$ from $A$ to $2$ can be paired with a subset of $A$, by taking $\{x \in A : g(x) = 1\}$.
+\end{example}
+
+One can define an equivalence relation $E$ by saying two sets $A,B$ are equivalent if they're equinumerous.
+
+\begin{theorem}
+    For any sets $A,B,C$,
+    \begin{enumerate}[label=(\roman*)]
+        \item $A \approx A$
+        \item If $A \approx B$ then $B \approx A$
+        \item If $A \approx B$ and $B \approx C$, then $A \approx C$
+    \end{enumerate}
+\end{theorem}
+
+One might think, in light of the above examples, that any two infinte sets are equinumerous. This is not true; some infinite sets are much larger than others:
+
+\begin{theorem}[Cantor's Theorem (1873)]
+    \begin{enumerate}[label=(\roman*)]
+        \item $\omega$ is not equinumerous to $\R$
+        \item No set is equinumerous to its power set
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    \begin{enumerate}[label=(\roman*)]
+        \item Let $f: \omega \to \R$. We claim there is a real $z$ not in the range of $f$. Suppose that no such $z$ exists. Then we can enumerate all the real numbers as outputs of $f$ like so: 
+        \begin{align*}
+            f(0) & = 240.013\ldots, \\
+            f(1) & = -7.456\ldots, \\
+            f(2) & = 1.14141\ldots, \\
+            & \vdots 
+        \end{align*}
+        We now define $z$ as follows: The integer component is 0, while the $(n+1)$th decimal place is 7, unless the $(n+1)$th decimal place of $f(n)$ is 7, in which case we set the $(n+1)$th decimal place of $z$ to 6. Notice that for every $f(n)$, $z$ differs from $f(n)$ in at least one decimal place, so they're not the same number. Thus, $z$ cannot be in the range of $f$. 
+
+        \item Assume there is a one-to-one correspondence from a set $A$ onto its power set $\mathcal{P}A$. It follows that for all $B \subseteq A$, there is an $a \in A$ such that $g(a) = B$. Let 
+        \[\mathcal{C} = \{x \in A : x \notin g(x)\}\]
+        Then for some $c \in A$, $g(c) = \mathcal{C}$. But, notice that for $c$, 
+
+        \[c \in g(c) \iff c \notin \mathcal{C}\]
+
+        which is a contradiction. 
+    \end{enumerate}
+\end{proof}
+
+\section{Finite Sets}
+
+While we've used the words ``finite'' and ``infinite'' informally before, we now define them precisely.
+
+\begin{definition}
+    A set is \textbf{finite} if and only if it is equinumerous to some natural number. Otherwise, we call the set \textbf{infinite}.
+\end{definition}
+
+In constructing the naturals, we defined each number as a set containing all smaller natural numbers; this is crucial for our definition. 
+
+We must check that each finite set is equinumerous to a unique number $n$. Then we can use $n$ as the number of elements in $S$. To do this, we require a theorem, which tells us that if we have $n$ objects and few than $n$ places to put them, one place will have have more than one object. You know this by a famous name:
+
+\begin{theorem}[The Pigeonhole Principle]
+    No natural number is equinumerous to a proper subset of itself.
+\end{theorem}
+
+Note that a set is a proper subset if it is a subset and not equal to the superceding set.
+
+\begin{proof}
+    Let $f$ be one-to-one from $n$ to $n$. We will show that the range of $n$ is $n$ itself, which proves the claim. 
+
+    We use induction. To this end, define
+
+    \[T = \{n \in \omega : \text{ any one-to-one function from $n$ into $n$ has range $n$}\}\]
+
+    and claim $T = \omega$. Clearly $0 \in T$, as the only function from 0 to 0 is $\omega$, whose range is $0$. Now suppose that $k \in T$ and $f$ is one-to-one from $k^+$ to $k^+$. 
+
+    Notice that $f \upharpoonright k$ maps $k$ one-to-one into $k^+$. We thus have two cases. 
+
+    \begin{enumerate}
+        \item Suppose $k$ is closed under $f$. Then $f \upharpoonright k$ maps $k$ into $k$. Because $k \in T$ we know then that the range of this restriction is $k$. As $f$ is one-to-one the only value left for $f(k)$ is $k$. Thus, 
+        \[\operatorname{ran} f = k \cup \{k\} = k^+\]
+
+
+        \item Suppose that $f(p) = k$ for some $p$ smaller than $k$. We can swap two values of $f$ as follows: define $\hat{f}$ by 
+        \[\hat{f}(p) = f(k), \quad \hat{f}(k) = f(p)\]
+        and $\hat{f}(x) = f(x)$ for all other $x \in k^+$. $\hat{f}$ maps $k^+$ one-to-one into $k^+$, and $k$ is closed under $\hat{f}$, so the first case applies and $\operatorname{ran} \hat{f} = k^+$. But $\operatorname{ran}\hat{f} = \operatorname{ran}f$. 
+    \end{enumerate}
+
+    In either case, the range of $f$ is $k^+$, so $k^+ \in T$. We conclude that $T = \omega$, as required.
+\end{proof}
+
+For a finite set $A$, the unique $n$ for which $A \approx n$ is called the \textbf{cardinal number} of $A$, and is denoted $\card{A}$. 
+
+\begin{example}
+    If $a,b,c,d$ are distinct, then $\card{\{a,b,c,d\}} = 4$.
+\end{example}
+
+For infinite sets, it's a bit more complicated so we postpone it until a later lecture. 
+
+We define cardinal numbers to be the anything that is the cardinal number of some set $A$. All natural numbers are cardinal numbers, since $\card{n} = n$. $\card{\omega}$ is not a natural number, since $\omega$ is not equinumerous to any natural number. We will not reveal exactly what the cardinality of $\omega$ is until later, but we will give it a name:
+
+\[\card{\omega} = \aleph_0\]
+
+\section{Cardinal Arithmetic}
+
+Addition, multiplication, and exponentiation are useful for finite cardinals, and are also useful for arbitrary cardinals as well. We need to extend these operations to the infinite cardinals.
+
+While our previous derivations for operations on $\omega$ won't work, we can find a suitable derivation. Remember in elementary school when you were asked to do $2 + 3$. You did not use the Recursion Theorem to prove this. Instead, you got two sets, one of size 2, and the other of size 3, and showed that their union is a set of size 5; the sets could be fingers, or apples, or pencils. The exact same idea works for cardinal numbers:
+
+\begin{definition}
+    Let $\kappa, \lambda$ be any cardinal numbers. Then 
+
+    \begin{enumerate}[label=(\roman*)]
+        \item $\kappa + \lambda = \card{K \cup L}$, where $K,L$ are disjoint sets of cardinality $\kappa$ and $\lambda$ respectively. 
+        \item $\kappa \cdot \lambda = \card{K \times L}$, where $K,L$ are any sets of cardinality $\kappa$ and $\lambda$ respectively. 
+        \item $\kappa^\lambda = \card{L^K}$, where $K,L$ are any sets of cardinality $\kappa$ and $\lambda$ respectively. 
+    \end{enumerate}
+\end{definition}
+
+\section{Ordering Cardinal Numbers}

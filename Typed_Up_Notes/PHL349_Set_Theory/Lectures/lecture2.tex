@@ -1,1 +1,315 @@
 \chapter{Lecture 2: The ABCs of Set Theory}
+
+In this lecture, we introduce the basic tools of set theory, including the relevant conventions, terms, axioms, and set theoretic descriptions of relations and functions. We also describe an object called the Boolean algebra of operations on sets, and discuss a nice result about it: the Stone reprsentation theorem. 
+
+\section{Notations and First Axioms}
+
+We are working in the first order language $\mathcal{L}_\in$ with identity, so $\in, =$ are relational symbols. 
+
+For sets, we use variables $x,y,z,\ldots,$ while for classes, collections with objects as members, use variables $A,B,C$. Classes always appear to the right of membership ($x \in A$), and never to the left. Sets that are collections are objects and thus can be members of a class or set ($x \in y$). 
+
+Our first axiom is the axiom of \textbf{extensionality}, which essentially says that if two classes contain the same objects, then they are the same class:
+
+\[ \forall A \forall B[\forall x (x \in A \iff x \in B) \implies A = B] \]
+
+This is an important axiom that allows us to define many well known sets. One of which is the \textbf{empty set}. The axiom defining it is
+
+\[\exists B \forall x \ x\notin B\]
+
+By extensionality, if we have two sets satisfying this axiom, then they contain the same members and thus are the same set. This is the empty set, denoted by $\varnothing$. 
+
+\begin{remark}
+    The idea of an empty set is somewhat controversial, espectially amongst ontologists. There does exist a theory without empty sets, ZFC+, that ZFC can be imposed into. 
+\end{remark}
+
+Another set we may define is a class containing a pair of sets, called a \textbf{pair}:
+
+\[\forall u \forall v \exists B \forall x [x \in B \iff (x = u \vee x = v)]\]
+
+Again, by extensionality, this is unique, and we denote it as $\{u,v\}$. Note that if $u = v$, this gives us the singleton set $\{u\}$. 
+
+We may also wish to create sets which takes elements from two different sets and contains their unique elements. This forms the basis for unions. We state the \textbf{union axiom} in two forms. First the weak form: 
+
+\[\forall u \forall v \exists B \forall x [x \in B \iff (x \in u \vee x \in v)]\]
+
+and by extensionality we may denote this as $x \cup y$. 
+
+We can define a partial relation on sets $\subseteq$, which we define as 
+
+\[x \subseteq a : = \forall t(t \in x \implies t \in a)\]
+
+in doing so, we can define the \textbf{power set axiom} as
+
+\[\forall a \exists B \forall x[x \in B \iff x \subseteq a]\]
+
+Extensionality means we can denote this set, the \textbf{power set} of $a$, as $\mathcal{P}a$. This is a much greater beast compared to the other sets we've defined. It is much larger and has no great way of intuitively being described. 
+
+To represent classes (and thus sets), our basic method is \textbf{abstraction notation}. For a formula $\phi(x) \in \mathcal{L}_\in$, we write 
+
+\[\{x | \phi(x)\}\]
+
+as the class (collection) of sets that $\phi(x)$ is true of. 
+
+The \textbf{separation/subset} axiom allows us to separate elements in a set to creaete a new set:
+
+\[\forall \vec{t} \forall a \exists B \forall x [x \in B \iff (x \in a \wedge \phi(x))]\]
+
+where $\vec{t}$ are the parameters of $\phi(x)$. $B$ is thus the set of those objects in $a$ that $\phi(x)$ is true of. Applying this schema and extensionality with $\phi(x)$ being the formula defining another set $b$, or $\neg \phi(x)$, we get 
+
+\[a \cap b \quad \text{ and } \quad a - b\]
+
+We can use separation to get a more general notion of intersection as well:
+
+\[\forall a [a \neq \varnothing \implies \exists B \forall x (x \in B \iff \forall y (y \in a \implies x \in y))]\]
+
+This set $B$, the set of those objects that are in every object in the class $a$, is unique and we can write it as $\cap a$. We can also get an analogue general notion of union as well:
+
+\[\forall a \exists B \forall x[x \in B \iff \exists y(y \in a \wedge x \in y)]\]
+
+and we write $B$, the set of those objects that are in some object in $a$, as $\cup a$. Applying this axiom to the pairing axiom gives the weaker form of the union operation.
+
+\section{The Algebra of Sets}
+
+We now have an algebraic structure $\langle V, \varnothing, \subseteq, \cap, \cup, - \rangle$, containing the universal class $V$, a minimal element $\varnothing$, a relation $\subseteq$, and operations $\cap, \cup, -$. Interestingly, this structure shares similarities with many well known mathematical and logical structures. 
+
+Given any classes $A,B,C$, the following may be proven:
+
+\begin{itemize}
+    \item Commutativity
+    \[A \cup B = B \cup A \quad \text{and} \quad A \cap B = B \cap A\]
+
+    \item Associativity
+    \[A \cup (B \cup C) = (A \cup B) \cup C\]
+    \[A \cap (B \cap C) = (A \cap B) \cap C\]
+
+    \item Distributivity
+    \[A \cap (B \cap C) = (A \cap B) \cup (A \cap C)\]
+    \[A \cup (B \cap C) = (A \cup B) \cap (A \cup C)\]
+
+    \item De Morgan's Laws
+    \[C - (A \cup B) = (C - A) \cap (C - B)\]
+    \[C - (A \cap B) = (C - A) \cup (C - B)\]
+
+    \item Empty Set Laws
+    \[A \cup \varnothing = A \quad \text{and} \quad A \cap \varnothing = \varnothing\]
+    \[A \cap (C - A) = \varnothing\]
+
+    \item Montanacity and Anti-Montanacity Laws: If $A \subseteq B$, 
+    \[A \cup C \subseteq B \cup C\]
+    \[A \cap C \subseteq B \cap C\]
+    \[\cup C \subseteq \cup B\]
+    \[C - B \subseteq C - A\]
+    \[A \neq \varnothing \implies \cap B \subseteq \cap A\]
+
+    \item Distributivity (genearlized to arbitrary union and intersection)
+    \[B \neq \varnothing \implies A \cup (\cap B) = \cap \{A \cup x | x \in B\}\]
+    \[A \cap (\cup B) = \cup \{A \cap x | x\in B\}\]
+
+    \item De Morgan's Laws (genearlized to arbitrary union and intersection)
+    \[C - \cup A = \cap \{C - x | x \in A\}\]
+    \[C - \cap A = \cup \{C - x | x \in A\}\]
+\end{itemize}
+
+A more interesting case is when these operations are restricted to some subset of $V$. Take for instance $\mathcal{P}A$ for a non-empty set $A$. Then we get a structure
+
+\[\langle \mathcal{P}A, \varnothing, \subseteq, \cap, \cup,- \rangle\]
+
+which is closed under the operations, but not their generalizations. To see this, let $A = \{\{\varnothing\}\}$. Then 
+
+\[\mathcal{P}A = \{\varnothing, \{\{\varnothing\}\}\}\]
+\[\cup A = \{\varnothing\}\]
+
+so $\cup A \notin \mathcal{P}A$. 
+
+\section{Functions and Relations}
+
+\subsection{Ordered Pairs}
+
+We now begin introducing a rigorous way of defining functions and relations. Set theory only considers one basic binary relation: membership. Other relations do exist (some argue not), so how can we represent them using sets. One way is to think of extensions for relations. The elements of a relation are clearly ordered ($2 \geq 1$, but $1 \ngeq 2$).
+
+To represent order like this in sets, we define an \textbf{ordered pair}, which allows us to get directionality. 
+
+\begin{definition}[Kuratowski's Definition of an Ordered Pair]
+    We define the \textbf{ordered pair} of $x,y$, as 
+
+    \[\Ang{x,y} := \{\{x\}, \{x,y\}\}\]
+\end{definition}
+
+This gives us directionality.
+
+\begin{prop}
+    $\Ang{x,y} = \Ang{u,v} \iff x = u \wedge y = v$
+\end{prop}
+
+\begin{proof}
+    The $\implies$ direction is trivial, so suppose that $\{\{x\},\{x,y\}\} = \{\{u\},\{u,v\}\}$. We have two cases:
+    \begin{enumerate}
+        \item If $x = y$, then 
+        \[\{\{x\},\{x,y\}\} = \{\{x\}\} = \{\{u\}, \{u,v\}\}\]
+        Since $\{\{x\}\}$ is a singleton, so too must $\{\{u\}, \{u,v\}\}$, meaning $u = v$, and
+
+        \[\{\{u\}, \{u,v\}\} = \{\{u\}\}\]
+
+        It follows that $x = y = u = v$. 
+
+        \item If $x \neq y$, then $u \neq v$ (otherwise we can redo the first case). Since the sets are equal, $\{x\} \in \{\{u\}, \{u,v\}\}$, so either $\{x\} = \{u\}$, or $\{x\} = \{u,v\}$. The second case is impossible as $\{u,v\}$ is not a singleton. Thus $x = u$, and $\{u,y\} \in \{\{u\}, \{u,v\}\}$. So $\{u,y\} = \{u,v\}$, so $y = v$. 
+    \end{enumerate}
+\end{proof}
+
+\begin{remark}
+    The definition $\Ang{x,y} := \{x, \{x,y\}\}$ does work but only if we assume the axiom of regualarity. 
+\end{remark}
+
+\subsection{Cartesian Products, Binary Relations, and Generalizations}
+
+We can define a special class whose elements are ordered pairs, with elements of the pairs coming from classes. We first need a lemma:
+
+\begin{lemma}
+    If $x,y \in A$, then $\Ang{x,y} \in \mathcal{P}\mathcal{P}A$.
+\end{lemma}
+
+\begin{proof}
+    If $x,y \in A$, then
+
+    \begin{align*}
+        \{x\}, \{x,y\} \subseteq A & \implies \{x\}, \{x,y\} \in \mathcal{P}A \\
+        & \implies \{\{x\}, \{x,y\}\} \subseteq \mathcal{P}A \\
+        & \implies \{\{x\}, \{x,y\}\} \in \mathcal{P}\mathcal{P}A
+    \end{align*}
+\end{proof}
+
+\begin{corollary}
+    For any sets $A,B$, the class
+
+    \[\{u | \exists x,y [x \in A \wedge y \in B \wedge u = \Ang{x,y}]\}\]
+
+    is a set. 
+\end{corollary}
+
+\begin{proof}
+    Apply separation to the set $\mathcal{P}\mathcal{P}(A \cup B)$. 
+\end{proof}
+
+\begin{definition}
+    The class created in the above corollary is called the \textbf{Cartesian product} of $A$ and $B$, denoted $A \times B$.
+\end{definition}
+
+We are now ready to define what a general binary relation is.
+
+\begin{definition}
+    A class $A$ is a \textbf{binary relation} if and only if all elements are ordered pairs. That is 
+
+    \[\forall x [x \in A \implies \exists u \exists v(x = \Ang{u,v})]\]
+
+    For a class $A$, the \textbf{domain} of $A$, $\operatorname{dom}A$, the \textbf{range} of $A$, $\operatorname{ran}A$, and the \textbf{field} of $A$, $\operatorname{fld}A$, are 
+
+    \[\operatorname{dom}A = \{x | \exists y (\Ang{x,y} \in A)\}\]
+    \[\operatorname{ran}A = \{x | \exists u (\Ang{u,x} \in A)\}\]
+    \[\operatorname{fld}A = \{x | x \in \operatorname{dom}A \vee x \in \operatorname{ran}A\}\]
+\end{definition}
+
+If $A$ is a set, so too is its domain, range, and field, sinice the domain and range are subsets of $\cup(\cup A)$. Given a relation $R$, we denote its ordered pairs $\Ang{x,y} \in R$ as $Rxy$ or $xRy$. 
+
+The concept of an ordered pair and binary relation may also be genearlized to ordered $n$-tuples and $n$-ary relations. These are defined inductively:
+
+\begin{definition}
+    An ordered $k+1$-tuple $\Ang{x_1,\ldots,x_k,x_{k+1}}$ is an ordered pair 
+
+    \[\Ang{\Ang{x_1,\ldots,x_k},x_{k+1}}\]
+
+    where $\Ang{x_1,\ldots,x_k}$ is an ordered $k$-tuple. An ordered pair is an ordered 2-tuple. The components of these pairs are called coordinates. 
+
+    An $n$-ary relation is a class whose elements are $n$-tuples, and an $n$-ary relation on a set $A$ is the a set of $n$-tuples whose components are in $A$. 
+\end{definition}
+
+\subsection{Functions}
+
+\begin{definition}
+    A \textbf{function} $F$ is a binary relation such that 
+
+    \[\forall x[x \in \operatorname{dom}F \implies \forall y \forall z(Fxy \wedge Fxz \implies y = z)]\]
+\end{definition}
+
+This just means that each element of the domain maps to a unique object; we call this object for which $Fxy$ for $f$ \textbf{the value of $F$ at $x$}, and is denored $F(x)$. 
+
+Functions can also have special properties: 
+
+\begin{definition}
+    $F$ a function from $A$ \textbf{into} $B$ if $\operatorname{dom}F = A$ and $\operatorname{ran}F \subseteq B$. We write 
+
+    \[F: A \to B\]
+
+    If $\operatorname{ran}F = B$, then $F$ is \textbf{surjective}, or \textbf{onto} $B$. 
+
+    We say $F$ is \textbf{injective} or \textbf{one-to-one} if and only if for each $y \in \operatorname{ran}F$ there is a unique $x \in \operatorname{dom}F$ such that $F(x) = y$. In general, if a set $R$ satisfies this condition is \textbf{single rooted}.
+
+    If $F$ is both injective and surjective then it is a \textbf{bijection}.
+\end{definition}
+
+Given sets $A,F,G$, then the separation axiom allows us to define other sets related to a function. 
+
+\begin{definition}
+    The \textbf{inverse} $F^{-1}$ of $F$ is the set
+    \[F^{-1} = \{\Ang{v,u} | \Ang{u,v} \in F\}\]
+
+    The \textbf{composition} of $F,G$ is the set 
+    \[F \circ G = \{\Ang{u,v} | \exists x(Gux \wedge Fxv)\}\]
+
+    The \textbf{restriction} of $F$ to $A$ is the set 
+    \[F \upharpoonright A = \{\Ang{u,v} | Fuv \wedge u \in A\}\]
+
+    The \textbf{image} of $A$ under $F$ is the set 
+    \[F[A] = \operatorname{ran}(F \upharpoonright A)\]
+
+    The \textbf{inverse image} of $A$ under $F$ is the set 
+    \[F^{-1}[A] = \{x \in \operatorname{dom}F | F(x) \in A\}\]
+\end{definition}
+
+\section{The Axiom of Choice (AC)}
+
+\subsection{First Form}
+
+One can prove many results pertaining to the concepts described above. One of which is the following:
+
+\begin{theorem}
+    Suppose that $F: A \to B$ with $A \neq \varnothing$.
+
+    \begin{enumerate}[label=(\alph*)]
+        \item There is a function $G: B \to A$, called the left inverse, such that $G \circ F = I_A$ if and only if $F$ is an injection.
+        \item There is a function $H : B \to A$,called the right inverse, such that $F \circ H = I_B$ if and only if $F$ is surjective. 
+    \end{enumerate}
+
+    Note that $I_C = \{\Ang{z,z} | z \in C\}$ for any $C$. 
+\end{theorem}
+
+The problem here is the $\impliedby$ direction in (b). Suppose that $F$ is surjective. Then for all $y \in B$, we have that 
+
+\[F^{-1}[\{y\}] \neq \varnothing\]
+
+We know $F^{-1}$ is a relation whose domain is $B$ and range is $A$, but we can't say its a function, because $F^{-1}[\{y\}]$ is not necessarily a singleton. What we need is some subset of $F^{-1}, H$ that is single rooted. The Axiom of Choice guarantees this:
+
+\begin{center}
+    \textbf{The Axiom of Choice (First Form)}: For any relation $R$ there is a single rooted subset $S$ of $R$ such that $\operatorname{dom}S = \operatorname{dom}R$.
+\end{center}
+
+From here we can prove our theorem.
+
+\begin{proof}
+    Let $H$ be the single rooted subset of $F^{-1}$ guaranteed by AC. Clearly $H: B \to A$ and $\Ang{y,x} \in H$ if and only if $\Ang{x,y} \in F$. Thus, $\Ang{u,v} \in F \circ H$ if and only if there is an $x \in A$ such that $\Ang{u,x} \in H$ and $\Ang{x,v} \in F$. But as $H \subseteq F^{-1}$, we have that $\Ang{x,u} \in H$ and so $u = v$, meaning $F \circ H = I_B$. 
+\end{proof}
+
+This just means you are able to ``choose'' an element of each preimage in constructing your inverse (this is why its called the Axiom of \textit{Choice}).
+
+\subsection{Second Form}
+
+An alternate form of AC may be constructed using genearlized Cartesian products. Let $R$ be afunction and $I \subseteq \operatorname{dom}R$. We consider 
+
+\[X_{i \in I}R(i) = \{f | f \text{ is a function and } \operatorname{dom}f = I \wedge \forall i \in I(f(i) \in R(i))\}\]
+
+You essentially start with a bunch of sets $R(i)$, and this new abstract we've defined is the set of functions from $I$ to the union of $R(i)$'s, where we choose a point in $R(i)$ that $i$ is mapped to by $f$. Given I just used the word ``choose,'' you wouldn't be wrong to assume AC is relevant here. 
+
+\begin{center}
+    \textbf{The Axiom of Choice (Second Form)}: For any $I$ and function $R$ with $\operatorname{dom}R = I$, if $R(i) \neq \varnothing$ for all $i \in I$, then $X_{i \in I}R(i) \neq \varnothing$. 
+\end{center}
+
+It is a good exercise to show that these two forms of AC are equivalent. 

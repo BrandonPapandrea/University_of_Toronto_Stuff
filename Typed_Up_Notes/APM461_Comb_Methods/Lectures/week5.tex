@@ -1,0 +1,152 @@
+\chapter{Week 5}
+
+\section{Counting Necklackes Using Burnside's Lemma}
+
+We continue our study of necklaces by deriving a way to count the number of necklaces over $[a]$ of length $n$ using Burnside's Lemma.
+
+\subsection{Burnside's Lemma}
+
+Burnside's Lemma is a theorem in abstract algebra, and describes a formula for the number of orbits of a given group action in terms of the number of fixed points. For a group $G$ acting on a set $S$, and $g \in G$, we let 
+
+\[\operatorname{Fix}(G) = |\{s \in S : gs = s\}|\]
+
+Be the number of elements fixed by $g$. 
+
+\begin{theorem}[Burnside's Lemma]
+    The number of orbits of the given group action is 
+
+    \[\frac{1}{|G|} \sum_{g \in G} \operatorname{Fix}(g)\]
+\end{theorem}
+
+\newpage
+
+\begin{proof}
+    We have that 
+
+    \begin{align*}
+        \sum_{g \in G} \operatorname{Fix}(g) & = \sum_{g \in G}\sum_{s \in S} \mathrm{1}_{gs = s} \\
+        & = \sum_{s \in S}\sum_{g \in G} \mathrm{1}_{gs = s} \\
+        & = \sum_{s \in S} |\operatorname{Stab}_G(s)| \\
+        & = \sum_{s \in S} \frac{|G|}{|\mathcal{O}(s)|} \\
+        & = |G| \sum_{s \in S} \frac{1}{|\mathcal{O}(s)|} \\
+        & = |G| \sum_{\text{orbits $\mathcal{O}$}} \sum_{s \in \mathcal{O}} \frac{1}{|\mathcal{O}(s)|} \\ 
+        & = |G| \sum_{\text{orbits $\mathcal{O}$}} 1 \\
+        & = |G| \cdot \text{number of orbits}
+    \end{align*}
+
+    and rearranging completes the proof.
+\end{proof}
+
+\subsection{Counting Necklaces and FLT}
+
+Now, consider necklaces over $[a]$ of length $n$. We let $\Z_n$ act on $[a]^n$ by rotation/shifting by $i$. Notice that each orbit is a necklace. By Burnside, we have that the number of such orbits is 
+
+\[\frac{1}{|G|} \sum_{g \in G} \operatorname{Fix}(g)\]
+
+where $\operatorname{Fix}(i)$ is the number of strings that are $i$-periodic (shifting by $i$ does not affect the string). In particular, it is the number of strings that are $\gcd(1,n)$-periodic. This follows from B\'{e}zout's Theorem modulo $n$. Thus, 
+
+\begin{align*}
+    \text{number of necklaces} & = \frac{1}{n}\sum_{i=0}^{n-1} a^{\gcd(i,n)} \\
+    & = \frac{1}{n}\sum_{d | n} (\text{number of $i$ such that $gcd(i,n) = 1$}) a^d \\
+    & = \frac{1}{n} \sum_{d | n} \phi(n/d)a^d
+\end{align*}
+
+where $\phi$ is the Euler Totient Function. This also gives us a generalization of FLT: as this value is an integer, we get that 
+
+\[n \bigg| \sum_{d | n}\phi(n/d)a^d\]
+
+\section{Catalan Numbers and The Ballot Theorem}
+
+Consider an $n \times n$ grid. Starting at $(0,0)$, we may move up or to the right by 1. How many ways can we end up at $(n,n)$? Given that we have to move up $n$ times, and move right $n$ times, giving us a total of $2n$ moves, we get that there are 
+
+\[{2n \choose n} \approx \Theta\left(\frac{1}{\sqrt{n}}2^{2n}\right)\]
+
+such ways. 
+
+Now let's restrict our paths so that they cannot go above the diagonal $y = x$. How many paths are there now? The answer is approximately $1/n$ of all paths. In particular, we get 
+
+\[\frac{1}{n+1}{2n \choose n}\]
+
+This value is called the \textbf{$n$-th Catalan Number}, and they show up in a wide variety of combinatorial problems. 
+
+To derive this value, we first need to consider a special theorem that, once again, involves necklaces. Consider a necklaces of beads, each labelled either $+1$ or $-1$. We say a bead is \textbf{special} if, starting at that bead, the partial sums in the clockwise direction are positive. 
+
+\begin{example}
+    Suppose we have the necklace
+
+    \[[+1, -1, +1, +1, -1, +1, +1, +1, -1, -1, +1, -1, +1]\]
+
+    Then the first $+1$ is not special, since the 2nd partial sum is 0, 2hile the second $+1$ is special. 
+\end{example}
+
+Suppose I know that the necklace has a certain number of beads labelled $+1$, and a certain number labelled $-1$. How can I arrange them to maximize the number of special beads?
+
+\begin{theorem}[The Ballot Theorem]
+    Given $a$ beads labelled $+1$, and $b$ labelled $-1$, the maximum number of special beads is $\max(a-b,0)$. 
+\end{theorem}
+
+\begin{proof}
+    We can always find two adjacent beads labelled $+1$ and $-1$ (assuming $a,b \neq 0$). Delete these beads, and repeat this process until there are either all positive beads or all negative beads. If there are all positive beads, then there are $a-b$ of them, and all are special. If all are negative, then none are special. 
+\end{proof}
+
+Using this theorem, we prove our above claim about paths which don't cross the diagonal: Consider necklaces with $(n+1)$ beads labelled $+1$ and $n$ labelled $-1$. Each necklace has $2n+1$ representations as a string in $\{+1, -1\}^{2n+1}$ (by rotation) with exactly $n+1$ beads labelled as $+1$'s. By the Ballot Theorem, exactly one out of each string representation has all partial sums positive. To construct a string with the desired number of beads, we just consider choose whwere the $n+1$ positive beads will go in the $2n+1$ positions. Thus, the number of desired walks is 
+
+\[\frac{1}{2n+1}{2n+1 \choose n+1} = \frac{1}{n+1}{2n \choose n}\]
+
+\section{Probabilistic Results}
+
+We now move to discussing some results in probability. These will become useful in discussing some results in graph theory later on. 
+
+\subsection{Markov's Inequality}
+
+We let $X$ be a nonnegative random variable. For our purposes, we assume that it is discrete. 
+
+\begin{theorem}[Markov's Inequality]
+    \[\Pr[X \geq t] \leq \frac{\mathbb{E}[X]}{t}\]
+\end{theorem}
+
+\begin{proof}
+    \begin{align*}
+        \mathbb{E}[X] & = \sum_a \Pr[X = a] \cdot a \\
+        & = \sum_{a \geq t} \Pr[X = a] \cdot a + \sum_{0 \leq a \leq t} \Pr[X = a] \cdot a \\
+        & \geq t \cdot \Pr[X \geq a]
+    \end{align*}
+\end{proof}
+
+\begin{example}
+    Let $X_1,\ldots,X_n$ be independent coin flips, with $\Pr[X_i = 1] = 0.1, \Pr[X_i = 0] = 0.9$, and let $X = \sum X_i$. Then by Markov's Inequality
+
+    \[\Pr[X > 0.2n] \leq \frac{1}{2}\]
+\end{example}
+
+\subsection{Chebyshev's Inequality}
+
+Let $\mathbb{E}[X] = \mu$, and let $\sigma = \operatorname{Var}(X) = \mathbb{E}[(X-\mu)^2]$. If we apply Markov to $(X - \mu)^2$, then 
+
+\[\Pr[(X - \mu)^2 \geq t^2] \leq \frac{\mathbb{E}[(X-\mu)^2]}{t^2} = \frac{\sigma}{t^2}\]
+
+More explicitely, 
+
+\begin{theorem}[Chebyshev's Inequality]
+    \[\Pr[|X - \mu| \geq t] \leq \frac{\sigma}{t^2}\]
+\end{theorem}
+
+\begin{example}
+    Using the example above, with $X = \sum X_i$, we have that 
+
+    \[\mathbb{E}[X] = \sum \mathbb{E}[X_i] = 0.1n\]
+
+    \begin{align*}
+        \sigma & = \mathbb{E}[(X-\mu)^2] \\
+               & = \mathbb{E}[(\sum X_i - 0.1n)^2] \\
+               & = \mathbb{E}[(\sum X_i - 0.1)^2] \\
+               & = \mathbb{E}[\sum_i \sum_j(X_i - 0.1)(X_j - 0.1)] \\
+               & = \sum_i \sum_j \mathbb{E}[(X_i - 0.1)(X_j - 0.1)] \\
+               & = \sum_i \mathbb{E}[(X_i - 0.1)^2] + \sum_{i \neq j}\mathbb{E}[X_i -0.1]\mathbb{E}[X_j - 0.1] \\
+               & \leq n
+    \end{align*}
+
+    Thus, we have that $\Pr[|X - 0.1| > t] \leq \frac{n}{t^2}$, and 
+
+    \[\Pr[X > 0.2n] \leq \Pr[|X - 0.1n| > 0.1n] \leq \frac{n}{(0.1n)^2} = O\left(\frac{1}{n}\right)\]
+\end{example}

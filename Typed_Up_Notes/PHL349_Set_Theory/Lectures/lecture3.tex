@@ -1,0 +1,345 @@
+\chapter{Lecture 3: Constructing the Naturals}
+
+In this lecture, we will see for the first time how Set Theory acts as a framework for mathematics; in particularly, we will see how it is a framework for number theory. 
+
+In \textit{Principa Mathematica}, the authors famously prove $1 + 1 = 2$, hundreds of pages into the book, using very formal mathematics. It is a somewhat humorous proof, given the intuitive nature of the result. But, someone might look at that proof and ask ``What is 1? What is 2? What is $+$?'' It was Frege who first asked these questions in this context. Now, we are going to follow in their footsteps and answer these questions. 
+
+Thus far, we have developed some basic tools, mainly axioms, and some machinery related to relations and functions. At this point, we can now reconstruct some key mathematical structures within set theory. These days, such a structure consists of a set (the domain) along with relations, functions, and distinguished elements. The most important one is the structure of the \textbf{natural numbers}. Frege and Dedekind's work in set theory was largely justfied by a desire to find a philosophical conception of natural numbers. The relationship between number theory (arithmetic) and set theory remains an open question, and it is useless to say one is more fundamental than the other. With that said, a famous result of G\"{o}del says that while ZFC is sufficient in develop a good theory of number systems like the integers, reals, etc., some simple arithmetic questions cannot be settled in ZFC. 
+
+\section{The Existence of the Naturals}
+
+\subsection{Simple Infinite Systems and the Axiom of Infinity}
+
+What are natural numbers? Where does our knowledge of them come from? Dedekind had an abstractionist view of numbers. He defines a \textbf{simple infinite system $M$} as a set/system satisfying 
+
+\begin{enumerate}[label=(\roman*)]
+    \item $M$ is closed under an injective function $f$
+    \item There is an $e \in M$ such that $e \notin \operatorname{ran}f$
+    \item If $X$ satisfies (i) and (ii) then $M \subseteq X$. 
+\end{enumerate}
+
+He says that $f$ \textbf{orders} $M$ and that $e$ is a \textbf{base element} for $M$ with respect to $f$. He then defines the natural numbers as such a simple infinite system:
+
+\begin{center}
+    \textit{If, in considering a simply infinite system $N$ ordered by the mapping $\phi$, we completely disregard the particular nature of the elements, retaining only their distinguishability and considering only those relationships in which they are placed to one another by the ordering map $\phi$, then these elements are called natural numbers or ordinal numbers or simply numbers, and the base element $e$ is called the base element of the number series $N$. In consideration of this freeing of the elements from every other content (abstraction) one can with justice call the numbers a free creation of the human intellect(menschlichen Geistes)}
+\end{center}
+
+This definition still does not answer the question of if a simple infinite system exists. While Dedekind tried to prove their existence, it is widely regarded to be a failure. Other philosophers, such as Parsons, have tried to use other methods to prove its existence, but have failed to do so. Thus, instead of trying to prove that one exists, let's just assume that it does using an axiom.
+
+\begin{definition}
+    For any set $a$, the \textbf{successor} $a^+$ is the set $a \cup \{a\}$. 
+
+    We say $A$ is an \textbf{inductive set} if and only if $\varnothing \in A$, and $A$ is closed under the set successor operation.
+\end{definition}
+
+\begin{center}
+    \textbf{The Axiom of Infinity}: There is an inductive set $A$.
+\end{center}
+
+\begin{definition}
+    The set of natural numbers $\omega$ is the intersection of all inductive sets. 
+\end{definition}
+
+We know that $\omega$ exists thanks to the existence of $A$. We can attain another inductive set $A \cup \{A^+\}$. This gets us many more inductive sets, and by applying the separation schema to get a subset of an inductive set containing only the elements that are in all other inductive sets that exists, we get $\omega$. 
+
+It should be evident that, as $\varnothing$ is in all inductive sets, it is in $\omega$. Furthermore, If $a+ \notin \omega$ for some set $a$, then $a$ would be in all inductive sets, but $a^+$ would not, contradicting the fact that all inductive sets are closed under set successor. Thus,
+
+\begin{theorem}
+    $\omega$ is inducitve, and coincides with any inductive subset of it. 
+\end{theorem}
+
+This means that if we have a subset of $\omega$ that is itself inductive, we can find a correspondence between it and $\omega$. From this, we get a fundamental principle
+
+\begin{corollary}[Principle of Induction]
+    If $A \subseteq \omega$, and $A$ is inductive, meaning $\varnothing \in A$ and is closed under set successor, then $A = \omega$. 
+\end{corollary}
+
+This is the main principle we will use in our development of arithmetic.
+
+\subsection{The Dedekind-Peano Postulates}
+
+Now that we know the natural numbers exist, it's time to use it to formalize arithmetic in a set theoretic context. We start by considering systems that generalize the properties of the naturals, mainly that there is a 0 element, the successor function is injective, and the principle of induction. 
+
+\begin{definition}[Dedekind-Peano Postulates]
+    A \textbf{Peano system} is a triple $\Ang{N,S,e}$ with $N$ a set, $S: N \to N$, and $e \in N$ such that 
+
+    \begin{enumerate}[label=(\roman*)]
+        \item $e \notin \operatorname{ran}S$
+        \item $S$ is injective 
+        \item If $A \subseteq N$, $e \in A$, and $S[A] \subseteq A$, then $A = N$
+    \end{enumerate}
+\end{definition}
+
+There is another special property of the natural numbers that we need to define as well: any element of the naturals is also a subset of the naturals:
+
+\begin{definition}
+    A is \textbf{transitive} if and only if $A$ satisfies 
+
+    \[\forall x \forall y [(x \in y \wedge y \in A) \implies x \in A]\]
+
+    Equivalently, $A$ satifies the property that 
+
+    \[\cup A \subseteq A \quad \text{or} \quad x \in A \implies x \subseteq A \quad \text{or} \quad A \subseteq \mathcal{P}A\]
+\end{definition}
+
+\begin{lemma}
+    \begin{enumerate}[label=(\roman*)]
+        \item If $a$ is transitive, then $\cup(a^+) = a$
+        \item Every natural number is a transitive set
+        \item $\omega$ is transitive 
+    \end{enumerate}
+\end{lemma}
+
+\begin{proof}
+    \begin{enumerate}[label=(\roman*)]
+        \item For a transitive set $a$,
+        \begin{align*}
+            \cup a^+ & = \cup (a \cup \{a\}) \\
+            & = (\cup A) \cup (\cup \{a\}) \\
+            & = (\cup a) \cup a \\
+            & = a \tag{by transitivity}
+        \end{align*}
+
+        \item We prove it by induction. Let 
+        \[T = \{n \in \omega | n \text{ is a transitive set}\}\]
+        We claim that $T = \omega$. $0 \in T$ trivially. Moreover, if $k \in T$, then by (i)
+
+        \[\cup(k^+) = k \subseteq k^+\]
+
+        so $k^+ \in T$, and we conclude that $T$ is inductive. By induction, $T = \omega$. 
+
+        \item Again we prove it by induction. Let 
+        \[T = \{n \in \omega | n \subseteq \omega\}\]
+        We claim $T = \omega$. Clearly $0 \in T$. Moreover, if $k \in T$, then $k \subseteq \omega$ and $\{k\} \subseteq \omega$. Thus $k \cup \{k\} \subseteq\omega$ so $k^+ \in T$. By induction we conclude that $T = \omega$ as $T$ is inductive. 
+    \end{enumerate}
+\end{proof}
+
+With this lemma we can create a Peano system using the naturals:
+
+\begin{theorem}
+    $\Ang{\omega, \sigma, 0}$ is a Peano system, where $\sigma$ is the restriction of set theoretic successor to $\omega$. 
+\end{theorem}
+
+\begin{proof}
+    Clearly $0 \notin \operatorname{ran}\sigma$. Moreover if $A \subseteq \omega, 0 \in A$, and $\sigma[A] \subseteq A$, then $A = \omega$. Finally, if $m^+ = \sigma(m) = \sigma(n) = n^+$, then by the above Lemma, 
+
+    \[\cup m^+ = \cup n^+ = m = n\]
+
+    so $\sigma$ is injective. 
+\end{proof}
+
+We have thus formalized the natural numbers in terms of set theory. This is progress, but we're not done yet. While we've gotten the elements down, we still need operations and relations. 
+
+First off, operations. Where does $+$ come from in a set theoretic context? This is answered by the Recursion Theorem. Suppose I gave you a function $h: \omega \to A$ and a function $F: A \to A$ such that $h(0)$ is given and $h(n^+) = F(h(n))$. Then we can find out what $h$ is by computing each value successively:
+
+\[h(0), h(1) = F(h(0)), h(2) = F(h(1)) = F(F(h(0))), \ldots\]
+
+In other words, $h(m) = F^m(a)$, where $F^m$ just means repeating $F$ $m$ times. 
+
+We can show that for any set $A$, $a \in A$, and map $F: A \to A$, that such a function $h$ exists.
+
+\begin{theorem}[The Recursion Theorem]
+    If $A$ is a set $a \in A$, and $F: A \to A$, then there is a unique function $h: \omega \to A$ such that 
+
+    \begin{enumerate}[label=(\roman*)]
+        \item $h(0) = a$,
+        \item $h(n^+) = F(h(n))$ for all $n \in \omega$. 
+    \end{enumerate}
+\end{theorem}
+
+To prove it we need a new definiton. A function $h_k$ is called \textbf{acceptable} if and only if its domain is a subset of $\omega$, its range a subset of $A$, and 
+
+\begin{enumerate}[label=(\roman*)]
+    \item $0 \in \operatorname{dom}v \implies v(0) = a$
+    \item $n^+ \in \operatorname{dom}v \implies n \in \operatorname{dom}v \wedge v(n^+) = F(v(n))$
+\end{enumerate}
+
+\begin{proof}
+    Let $h$ be the union of all acceptable functions. In other words, $h(n) = y$ if and only if $v(n) = y$ for an acceptable function $v$. 
+
+    First we show $h$ is a function. It suffices to prove that two acceptable functions agree on the intersection of their domains. Let
+
+    \[S = \{n \in \omega | h(n) = y \text{ for at most one $y$}\}\]
+
+    We claim $S$ is inductive and thus $\omega$. If 
+    \[y_1 = h(0) = y_2\]
+    for some $y_1,y_2$ then there exists $v_1,v_2$ such that $v_1(0) = y_1, v_2(0) = y_2$, so $y_1 = a = y_2$. So $0 \in S$. 
+
+    Now suppose that $k \in S$. If 
+    \[y_1 = h(k^+) = y_2\]
+    for some $y_1,y_2$ then there exists $v_1,v_2$ such that $v_1(k^+) = y_1, v_2(k^+) = y_2$. Thus,
+
+    \[y_1 = F(v_1(k)) \quad y_2 = F(v_2(k))\]
+
+    and because $k \in S$, we know that $v_1(k) = h(y) = v_2(k)$, so $F(v_1(k)) = F(v_2(k))$. Thus, $k^+ \in S$, and so by induction $S = \omega$. 
+
+    $h$ is a function, now we need to show it is 
+    acceptable. It is clear from the definition that the domain and ranges are $\omega$ and $A$ respectively. We just need to check the other conditions. 
+    
+    For (i), if $0 \in \operatorname{dom}h$, then there is an acceptable $v$ such that $v(0) = h(0)$. As $v(0) = a$, $h(0) = a$, as desired.
+
+    For (ii), if $n^+ \in \operatorname{dom}h$, then there is an acceptable $v$ such that $v(n^+) = h(n^+)$. As $v$ is acceptable, we have that $n \in \operatorname{dom}v$ and since $v(n) = h(n)$,
+
+    \[h(n^+) = v(n^+) = F(v(n)) = F(h(n))\]
+
+    so $h$ is indeed acceptable.
+
+    We now show that $\operatorname{dom}h = \omega$. We show that $\operatorname{dom}h$ is inductive. As $\{\Ang{0,a}\}$ is acceptable, $0 \in \operatorname{dom}h$. Now suppose $k \in \operatorname{dom}h$, and suppose for the sake of contradiction that $k^+ \notin \operatorname{dom}h$. Then consider 
+
+    \[v = h \cup \{\Ang{k^+, F(h(k))}\}\]
+
+    Then $v$ is a function whose domain and ranges satisfy the requirements for an acceptable function. Moreover, $v(0) = h(0) = a$. In addition, if $n^+ \in \operatorname{dom}v$, with $n^+ \neq k^+$, then $n^+ \in \operatorname{dom}h$ and $v(n^+) = h(n^+) = F(h(n)) = F(v(n))$. Similarly if $n^+ = k^+$, by injectivity of the successor function, $n = k$, and as $k \in \operatorname{dom}h$, 
+
+    \[v(k^+) = F(h(k)) = F(v(k))\]
+
+    so $v$ is an acceptable function. But this means that $v \subseteq h$, and so $k^+ \in \operatorname{dom}h$, a contradiction. Thus, $\operatorname{dom}h$ is inducitve and so by induction it is equal to $\omega$. 
+
+    Finally, we claim that $h$ is unique. Let $h_1,h_2$ satisfy the theorem. Let
+
+    \[S = \{n \in \omega | h_1(n) = h_2(n)\}\]
+
+    we claim $S$ is inductive. Clearly $0 \in S$ as $h_1(0) = a = h_2(0)$ by construction. Now, assume $k \in S$ and consider $k^+$. We have that 
+
+    \[h_1(k^+) = F(h_1(k)) = F(h_2(k)) = h_2(k^+)\]
+
+    so $k^+ \in S$. So $S$ is inductive and by induction $S = \omega$, so $h_1 = h_2$. 
+\end{proof}
+
+There are many other Peano systems; the system where $N$ is the powers of 2, $S$ is multiplication by 2, and $e = 1$ is a Peano system. However, one can readily see that this system is equivalent to $\Ang{\omega, \sigma, 0}$. In fact, any Peano system is essentially the same as $\Ang{\omega, \sigma,0}$!
+
+\begin{theorem}[The Isomorphism Theorem]
+    $\Ang{\omega, \sigma, 0}$ is isomorphic to any Peano system $\Ang{N,S,e}$. There is a bijection $h: \omega \to N$ such that 
+
+    \begin{enumerate}[label=(\roman*)]
+        \item $h(0) = e$
+        \item $h(\sigma(n)) = S(h(n))$
+    \end{enumerate}
+
+    and we denote this by $\Ang{\omega,\sigma,0} \cong \Ang{N,S,e}$. 
+\end{theorem}
+
+\begin{proof}
+    Let $h$ be the function guaranteed from the Recursion Theorem. We claim that $h$ is injective and it's range is $N$. This would show thta it is a bijection satifying the requirements. 
+
+    First we show that $\operatorname{ran}h = N$. We use induction on $\Ang{N,S,e}$. Clearly $e \in \operatorname{ran}h$ as $h(0) = e$. Furthermore, for any $x \in \operatorname{ran}h$ where $x = h(n)$, we have that $h(n^+) = S(x)$, so $S(x) \in \operatorname{ran}h$. Thus by induction $\operatorname{ran}h = N$. 
+
+    We now show $h$ is injective. Let 
+
+    \[T = \{n \in \omega | \text{for all $m \in \omega$ with $m \neq n$, $h(m) \neq h(n)$}\}\]
+
+    We claim $T$ is inductive. Any $m \neq 0$ must be the successor of some value $p$, and $h(p^+) = S(h(p)) \neq e$ as $e$ isn't in the range, so $0 \in T$.
+    
+    Now suppose $k \in T$ and consider $k^+$. Suppose $h(k^+) = h(m)$. Then from before we know that $m \neq 0$, so $m = p^+$ for some $p$, and we get 
+
+    \[S(h(k)) = h(k^+) = h(p^+) = S(h(p))\]
+
+    $S$ is injective, so we have that $h(k) = h(p)$. As $k \in T, k = p$, so $k^+ = p^+ = m$. Thus, $k^+ \in T$, so $T$ is inductive and we conclude that $T = \omega$, hence $h$ is injective. 
+\end{proof}
+
+Because of these theorems, the theory whose axioms are the Dedekind-Peano postulates, called \textbf{second-order (Peano) arithmetic}, is a categorical theory.
+
+\section{The Elementary Theory of Arithmetic}
+
+\subsection{Addition and Multiplication}
+
+It is now relatively straightforward to define and prove some basic properties of addition and multiplication:
+
+\begin{definition}
+    Given any $m \in \omega$, The Recursion Theorem gives us a unique function
+
+    \[A_m: \omega \to \omega\]
+
+    such that $A_m(0) = m$, $A_m(n^+) = A_m(n)^+$ for every $n \in \omega$.
+
+    We thus define \textbf{addition} $+$ to be the function on $\omega \times \omega$ such that for $m,n \in \omega$,
+
+    \[m + n = A_m(n)\]
+\end{definition}
+
+\begin{definition}
+    By the Recursion Theorem, there is a unique function 
+
+    \[M_m: \omega \to \omega\]
+
+    such that $M_m(0) = 0$ and $M_m(n^+) = M_m(n) + m$ for every $m,n \in \omega$. We then define \textbf{multiplication} $\cdot$ as the function for which $m \cdot n = M_m(n)$. 
+\end{definition}
+
+Exponentiation can be done in a similar fashion. From here, we are then able to state and prove many elementary properties of addition and multiplication.
+
+\begin{theorem}The following equations hold for all $m,n,p \in \omega$:
+    \begin{enumerate}[label=(\roman*)]
+        \item $m + 0 = m$
+        \item $m + n^+ = (m+n)^+$
+        \item $m \cdot 0 = 0$
+        \item $m \cdot n^+ = m \cdot n + m$
+        \item $(m+n)+p = m+(n+p)$
+        \item $m+n = n+m$
+        \item $m \cdot (n+p) = m \cdot n + m \cdot p$
+        \item $(m \cdot n) \cdot p = m \cdot (n \cdot p)$
+        \item $m \cdot n = n \cdot m$
+    \end{enumerate}
+\end{theorem}
+
+\subsection{Ordering the Naturals}
+
+While we have defined operations on the naturals, we have yet to define relations on them, mainly the relations of $<$ and $\leq$. In the context of our development of arithmetic, we define $m<n$ through membership, meaning that 
+
+\[m < n \iff m \in n\]
+
+Similarly, $m \leq n$ if and only if $m < n \vee m = n$. Clearly, $m < n \iff m^+ \leq n$. This leads to an important theorem about ordering the naturals:
+
+\begin{theorem}[Trichotomy of the Order Relation on $\omega$]
+    For every $m,n \in \omega$, exactly one of the below holds:
+
+    \[m \in n \quad n \in m \quad m = n\]
+\end{theorem}
+
+In other words, either $m < n$, $n < m$, or $m = n$. Many corollaries follow from the Trichotomy:
+
+\begin{theorem}
+    The following hold for all $m,n \in \omega$
+
+    \begin{enumerate}[label=(\roman*)]
+        \item $m \in n \iff m \subset n$
+        \item $m < n \iff m + p < n + p$ for all $p \in \omega$
+        \item $m < n \iff m \cdot p < n \cdot p$ for all $p \in \omega$ with $p \neq 0$
+        \item $m + p = n +p \implies m = n$ for all $p \in \omega$
+        \item $m \cdot p = n \cdot p \implies m = n$ for all $p \in \omega$ with $p \neq 0$
+    \end{enumerate}
+\end{theorem}
+
+We can also use the Trichotomy to prove two other powerful principles that are other forms of induction:
+
+\begin{theorem}[The Well-Ordering Principle]
+    If $A \subseteq \omega$ and $A \neq \varnothing$, then there is an $n \in A$ such that $n \leq m$ for all $m \in A$ (Every subset of the naturals has a smallest element).
+\end{theorem}
+
+\begin{proof}
+    Let $A \subseteq \omega$ and suppose $A$ has no least smallest element. We claim $A = \varnothing$.
+
+    Let $B = \{m \in \omega : \forall n(n \in m \implies m \notin A)\}$. We claim $B$ is inductive. $0 \in B$ vacuously holds since there are no members of 0. Now suppose $m \in B$ and consider $m^+$. Suppose by way of contradiction that $n \in m^+$ and $n \in A$. Then by Trichotomy $n \in m$ or $n = m$. $n \notin m$ as $m \in B$, so $n = m$. But as $m \in B$ and $n \in A$, no element smaller than $n$ is in $A$. This means $n$ is $A$'s smallest element, a contradiction. 
+
+    $B$ is thus inductive. Now, if $A$ was nonempty, there is some $n \in A$. This means $n^+ \notin B$, which contradicts that $B = \omega$.  
+\end{proof}
+
+\begin{theorem}[The Principle of Strong Induction]
+    If $A \subseteq \omega$ and
+
+    \[\forall m(m < n \implies m \in A) \implies n \in A\]
+
+    for all $n \in \omega$, then $A = \omega$ (If $A$ contains every number smaller than $n$ for all $n$, then $A$ is the naturals).
+\end{theorem}
+
+\begin{remark}
+    Throughout this lecture, we have built up the theory of second-order arithmetic, including natural numbers, the operations of addition and multiplication, and the orderings $<$ and $\leq$, in the language of ZF without the replacement axiom. We have thus shown that ZF without the replacement axiom, can \textbf{interpret} second-order arithmetic. In particular, we have shown that we can translate every primitive symbol in second-order arithmetic, its elements, functions, and relations, into the language of ZF. Moreover, we can show that for every axiom of the second-order arithmetic, we can translate it into ZF and in fact prove it. We thus write 
+
+    \[ZF \succeq PA^2\]
+
+    More interestingly, as stated in Lecture 2, we can define sets using numbers and the theories of sets may be interpreted in arithmetical theories. If we let $ZF^-$ be ZF where the axiom of infinity is replaced with its negation, then 
+
+    \[ZF^- \equiv PA\]
+
+    Where $\equiv$ is the same as saying $\succeq$ and $\preceq$ at the same time. As another example of these equivalencies, if we let Q be Peano arithmetic without induction, and UST the set theory with only the empty set and pairing axioms, then 
+
+    \[Q \equiv UST\]
+\end{remark}

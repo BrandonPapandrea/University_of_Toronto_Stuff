@@ -1,0 +1,105 @@
+\chapter{Week 6}
+
+We continue our discussion of relevant probabilistic results
+
+\section{The Chernoff/Bernstein/Hoeffding Bounds}
+
+These results provide upper bounds on the deviation of a sum of i.i.d bounded random variables from its expected value. Let $X_1, \ldots, X_n$ be i.i.d with value either 0 or 1, with distribution so that 
+
+\[\Pr[X_i = 1] = p \quad \Pr[X_i = 0] = 1-p\]
+
+with $0 \leq p \leq 1$. Then for $t \geq 0$, and setting $X = \sum X_i$, we have that 
+
+\[\Pr[|X - np| > t] \leq e^{-\frac{t^2}{3n}}\]
+
+Taking $\varepsilon = \dfrac{t}{n}$, we get 
+
+\[\Pr[|X - np| > \varepsilon n] \leq e^{-\frac{\varepsilon^2n}{3}}\]
+
+\begin{lemma}
+    Set $Z_i = X_i - p$, and $Z_n = \sum_{i=1}^n Z_i$. Then for any $c > 0$.
+
+    \[\Pr[\sum_i Z_i > t] \leq \frac{(pe^{c(1-p)}+(1-p)e^{-cp})^n}{e^{ct}}\]
+\end{lemma}
+
+\begin{proof}
+    We have 
+
+    \begin{align*}
+        \Pr[Z_n > t] & = \Pr[cZ_n > ct] \\
+        & = \Pr[e^{cZ_n} > e^{ct}] \\
+        & \leq \frac{\mathbb{E}[\prod_i e^{cZ_i}]}{e^{ct}} \tag{By Markov} \\
+        & = \frac{\prod_i \mathbb{E}[e^{cZ_i}]}{e^{ct}} \\
+        & = \frac{(pe^{c(1-p)} + (1-p)e^{-cp})^n}{e^{ct}}
+    \end{align*}
+\end{proof}
+
+More importantly, we have the following inequalities:
+
+\[\Pr[|X - np| > \omega(\sqrt{n})] = o(1)\]
+\[\Pr[|X - np| > \Omega(n)] = e^{-\Omega(n)}\]
+
+\section{The Erd\"{o}s-Renyi Graph}
+
+The Erd\"{o}s-Renyi model is a way of creating a random graph that has applications in probabilistic methods, often used to prove the existence of graphs with various properties. 
+
+\begin{definition}
+    Let $n \in \N, p \in [0,1]$. Then the \textbf{Erd\"{o}s-Renyi graph} $G(n,p)$ has vertex set $[n]$, and for each $\{i,j\} \in {[n] \choose 2}$, the edge $(i,j)$ is in the edge set with probability $p$. 
+\end{definition}
+
+Now, we say that vertices $v_i,v_j,v_k$ for a \textbf{triangle} there are edges between each of them. We ask the following: what is the distribution of the number of triangles in $G(n,p)$? 
+
+For each $\{i,j\}$, we define a randome variable that encdoes when an edge exists:
+
+\[Z_{ij} = \begin{cases}
+    1 & \text{ with probability $p$} \\ 0 & \text{ with probability $1-p$}
+\end{cases}\]
+
+Then for each triple $\{i,j,k\} \in {[n] \choose 3}$, we have another random variable encoding when a triangle between the vertices is present: 
+
+\[X_{i,j,k} = \begin{cases}
+    1 & Z_{ij} = Z_{jk} = Z_{ik} = 1 \\ 0 & \text{ otherwise}
+\end{cases}\]
+
+\[X = \sum_{(i,j,k) \in {[n] \choose 3}} X_{i,j,k}\]
+
+Let's compute the expectation and variance of $X$. We have that 
+
+\[\mathbb{E}[X] = \sum_{(i,j,k)} \mathbb{E}[X_{i,j,k}] = p^3{n \choose 3}\]
+
+The variance computation is much more complicated: 
+
+\begin{align*}
+    Var(X) & = \mathbb{E}\left[\left(X - p^3 {n \choose 3}\right)^2\right] \\
+            & = \mathbb{E}\left[\left(\sum_{i, j, k} (X_(i, j, k) - p^3)\right)^2\right] \\
+            & = \mathbb{E}\left[\sum_{(i, j, k), (i', j', k') \in {[n]\choose 3}} (X_(i, j, k) - p^3) (X_(i', j', k') - p^3)\right] \\
+            & = \sum_{(i, j, k), (i', j', k') \in {[n]\choose 3}} \mathbb{E}[(X_{i, j, k} - p^3) (X_{i', j', k'} - p^3)] \\
+            & = \sum_{(i, j, k), (i', j', k') \in {[n]\choose 3} : |(i, j, k) \cap (i', j', k')| \leq 1} \mathbb{E}[(X_{i, j, k}- p^3) (X_{i', j', k'} - p^3)] \\
+            & \quad + \sum_{(i, j, k), (i', j', k') \in {[n]\choose 3} : |(i, j, k) \cap (i', j', k')| = 2} \mathbb{E}[(X_{i, j, k} - p^3) (X_{i', j', k'} - p^3)] \\
+            & \quad + \sum_{(i, j, k), (i', j', k') \in {[n]\choose 3} : |(i, j, k) \cap (i', j', k')| = 3} \mathbb{E}[(X_{i, j, k} - p^3) (X_{i', j', k'} - p^3)] \\
+            & = \sum_{(a, b, c, d) \in {[n]\choose 4}} \mathbb{E}[(X_{a, b, c} - p^3) (X_{a, b, d} - p^3)] + \sum_{(i, j, k) \in{[n]\choose 3}} \mathbb{E}[(X_{i, j, k} - p^3)^2] \\
+            & = \sum_{(a, b, c, d) \in {[n]\choose 4}} (\mathbb{E}[X_{a, b, c} X_{a, b, d}] - \mathbb{E}[p^3 X_{a, b, c}] - \mathbb{E}[p^3 X_{a, b, d}] + \mathbb{E}[p^6]) + \sum_{(i, j, k) \in {[n]\choose 3}} \mathbb{E}[(X_{i, j, k} - p^3)^2] \\
+            & = \Theta(n^4) (p^5 - p^6) + \Theta(n^3)(p^3 - p^6)
+\end{align*}
+
+By Chebyshev, we have 
+
+\[\Pr[|X - {n \choose 3}p^3| > t] \leq O\left(\frac{n^4p^5 + n^3p^3}{t^2}\right)\]
+
+and applying $p = \dfrac{1}{2}$, 
+
+\[\Pr[|X - \frac{1}{8}{n \choose 3}| > t] \leq O\left(\frac{n^4}{t^2}\right)\]
+
+for $t = \omega(n^2), O(\frac{n^4}{t^2}) \in o(1)$. So 
+
+\[X \in \left[\frac{1}{8}{n \choose 3} - \omega(n^2), \frac{1}{8}{n\choose 3} + \omega(n^2)\right]\]
+
+with probability $1 - o(1)$. What values of $p = p(n)$ can we say that $X > 0$ with probability $1 - o(1)$? Set $t = {n \choose 3}p^3$, then 
+
+\begin{align*}
+    \Pr[X = 0] & \leq \Pr[|X - {n \choose 3}p^3| \geq {n \choose 3}p^3] \\
+    & \leq O\left(\frac{n^4p^5 + n^3p^3}{n^6p^6}\right) \\
+    & = O\left(\frac{1}{n^2p} + \frac{1}{n^3p^3}\right)
+\end{align*}
+
+If $p = \omega(\frac{1}{n^2})$, then $O(\frac{1}{n^2p + n^3p^3}) = o(1)$. If $p = \omega(\frac{1}{n})$, then $\Pr[X = 0] = o(1)$, while if $p = o(\frac{1}{n})$, then $\Pr[X = 0] = 1 - o(1)$. 

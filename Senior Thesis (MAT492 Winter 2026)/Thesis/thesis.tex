@@ -1,0 +1,71 @@
+\documentclass{ut-thesis}
+\makeatletter
+\makeatother
+% packages
+\usepackage[colorlinks]{hyperref} % for links
+\usepackage[backend=biber]{biblatex} % for references
+\usepackage{graphicx} % for embedding graphics
+\usepackage{booktabs} % for pretty tables
+\usepackage{lipsum} % for gibberish text
+
+\usepackage{enumitem} % custom labels for lists
+\usepackage{tikz}
+\usepackage{tikz-cd}
+
+% Custom math commands
+\usepackage{amsmath, amssymb}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\cl}[1]{\overline{#1}} % closure
+\newcommand{\widevec}[1]{\overrightarrow{#1}} % vector hats
+\newcommand{\id}{\operatorname{id}} % identity map
+\newcommand{\acts}{\curvearrowright}
+
+% Theorem environments
+\usepackage{amsthm}
+
+\theoremstyle{plain} % The "plain" style italicizes all body text.
+	\newtheorem{thm}{Theorem}
+		\numberwithin{thm}{chapter} % Theorem numbers are determined by section.
+	\newtheorem{lemma}[thm]{Lemma}
+	\newtheorem{prop}[thm]{Proposition}
+	\newtheorem{cor}[thm]{Corollary}
+	\newtheorem{conj}[thm]{Conjecture}
+
+\theoremstyle{definition} % The "definition" style does not italicize body text..
+    \newtheorem{defn}[thm]{Definition}
+	\newtheorem{example}[thm]{Example}
+
+% author data
+\author{Brandon Papandrea}
+\title{Insert Title Here}
+\department[]{Department of Mathematical and Computational Sciences}
+\gradyear{2026}
+% reference database
+\addbibresource{main.bib}
+\begin{document}
+  \frontmatter
+    \maketitle
+    \begin{abstract}
+      \lipsum[1-2]
+    \end{abstract}
+    \begin{dedication}
+      To people.
+    \end{dedication}
+    \begin{acknowledgements}
+      I'll write this later
+    \end{acknowledgements}
+    \tableofcontents
+    \mainmatter
+        \include{Sections/Introduction}
+        \include{Sections/FreeGroups}
+        \include{Sections/Gtilings}
+    \appendix
+    \backmatter
+    \printbibliography[heading=bibintoc]
+    \lipsum[1-6]
+\end{document}

@@ -1,0 +1,291 @@
+\chapter{Week 2}
+
+\section{Flows \& Cuts in Graphs}
+
+\subsection{Basics Definitions and Properties}
+
+We let $G = (V,E)$, with $E \subseteq V \times V$ be a graph such that $(a,a) \notin E$ for all $a \in V$ (no loops).
+
+\begin{definition}
+    A \textbf{flow} is a map $f: E \to \R_{\geq 0}$ such that for all $v \in V$,
+
+    \[\operatorname{NetFlow}(f,v) := \sum_{\xrightarrow{e}v}f(e) - \sum_{v \xrightarrow{e}}f(e) = 0\]
+\end{definition}
+
+\begin{remark}
+    If context makes it evident, $f$ may be excluded from the argument of NetFlow.
+\end{remark}
+
+Essentially, a flow is an assignment of nonnegative values to the edges of a graph, such that for each vertex, the sum of the flow values coming into the vertex minus the sum of flow values leaving the vertex is 0. An example is shown below:
+
+\[\begin{tikzcd}
+	&& \bullet \\
+	\bullet &&&& \bullet \\
+	\\
+	& \bullet
+	\arrow["2"', curve={height=-12pt}, from=1-3, to=2-1]
+	\arrow["2", curve={height=-12pt}, from=2-1, to=1-3]
+	\arrow["0"', from=2-5, to=1-3]
+	\arrow["0", curve={height=18pt}, from=4-2, to=1-3]
+\end{tikzcd}\]
+
+A specific type of flow occurs when exactly two vertices do not satisfy the above criterion:
+
+\begin{definition}
+    An \textbf{$s-t$ flow} is a map $f: E \to \R_{\geq 0}$ such that $\operatorname{NetFlow}(f,v) = 0$ for all $v \in V\setminus\{s,t\}$. 
+
+    We call $s$ the \textbf{source} and $t$ the \textbf{sink}.
+\end{definition}
+
+One can think of an $s-t$ flow as a flow where things go from $s$ to $t$.
+
+Our NetFlow function is defined for specific vertices, but can be extended to any subset of vertices in $V$. For a subset $A \subseteq V$, we define 
+
+\[\operatorname{NetFlow}(A) = \sum_{\substack{u \xrightarrow{e}v \\ v \in A \\ u \notin A}}f(e) - \sum_{v \xrightarrow{e} u}f(e)\]
+
+so we taking the sum of flows coming into $A$ and subtracting flows that exit $A$. 
+
+\begin{prop}
+    $\operatorname{NetFlow}(A) = \sum_{v \in A}\operatorname{NetFlow}(v)$ for all $A \subseteq V$. 
+\end{prop}
+
+\begin{proof}
+    Unravelling the sums in the definition indicates that for each $v \in A$, we sum over all flows entering that vertex and subtract the sum of flows exiting it, which is precisely the sum of NetFlow over all vertices in $A$. 
+\end{proof}
+
+We can also take $A = V$ and get the net flow of the entire graph. This is always 0 because we are dealing with a flow. Define $\operatorname{Val}(f) = \operatorname{NetFlow}(t)$.
+
+\begin{prop}
+    $\operatorname{Val}(f) = -\operatorname{NetFlow}(s)$. 
+\end{prop}
+
+\begin{proof}
+    As we have an $s-t$ flow, we get that
+
+    \[\operatorname{NetFlow}(V) = \sum_{v \in V} \operatorname{NetFlow}(v) = \operatorname{NetFlow}(s) + \operatorname{NetFlow}(t) = 0\]
+
+    and the claim follows. 
+\end{proof}
+
+\subsection{Max Flow and Cuts}
+
+\begin{definition}
+    A \textbf{capacity function} is a map $C: E \to \R_{\geq 0}$ that represents the maximum allowable flow in each edge of the graph. 
+\end{definition}
+
+Given a capacity function, we would like to find a flow that maximizes flow while still satisfying the capacity. 
+
+\begin{definition}
+    The \textbf{Max $s-t$ Flow Value} for a graph $G$ and capacity function $C$ is the maximum value of $\operatorname{Val}(f)$ over all $s-t$ flows $f$ such that for all $e \in E$, $f(e) \leq C(e)$. 
+\end{definition}
+
+\begin{example}
+    Below is a graph, with edge labels denoted the capactiy of each edge:
+
+    \[\begin{tikzcd}
+        & \bullet \\
+        &&& \bullet &&& \bullet \\
+        \bullet \\
+        &&& \bullet
+        \arrow["10", from=1-2, to=2-4]
+        \arrow["3", shift left=3, curve={height=-6pt}, from=1-2, to=3-1]
+        \arrow["4", from=2-4, to=2-7]
+        \arrow["99"', from=2-4, to=4-4]
+        \arrow["1000"', curve={height=30pt}, from=2-7, to=1-2]
+        \arrow["3", curve={height=-6pt}, from=3-1, to=1-2]
+        \arrow["1", from=4-4, to=2-7]
+    \end{tikzcd}\]
+
+    An $s-t$ flow in this graph is the following:
+
+    \[\begin{tikzcd}
+        & \bullet \\
+        &&& \bullet &&& \bullet \\
+        \bullet \\
+        &&& \bullet
+        \arrow["3", from=1-2, to=2-4]
+        \arrow["0", shift left=3, curve={height=-6pt}, from=1-2, to=3-1]
+        \arrow["3", from=2-4, to=2-7]
+        \arrow["0"', from=2-4, to=4-4]
+        \arrow["0"', curve={height=30pt}, from=2-7, to=1-2]
+        \arrow["3", curve={height=-6pt}, from=3-1, to=1-2]
+        \arrow["0", from=4-4, to=2-7]
+    \end{tikzcd}\]    
+
+    But another flow can be made like this:
+
+    \[\begin{tikzcd}
+        & \bullet \\
+        &&& \bullet &&& \bullet \\
+        \bullet \\
+        &&& \bullet
+        \arrow["4", from=1-2, to=2-4]
+        \arrow["0", shift left=3, curve={height=-6pt}, from=1-2, to=3-1]
+        \arrow["4", from=2-4, to=2-7]
+        \arrow["0"', from=2-4, to=4-4]
+        \arrow["1"', curve={height=30pt}, from=2-7, to=1-2]
+        \arrow["3", curve={height=-6pt}, from=3-1, to=1-2]
+        \arrow["0", from=4-4, to=2-7]
+    \end{tikzcd}\]  
+
+    In either case, the value of the flow is 3; this is the maximum possible value for the flow. 
+\end{example}
+
+The key observation is that all of our graphs can be split into two groups of vertices, one containing $s$, the other containing $t$. To keep our flow within the allowable range, the value of the flow cannot exceed the capacity values for edges between our two vertex groups: 
+
+This leads us to a new definition:
+
+\begin{definition}
+    An \textbf{$s-t$ cut} is a partition of $V$, $A \subseteq V$, such that $s \in A, t \notin A$. Given a capacity function $C$, we define 
+
+    \[\operatorname{CutValue}(A) = \sum_{\substack{v \xrightarrow{e}u \\ v \in A \\ u \notin A}} C(e)\]
+\end{definition}
+
+It should be evident that for any $s-t$ flow $f$ obeying the capacity function $C$ and any $s-t$ cut $A$, it must be the case that 
+
+\[\operatorname{Val}(f) \leq \operatorname{CutValue}(A)\]
+
+\begin{example}
+    Consider the graph and constrint function shown below:
+
+    \[\begin{tikzcd}
+        && y \\
+        s &&&& t \\
+        && x
+        \arrow["30", from=1-3, to=2-5]
+        \arrow["17", from=2-1, to=1-3]
+        \arrow["25"', from=2-1, to=3-3]
+        \arrow["15", from=3-3, to=1-3]
+        \arrow["15"', from=3-3, to=2-5]
+    \end{tikzcd}\]
+
+    We have that 
+
+    \[\operatorname{CutValue}(\{s,x\}) = 47\]
+    \[\operatorname{CutValue}(\{s,x,y\}) = 45\]
+    \[\operatorname{CutValue}(\{s,y\}) = 55\]
+    \[\operatorname{CutValue}(\{s\}) = 42\]
+
+    The best flow we can do is thus shown below, which has value 42, equal to the cut value of $\{s\}$. 
+
+    \[\begin{tikzcd}
+        && y \\
+        s &&&& t \\
+        && x
+        \arrow["27", from=1-3, to=2-5]
+        \arrow["17", from=2-1, to=1-3]
+        \arrow["25"', from=2-1, to=3-3]
+        \arrow["10", from=3-3, to=1-3]
+        \arrow["15"', from=3-3, to=2-5]
+    \end{tikzcd}\]
+\end{example}
+
+The above example seems to indicate that the maximum $s-t$ flow value is given by the smallest CutValue. This is indeed true.
+
+\begin{theorem}[Max-Flow Min-Cut Theorem (Ford-Fulkerson Algorithm)]
+    For all graphs $G$, capacity functions $C$, and sources and sinks, $s,t \in V$, the maximum $s-t$ flow $f$ obeying $C$ is the one such that 
+
+    \[\operatorname{Val}(f) = \min_{\text{$s-t$ cuts $A$}}\operatorname{CutValue}(A)\]
+\end{theorem}
+
+\begin{proof}
+    To find the max flow, we use the following algorithm:
+
+    \begin{enumerate}
+        \item Start with a flow $f$ for which every edge is assigned the value 0.
+        
+        \item Create a new graph $G^* = (V,E^*)$, where 
+        \[E^* = \{(u,v) \in V \times V : ((u,v) \in E \wedge f((u,v)) < C((u,v))) \vee ((v,u) \in E) \wedge f((v,u)) > 0\}\]
+        The first condition says there is room to increase the value of the flow on that edge, while the second condition says there is room to decresase the value of the flow on that edge.
+
+        \item Look for a path from $s$ to $t$ in $G^*$; write it as 
+        \[s = v_0, v_1, \ldots, v_k = t\]
+
+        \item For each $i = 0,1,\ldots, k-1$, increase $f((v_i, v_{i+1}))$ by 1 or decrease it by 1. 
+        
+        \item Repeat steps 2-4 until it is impossible to find an $s-t$ path in $G^*$. 
+        
+        \item Define $A = \{v \in V : v \text{ may be reached from $s$ in $G^*$}\}$.
+    \end{enumerate}
+
+    We now claim that $\operatorname{CutValue}(A) = \operatorname{Val}(f)$. We have that 
+
+    \[\operatorname{CutValue}(A) = \sum_{\substack{v \xrightarrow{e}u \\ v \in A \\ u \notin A}} C(e)\]
+
+    Moreover, 
+
+    \begin{align*}
+        \operatorname{Val}(f) & = -\operatorname{NetFlow}(s) \\
+        & = -\operatorname{NetFlow}(A) \\
+        & = \sum_{\substack{v \xrightarrow{e}u \\v \in A \\ u \notin A}}f(e) - \sum_{\substack{u \xrightarrow{e}v \\ u \notin A \\ v \in A}} f(e) \intertext{As there are no edges in $G^*$ from $A$ to $A^c$, for all $v \in A, u \in A^c$, $f((v,u)) = C((v,u))$ and $f((u,v)) = 0$. Thus,} \\
+        & = \sum_{\substack{v \xrightarrow{e}u \\ v \in A \\ u \notin A}} C(e) \\
+        & = \operatorname{CutValue}(A)
+    \end{align*}
+
+    as desired. 
+\end{proof}
+
+\begin{corollary}[Menger's Theorem]\label{Menger}
+    Let $G$ be an undirected graph and let $s,t \in V$. Then there are $k$ edge disjoint path from $s$ to $t$ if and only if after deleting $k-1$ edges, there is still a path from $s$ to $t$. 
+\end{corollary}
+
+\begin{proof}
+    The $\implies$ direction is obvious. 
+
+    Suppose if $k-1$ edges are removed, a path from $s$ to $t$ remains. From $G$, we can construct a directed graph $\tilde{G}$ by taking each undirected edge $\{u,v\}$ and making two directed edges $(u,v), (v,u)$. We create a capacity function $C$ by setting each edge's capacity to 1. 
+
+    We claim that the minimum cut value is at least $k$. Suppose not. Then let $A$ be the set with a cut value of $k-1$. Removing the edges connecting $A$ to $A^c$ will thus disconnect $s$ and $t$, a contradiction. The maximum flow vlaue is thus at least $k$. Start at $s$ and greedily search for an edge we haven't visited yet until we reach $t$; remove any loops if necessary. Repeating this process $k$ times will give us $k$ edge disjoint paths from $s$ to $t$. 
+\end{proof}
+
+\subsection{Hall's Theorem, Revisited}
+
+We can use flows and cuts to reprove Hall's Theorem on perfect matchings. Before we reprove it we need another result:
+
+\begin{theorem}
+    Gvien a bipartite graph $G = (L,R,E)$ with $|L| = |R| = n$, $G$ has a perfect matching if and only if there is a flow $f$ with $\operatorname{Val}(f) = n$ in the directed graph $\tilde{G} = (\tilde{V},\tilde{E})$, where 
+
+    \[\tilde{V} = L \cup R \cup \cup \{s,t\}\]
+    \[\tilde{E} = E \{(s,u): u \in L\} \cup E \cup \{(v,t) : v \in R\}\]
+
+    with capacity function $C$ giving each edge a value of 1.
+\end{theorem}
+
+\begin{proof}
+    For $\implies$, we first show that any matching $M$ of size $m$ corresponds to a flow in $\tilde{G}$ of value $m$. Define $f$ as follows:
+
+    \[f((u,v)) = \begin{cases}
+        1 & \text{ if $u = s \vee u = t \vee (u,v) \in M$} \\
+        0 & \text{ otherwise}
+    \end{cases}\]
+
+    This is indeed a valid flow obeying $C$ and $\operatorname{Val}(f) = m$. Assuming a perfect matching exists, then the above flow will have value $n$. There is no flow with value larger than $n$, as $\operatorname{CutValue}(\{s\}) = n$. 
+
+    For $\impliedby$, we show that a flow in $\tilde{G}$ of value $m$ corresponds to a matching $M$ of size $m$. Given a flow $f$ with $\operatorname{Val}(f) = m$, without loss of generality we may assume that the image of $f$ is $\{0,1\}$. There exists $m$ vertices in $L$, $u_1,\ldots, u_m$, such that $f(s,u_i) = 1$ for all $i$. Thus for each $u_i \in L$, there must be exactly one $v_j \in R$ such that $f(u_i, v_j) = 1$. Furthermore, for each $v_j \in R$, there is exactly one $u_i$ such that $f(u_i,v_j) = 1$. A matching $M$ may then be constructed as 
+
+    \[M = \{(u_i,v_j) : f(u_i,v_j) = 1\}\]
+
+    If the flow $f$ has value $n$, then this matching is of size $n$, so it is a perfect matching. 
+\end{proof}
+
+This theorem allows us to connect perfect matchings to flows in a neat and simple way, making the proof of Hall's Theorem a lot simpler. 
+
+\begin{theorem}[Hall's Theorem (Again)]
+    If $G$ has no perfect matching, then there exists a set $S \subseteq L$ such that $|N_G(S)| < |S|$. 
+\end{theorem}
+
+\begin{proof}
+    We construct a directed graph $\tilde{G}$ in the same manner as in Corollary \ref{Menger}, except we set our capactiy function to be $\infty$ for all edges $(u,v) \in E$. The maximum flow of $\tilde{G}$ is still at most $n-1$; if not, a perfect matching would exist given that all other edges have capactiy 1. 
+    Thus, there is a cut $A$ such that $\operatorname{CutValue}(A) \leq n-1$. We write 
+
+    \[A = \{s\} \cup A_L \cup A_R\]
+
+    where $A_L \subseteq L, A_R \subseteq R$. The cut value is finite, so there is no $u \in A, v \notin A$ such that $(u,v) \in E$. Thus, as $N(A_L) \subseteq A$, it must be a subset of $A_R$. Moreover,
+
+    \begin{align*}
+        n-1 & \geq \operatorname{CutValue}(A) \\
+        & \geq |L\setminus A_L| + |A_R| \\
+        & = n - |A_L| + |A_R|
+    \end{align*}
+
+    Thus, $|A_L| \geq |A_R| + 1$. Combined with the fact that the neighbours of $A_L$ are also in $A_R$, it must the be case that $|N(A_L)| \leq |A_L|$, as desired. 
+\end{proof}

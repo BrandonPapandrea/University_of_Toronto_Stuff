@@ -1,8 +1,0 @@
-\contentsline {chapter}{\numberline {1}Week 1}{1}{chapter.1}%
-\contentsline {section}{\numberline {1.1}A First Glimpse at Projective Geometry}{1}{section.1.1}%
-\contentsline {subsection}{\numberline {1.1.1}The Projective Plane in 2 Dimensions}{1}{subsection.1.1.1}%
-\contentsline {subsection}{\numberline {1.1.2}The Projective Plane in n Dimensions}{3}{subsection.1.1.2}%
-\contentsline {subsection}{\numberline {1.1.3}The Riemann Sphere}{3}{subsection.1.1.3}%
-\contentsline {section}{\numberline {1.2}Algebraic Sets}{4}{section.1.2}%
-\contentsline {section}{\numberline {1.3}The Hilbert Basis Theorem}{5}{section.1.3}%
-\contentsline {section}{\numberline {1.4}Hilbert's Nullstellensatz}{7}{section.1.4}%

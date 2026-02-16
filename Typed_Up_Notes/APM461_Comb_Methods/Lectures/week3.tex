@@ -1,0 +1,216 @@
+\chapter{Week 3}
+
+\section{Posets}
+
+\begin{definition}
+    A \textbf{poset}, or partially ordered set, is a set $S$ along with a binary relation $\leq$ satisfying the following:
+    \begin{enumerate}[label=(\roman*)]
+        \item For all $a \in S$, $a \leq a$ (Reflextive)
+        \item For all $a,b,c \in S$, $(a \leq b) \wedge (b \leq c) \implies a \leq c$ (Transitive)
+        \item For all $a,b \in S$, $(a \leq b) \wedge (b \leq a) \implies a = b$ (Antysymmetric)
+    \end{enumerate}
+
+    If the condition 
+
+    \begin{enumerate}
+        \item[(iv)] For all $a,b \in S$, $a \leq b$ or $b \leq a$
+    \end{enumerate}
+
+    is also satisfied, then we call it a \textbf{totally ordered set}.
+\end{definition}
+
+\begin{example}
+    The following are all examples of posets and totally ordered sets
+    \begin{enumerate}
+        \item $(\R, \leq)$ is totally ordered 
+        \item $\R^2$ with coordinate wise $\leq$ is a poset 
+        \item $(\{a,b,c,\ldots,x,y,z\}, \leq)$ is a totally ordered set
+        \item $(\{\text{words in the English language}\}, \text{lexical order})$
+        \item $(\mathcal{P}(A), \subseteq)$
+        \item $(\N \setminus \{0\}, |)$. 
+    \end{enumerate}
+\end{example}
+
+For our purposes, the poset $(\mathcal{P}(X), \subseteq)$ is of relevance. 
+
+\begin{definition}
+    A \textbf{chain} in a poset $(S, \leq)$ is a subset $A \subseteq S$ such that for all $a,a' \in A$, either $a \leq a'$ or $a' \leq a$. 
+\end{definition}
+
+We can actually draw chains as graphs, as seen here:
+
+
+The opposite of a chain is a subset where no two elements are comparable. These are also important.
+
+\begin{definition}
+    An \textbf{anti-chain} is a subset $A \subseteq S$ such that for all $a,a' \in A$, $a \nleq a'$ and $a' \nleq a$. 
+\end{definition}
+
+\section{Dilworth's Theorem}
+
+Dilworth's Theorem is a result that pertains to the largest anti-chain in a poset. 
+
+\begin{definition}
+    For a poset $(S,\leq)$, a \textbf{chain cover} of $S$ is a set of chains $C_1,\ldots, C_m$ such that 
+
+    \[\cup_i C_i = S\]
+
+    In this case, we say the chain cover has size $m$. 
+\end{definition}
+
+\begin{theorem}[Dilworth's Theorem]
+    The size of the largest anti-chain is equal to the smallest number of chains that cover the poset.
+\end{theorem}
+
+To prove this, we require some additional results:
+
+\begin{prop}
+    Given a poset $(S,\leq)$, for all anti-chains $A \subseteq S$, for all chain cover $C_1,\ldots, C_m$, we have that $|A| \leq m$. 
+\end{prop}
+
+\begin{proof}
+    By definition of an anti-chain, at most one element of $A$ can be in each $C_i$. The claim then follows as there are $m$ chains. 
+\end{proof}
+
+Another important result needed for Dilworth is related to vertex covers.
+
+\begin{definition}
+    Given a graph $G = (V,E)$, a subset $U \subseteq V$ is a \textbf{vertex cover} of $G$ is for all $(u,v) \in E$, wither $u \in U$ or $v \in U$. 
+\end{definition}
+
+\begin{theorem}[K\"{o}nig's Theorem]
+    In a bipartite graph $(L,R,E)$, the maximum size of a matching $M$ is equal to the minimum size of a vertex cover.
+\end{theorem}
+
+\begin{proof}
+    Suppose the maximum mathcing $M$ has size $|M|$. It is evident that there can be no vertex cover $U$ with size smaller than $M$, since a cover must contain a vertex from each edge in $M$.
+
+    To find a vertex cover of size $|M|$, we use the same method as in Theorem 2.9, except we now set the capacity function of all edges in the graph to $\infty$. 
+    
+    Now let $A$ be the cut of the vertex set with smallest cut value. Write 
+
+    \[A = \{s\} \cup A_L \cup A_R\]
+
+    Clearly there is no edges $(u,v)$ for which $u \in A_L$ and $v \in R\setminus A_R$. Thus,
+
+    \[|M| = \operatorname{CutValue}(A) = |L \setminus A_L| + |A_R|\]
+
+    From here, it is easy to see that $(L \setminus A_L) \cup A_R$ is a vertex cover of size $|M|$, as for any edge $(u,v)$, we either have $u \in L \setminus A_L$, or $v \in A_R$. 
+\end{proof}
+
+We are now prepared to prove Dilworth's Theorem:
+
+\begin{proof}[Proof of Dilworth's Theorem]
+    Suppose $|S| = n$, and let $S^-, S^+$ be two copies of $S$. We define a bipartite graph $G = (L,R,E)$ as 
+
+    \[\begin{cases}
+        L = S^- \\ R = S^+ \\ E = \{(x^-, y^+): x \leq y, x \neq y\}
+    \end{cases}\]
+
+    By K\"{o}nig's Theorem, there is a maximum matching $M$ and minimum vertex cover $U$, where $|M| = |U| = m$. We will show that there is a chain cover of $S$ with size $n - m$, and that there is an anti-chain of size $n - m$. 
+
+    For the first claim, we consider the following algorithm: start with $n$ chains of the form $\{s\}$, one for each $s \in S$. Then, if $(x^-, y^+) \in M$, then we merge the chains containing $x$ and $y$. We repeat this process until we get a chain cover. Observe that because we have $m$ matchings, we would have to do $m$ mergings, thus creating a chain cover of size $n - m$, as desired. 
+
+    For the second claim, we let $U = U^- \cup U^+$, such that $U^- \subseteq S^-$, $U^+ \subseteq S^+$. Define 
+
+    \[A = \{x \in S : x^- \notin U^- \wedge x^+ \notin U^+\}\]
+
+    we claim $A$ is an anti-chain. Suppose $x < y$. Note that $(x^-, y^+) \in E$. By the definition of our vertex cover, $x^- \in U$ or $y^+ \in U$. If $x^- \in U$, then $x \notin A$. Similarly, if $y^+ \in U$, then $y \notin A$. Thus, both $x,y$ cannot be in $A$, so $A$ is indeed an anti-chain. 
+
+    Finally, we show that $|A| \geq n-m$. Indeed,
+
+    \[|A| = |\{x \in S : x^- \notin U^- \wedge x^+ \notin U^+\}| \geq |S| - |U^-| - |U^+| = n-m\]
+\end{proof}
+
+\section{Sperner's Theorem \& LYM Inequality}
+
+\subsection{Sperner's Theorem}
+
+Let $X = [n] = \{1,\ldots,n\}$ and consider the poset $(\mathcal{P}(X), \subseteq)$. Sperner's Theorem is a result about the largest anti-chain in this poset:
+
+\begin{theorem}[Sperner's Theorem]
+    The longest anti-chain in this poset has size ${n \choose \left\lfloor\frac{n}{2}\right\rfloor}$
+\end{theorem}
+
+To prove this, we first need to define some new objects. Let $\sigma \in S_n$ be a uniformly random permutation. For $B \subseteq [n]$, we define an event 
+
+\[E_B = \{\sigma(1), \sigma(2), \ldots, \sigma(|B|)\} = B\]
+
+which means that the first $|B|$ elements of the permutation are equal to the elements of $B$, but not necessarily in the same order. 
+
+\begin{example}
+    $E_{\{1\}}$ is the event that $\sigma(1) = 1$, which has probability $\dfrac{1}{n}$. 
+
+    $E_{\{1,3\}}$ is the event that either $\sigma(1) = 1$ and $\sigma(2) = 3$, or the other way around. The probability of this event is $\dfrac{2}{n(n-1)}$. 
+\end{example}
+
+In general,
+
+\[\Pr(E_B) = \frac{1}{{n \choose |B|}} = \frac{|B|!}{n(n-1)\cdots (n-|B|+1)}\]
+
+Now let $A$ be an anti-chain. Consider the events $\{E_B: B \in A\}$. As the $B$'s are not subsets of each other, the $E_B$'s are disjoint events:
+
+\begin{prop}
+    If $B,B'$ are incomparible, then $E_B, E_{B'}$ are disjoint events. 
+\end{prop}
+
+\begin{proof}
+    If $\sigma \in E_B, E_{B'}$, then 
+
+    \[\{\sigma(1), \sigma(2), \ldots, \sigma(|B|)\} = B\]
+    \[\{\sigma(1), \sigma(2), \ldots, \sigma(|B'|)\} = B'\]
+
+    so $B,B'$ are comparible. 
+\end{proof}
+
+With this in mind, we can now prove our theorem:
+
+\begin{proof}[Proof of Sperner's Theorem]
+    Let $A$ be an anti-chain and consider $\{E_B : B \in A\}$. As the events are disjoint, we have that 
+
+    \[S = \sum_{B \in A} \frac{1}{{n \choose |B|}} \leq 1\]
+
+    As ${n \choose \left\lfloor \frac{n}{2}\right\rfloor}$ is the largest binomial coefficient, we get that 
+
+    \begin{align*}
+        & \sum_{B \in A} \frac{1}{{n \choose \left\lfloor \frac{n}{2}\right\rfloor}} \leq S \leq 1 \\
+        \implies & |A| \frac{1}{{n \choose \left\lfloor \frac{n}{2}\right\rfloor}} \leq 1 \\
+        \implies & |A| \leq {n \choose \left\lfloor \frac{n}{2}\right\rfloor}
+    \end{align*}
+\end{proof}
+
+\subsection{The LYM Inequality}
+
+Another relevant result about posets of $\mathcal{P}([n])$ revolves around elements of an anti-chain of of a given size $k$. For an anti-chain $A$, we define 
+
+\[A_k = A \cap {[n] \choose k}\]
+
+where ${[n] \choose k}$ is the set of subsets of $[n]$ of size $k$. 
+
+\begin{theorem}[Lubell-Yamamoto-Meshalkin Inequality]
+    \[\sum_{k=1}^n \frac{|A_k|}{{n\choose k}} \leq 1\]
+\end{theorem}
+
+This means that the sum of the ratios of the elements of $A$ of size $k$, to all subsets of $[n]$ of size $k$, can never exceed 1. 
+
+We will prove LYM using a stronger statement, that for any anti-chain $A$, 
+
+\[\sum_{B \in A} \frac{1}{{n \choose |B|}} \leq 1\]
+
+\begin{proof}
+    let $\sigma \in S_n$ be chosen uniformly. Then let 
+
+    \[C_\sigma : \varnothing \subset \{\sigma(1)\} \subset \{\sigma(1), \sigma(2)\} \subset \cdots \sigma \{\sigma(1), \ldots, \sigma(n)\} = [n]\]
+
+    be the maximal chain built from $\sigma$. Now for each $B \subseteq [n]$, we define $E_B$ to be the event in which $B$ appears in this chain. In other words,
+
+    \[E_B = \{B = \{\sigma(1), \ldots, \sigma(|B|)\}\}\]
+
+    We now compute the probability of $E_B$. There are $n!$ permutations of $[n]$. Of these, $|B|!(n-|B|)!$ of them send the first $|B|$ entries to elements in $B$, and the remaining entries are elements of $[n] \setminus B$. Thus,
+
+    \[\Pr(E_B) = \frac{|B|!(n-|B|)!}{n!} = \frac{1}{{n \choose |B|}}\]
+
+    Now note that these events are pairwise disjoint. Indeed if $B \neq B'$ and $E_B, E_{B'}$ occur for the same permutation $\sigma$, then $B,B'$ would appear as initial segments of the chain $C_\sigma$. It follows that either $B \subset B'$ or $B' \subset B$, which contradicts that $A$ is an anti-chain. Thus, For any $B \in A$, we have that 
+
+    \[1 \geq \Pr\left(\bigcup_{B \in A} E_B\right) = \sum_{B \in A}\Pr(E_B) = \sum_{B \in A} \frac{1}{{n\choose |B|}}\]
+\end{proof}

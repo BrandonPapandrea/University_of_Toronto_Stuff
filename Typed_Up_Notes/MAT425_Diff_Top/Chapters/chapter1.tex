@@ -479,3 +479,312 @@ This is enough to draw global conclusions from our local immersion theorem:
 
     and as $f(x_i) \to f(x)$, we conclude by injectivity of $f$ that $z = x$. As $W$ is open, and $x_i \to x$, we know that for a large enough $i$, $x_i \in X$, so $f(x_i) = y_i \in f(W)$, a contradiction. Thus, $f(X)$ is a manifold, and we know $f: X \to f(X)$ is a local diffeomorphism. It is a bijection, so the inverse $f^{-1}$ is well-defined, and since we know it to be locally smooth, we're done. 
 \end{proof}
+
+\section{Measure Zero and Sard's Theorem}
+
+If $a = (a_1,\ldots,a_n), b = (b_1,\ldots,b_n)$ with $a_i < b_i$ for all $i$, we call $S(a,b)$ the \textbf{rectangular solid} consisting of points $(x_1,\ldots,x_2)$ with $a_i < x_i < b_i$ for all $i$. The \textbf{volume} of $S = S(a,b)$, denoted $\operatorname{vol}(S)$, is 
+
+\[\prod_{i=1}^n (b_i-a_i)\]
+
+\begin{definition}
+    $A \subset \R^n$ has \textbf{measure zero} if for all $\varepsilon > 0$, there is a countable covering of $A$ by solids $S_1,S_2,\ldots,$ such that $\sum \operatorname{vol}(S_i) < \varepsilon$. 
+\end{definition}
+
+Subsets of sets of measure zero, and any countable union of sets of measure zero is also of measure zero. From this, many sets of measure zero may be constructed. For instance, consider $\R^k \subset \R^n$ with $k < n$. It suffices to show that for any $m$, the set 
+
+\[[-m,m]^k \subset \R^n\]
+
+has measure zero. We form cubes of the form
+
+\[(-m-\delta, m + \delta) \times (-m-\delta, m + \delta) \times (-\delta, \delta)\]
+
+where $\delta < m$. Then the volume of this cube is given by 
+
+\[(2(m+\delta)^2)2\delta = 8(m+\delta)^2\delta < 8(2m)^2\delta = 32m^2\delta\]
+
+
+setting $\delta = \dfrac{\varepsilon}{32m^2}$ completes the claim.
+
+The concept of measure zero is extended to manifolds by local parameterization. An arbitrary set $S \subset Y$ is \textbf{measure zero} if for all parameterizations $\psi$ of $Y$, $\psi^{-1}(C)$ has measure zero. 
+
+Why do we care about this? THe preimageo fa regular value of a smooth map $f: X \to Y$ is a submanifold. The notion of regular is a strong one, and it may be the case that such values occur so irregularly that the Preimage Theorem is of little use. In fact, the opposite is true, thanks to a wonderful theorem of calculus:
+
+\begin{theorem}[Sard's Theorem]
+    If $f: X \to Y$ is a map of smooth manifolds, then the set of critical values of a smooth map has measure zero. In other words, almost every point in $Y$ is a regular value of $f$. 
+\end{theorem}
+
+Proving Sard will take us some time. We first need to establish that smooth maps preserve measure zero sets:
+
+\begin{prop}
+    Let $U \subset \R^n$ be open and $f: U \to \R^n$ be smooth. Then if $A \subset U$ has measure zero, so too does $f(A)$
+\end{prop}
+
+\begin{proof}
+    Without loss of generality, we assume $\bar{A}$ is compact and contained in $U$; this is because $A$ can always be written as some countable union of such subsets. Let $W$ be any open neighbourhood of $A$ where $\bar{W}$ is compact and contained in $U$. 
+
+    As $\bar{W}$ is compact, there is a $M$ such that for  all $x,y \in \bar{W}$,
+
+    \[|f(x) - f(y)| < M|x-y|\]
+
+    It then follows that there is a constant $M'$ such that for any cube $S$ in $W$, $f(S)$ is contained in a cube $S'$ whose volume is at most $M'\operatorname{vol}(S)$. 
+
+    Now let $\varepsilon > 0$ be given. We cover $A$ with a sequence of cubes $S_1, S_2, \ldots,$ each in $W$ with 
+
+    \[\sum_i \operatorname{vol}(S_i) < \varepsilon\]
+
+    Then by mapping each cube by $f$, we get a covering $S_1', S_2', \ldots,$ of $f(A)$ by cubes such that 
+
+    \[\sum_i \operatorname{vol}(S_i') < M'\varepsilon\]
+
+    and taking $\varepsilon \to 0$ completes the proof.
+\end{proof}
+
+Recalling the first claim about $\R^k$ being measure zero in $\R^n$, any translation of the cube $[-m,m]^k$ is also measure 0 for all $m$. Thus, if $U \subset \R^k \subset \R^n$, then as $U$ is a subset of a sufficiently translated and scaled cube, we get that $U$ is measure 0 in $\R^n$. This, combined with the above proposition, we get a weak form of Sard:
+
+\begin{theorem}[Mini-Sard's Theorem]
+    Let $U$ be an open subset of $\R^n$, and let $f: U \to \R^m$ be a smooth map. Then if $m > n$, $f(U)$ has measure zero in $\R^m$. 
+\end{theorem}
+
+We are almost ready to prove Sard, but we need one additional result. First two lemmas:
+
+\begin{lemma}
+    Let $S_1, \ldots, S_n$ be a covering of $[a,b] \in \R$. Then there is a cover $S_1', \ldots, S_M'$ such that each $S_j'$ is in a $S_i$, and 
+
+    \[\sum_{j=1}^M \operatorname{length}(S_j') < 2(b-a)\]
+\end{lemma}
+
+\begin{proof}
+    Remove as many overlaps that were occuring in the $S_i$ covering as possible while still maintaining the conditions on $s_j'$. 
+\end{proof}
+
+\begin{lemma}
+    Let $I \subset \R$, and define $V_I = I \times \R^{n-1} \subset \R^n$. Let $A \subset \R^n$ be compact, and suppose that $A \cap V_c$ is contained in an open subset $U$ of $V_c$. Then for any small interval $I$ around $c \in \R$, $A \cap V_I \subset I \times U$.
+\end{lemma}
+
+\begin{proof}
+    Suppose not. Then there would exist a sequence of points $(x_j,c_j) \in A$ such that $c_j \to c$, and $x_j \notin U$. But $A$ is a compact, so we may replace $x_j$ with a convergent subsequence, giving us a convergent sequence. We thus get a contradiction. 
+\end{proof}
+
+Now we can state and prove our last necessary result:
+
+\begin{theorem}[Fubini's Theorem for sets of measure zero]
+    Let $A$ be closed in $\R^n$ such that $A \cap V_c$ has measure zero in $V_c$ for all $c \in \R^k$. Then $A$ has measure zero in $\R^n$. 
+\end{theorem}
+
+\begin{proof}
+    Without loss of generality, let $A$ be compact. By induction on $k$, it suffices to show the claim holds for $k = 1$ and $l = n-1$. Let $I = [a,b]$ such that $A \subset V_I$. For each $c \in I$, choose a covering of $A \cap V_c$ by $n-1$ dimensional rectangular solids $S_1(c),\ldots, S_{N_c}(c)$ with total volume less than some $\varepsilon$. Now choose an interval $J(c) \in \R$ so that $J(c) \times S_i(c)$ covers $A \cap J$ (this is possible by lemma 2). The $J(c)$'s cover $[a,b]$ so by lemma 1 we can replace them with subintervals $J_j'$ with total length less tahn $2(b-a)$. EEach $J_j'$ is in some interval $J(c_j)$, so the solids $J_j' \times S_i(c_j)$ cover $A$ and has total volume less than $2\varepsilon(b-a)$. Take $\varepsilon \to 0$. 
+\end{proof}
+
+Proving Sard's Theorem amounts to another result. We can find a countable collection of open sets $(U_i,V_i)$, with $U_i$ open in $X$ and $V_i$ in $Y$, such thtat the $U_i$'s cover $X$, $f(U_i) \subset V_i$, and the $U_i$'s and $V_i$'s are diffeomorphic to open sets in $\R^n$. It thus suffices to prove this: 
+
+\begin{theorem}
+    Suppose $U \subset \R^n$ is open and $f: U \to \R^p$ is smooth. Let $C$ be the set of critical points. Then $f(C)$ has measure zero in $\R^p$. 
+\end{theorem}
+
+This claim clearly holds true for $n = 0$, so assume it holds for $n-1$. We partition $C$ into nested subsets 
+
+\[C \supset C_1 \supset C_2 \supset \cdots\]
+
+where $C_i$ is the set of all $x \in U$ such all partial derivatives of $f$ of order $\leq i$ vanish at $x$. We need to prove 3 lemmas which will combine to prove the claim:
+
+\begin{lemma}
+    $f(C - C_1)$ has measure zero.
+\end{lemma}
+
+\begin{proof}
+    Around $x \in C - C_1$, we will find an open set $V$ such that $f(V \cap C)$ has measure zero. 
+
+    Since $x \notin C_1$, there is a partial derivative, say$\pardif{f}{x_1}$, that does not vanish at $x$. Consider the map $h: U \to \R^n$ given by 
+
+    \[h(x) = (f_1(x),x_2,\ldots,x_n)\]
+
+    $dh_x$ is nonsingular, so $h$ maps a neighbourhood $V$ of $x$ diffeomorphically onto some open set $V'$. The composition $g = f \circ h^{-1}$ will then map $V'$ into $\R^p$ with the same critival values as $f$, restricted to $V$. 
+    
+    $g$ is such that it preserves the first coordinate of points in $V'$. Thus, for each $t$, we get a map $g^t$ from $(t \times \R^{n-1}) \cap V'$ to $r \times \R^{p-1}$. The derivative of $g$ has a one in the top left, zeroes along the rest of the first row, and the derivative $\pardif{g_i'}{x_j}$ in all but the first column, so a point of $t \times \R^{n-1}$ is critical for $g^t$ iff it is critical for $g$, since the determinant is just $\det\left(\pardif{g_i^t}{x_j}\right)$. By the induction hypothesis, we apply Sard's theorem and get that the set of critical values of $g^t$ has measure zero. By Fubini's Theorem, we thus conclude that the set of critical values of $g$ has measure zero. 
+\end{proof}
+
+\begin{lemma}
+    $f(C_k - C_{k-1})$ has measure zero for all $k \geq 1$.
+\end{lemma}
+
+\begin{proof}
+    For each $x\ in C_k - C_{k+1}$, there is a $k+1$ derivative of $f$ that is not zero. We have a $k$th derivative of $f$, say $\rho$, that vanishes on $C_k$ but has a first derivative $\pardif{\rho}{x_1}$ that doesn't vanish. The map $h: U \to \R^n$
+
+    \[h(x) = (\rho(x),x_2,\ldots, x_n)\]
+
+    maps a neighbourhood $V$ of $x$ diffeomorphically onto an open set $V'$. $h$ sents $C_k \cap V$ to the hyperplane $0 \times \R^{n-1}$, so the map $g = f \circ h^{-1}$ has all type $C^k$ critical points in this hyperplane. Let $\bar{g}: (0 \times \R^{n-1}) \cap V' \to \R^p$ be the restriction of $g$. By induction, the set of critical values of $\bar{g}$ is measure zero. The critical points of $g$ of type $C_k$ are critical points of $\bar{g}$, so the image of these critical points is measure zero, thus, $f(C_k \cap V)$ has measure zero. $C_k - C_{k-1}$ is covered by countably many such $V$, so we're done. 
+\end{proof}
+
+\begin{lemma}
+    For $k > \dfrac{n}{p} - 1$, $f(C_k)$ is of measure zero. 
+\end{lemma}
+
+Let $S \subset U$ be a cube whose sides are of length $\delta$. If $k$ is sufficiently large (greater than $n/p - 1$), we will show that $f(C_k \cap S)$ has measure zero. 
+
+By Taylor's Theorem, the compactness of $S$, and definition of $C_k$, 
+
+\[f(x+h) = f(x) + R(x,h), \quad |R(x,h)| < a|h|^{k+1}\]
+
+for $x \in C_k \cap S, x+h \in S$, and $a$ a constant depending only on $f$ and $S$. Subdivide $S$ into $r^n$ cubes whose sides are of length $\delta/r$. Let $S_1$ be a cube of that subdivision containing $x \in C_k$. Then any point of $S_1$ may be written as $x + h$, with 
+
+\[|h| < \sqrt{n}\left(\frac{\delta}{r}\right)\]
+
+We get that $f(S_1)$ is in a cube of side length $b/r^{k+1}$ centered about $\delta(x)$, where $b = 2a(\sqrt{n}\delta)^{k+1}$. Hence $f(C^k \cap S)$ is in the union of at most $r^n$ cubes with total volume 
+
+\[v \leq r^n\left(\frac{b}{r^{k+1}}\right)^p + b^pr^{n-(k+1)p}\]
+
+As $k+1 > n/p$, $v$ tends to 0 as $r \to \infty$, so $f(C_k \cap S)$ has measure zero. The claim follows because we can cover $C_k$ by countably many such cubes. 
+
+\section{Transversality}
+
+Assuming $y$i s a regular point, we know that the solutions to $f(x) = y$ for a smooth $f: X \to Y$ is a submanifold of $X$. What if instead we considered the set of solutions not to a constant equaiton, but an equation satisfying some smooth condition. In this case, let $Z \supset Y$ be a submanifold and consider the set 
+
+\[\{x \in X : f(x) \in Z\} = f^{-1}(Z)\]
+
+when is it that $f^{-1}(Z)$ is a submanifold. Answering this question leads us to a generalization of the concept of regular point, and will be an important theme in the rest of the text. 
+
+$f^{-1}(Z)$ is a manifold iff for all $x \in f^{-1}(Z)$, there is a neighbourhood $U$ in $X$ such that $U \cap f^{-1}(Z)$ is a manifold. Because of this, if $y = f(x)$, we can write $Z$ in a neighbourhood of it as the zero set of linearly independent functions $g_1, \ldots, g_l$, where $l = \operatorname{codim}(Z)$. Then near $x$, $f^{-1}(Z)$ is the zero set of the maps $g_i \circ f$. This means we can reduce our study to the case where $Z$ is a single point. Now, let $g = (g_1, \ldots, g_l)$ be the submersion defined at $y$. Now if $W$ is this neighbourhood of $x$, we have a map $g \circ f: W \to \R^l$. Applying what we already know, we get that $(g \circ f)^{-1}(0)$ is a manifolds precisely when 0 is a regular value of $g \circ f$. 
+
+\begin{center}
+    \includegraphics[width=0.6
+    \textwidth]{Chapters/g compose f map.png}
+\end{center}
+
+When is 0 a regular value in this setting? Recall that 
+
+\[d(g \circ f)_x = dg_y \circ df_x\]
+
+thus the map $d(g \circ f)_x: T_x(X) \to \R^l$ is surjective iff $dg_y$ maps the image of $df_x$ onto $\R^l$. However, $dg_y: T_y(Y) \to \R^l$ is a surjective linear transformation with kernel $T_y(Z)$. So for $dg_y$ to carry a subspace of $T_y(Y)$ onto $\R^l$, it must be the case that whatever subspace that is, combined with $T_y(Z)$, span all of $T_y(Y)$. In other words, $g \circ f$ is a submersion at $x \in f^{-1}(Z)$ iff
+
+\[\operatorname{Im}(df_x) + T_y(Z) = T_y(Y)\]
+
+\begin{definition}
+    The map $f$ is \textbf{transversal} to $Z$ if the above equation holds for every $x \in f^{-1}(Z)$. We denote this as $f \pitchfork Z$.
+\end{definition}
+
+Our above argument also proves our condition for $f^{-1}(Z)$ to be a manifold:
+
+\begin{theorem}
+    If $f: X \to Y$ is transversal to a submanifold $Z \supset Y$, then $f^{-1}(Z)$ is a submanifold of $X$. Moreover, the codimension of $f^{-1}(Z)$ in $X$ is the codimension of $Z$ in $Y$. 
+\end{theorem}
+
+\begin{proof}
+    To prove the codimension claim, suppose that the codimension of $Z$ is $l$. Then in the above proof we have written the preimage of $Z$ as the zero set of $l$ independent functions. This means the codimension of $f^{-1}(Z)$ in $X$ is $l$. 
+\end{proof}
+
+When $Z = \{y\}$, the tangent space is the zero subspace of $T_y(Y)$, meaning $f$ is transversal to $\{y\}$ when $df_x[T_x(X)] = T_y(Y)$; in other words, when $y$ is a regualr value of $f$. 
+
+\begin{example}
+    Consider the map 
+
+    \[f: \R \to \R^2 \quad f(t) = (0,t)\]
+
+    and let $Z$ be the $x$-axis in $\R^2$. $f$ is transversal to $Z$. 
+    
+    \begin{center}
+        \includegraphics[width=0.6\textwidth]{Chapters/transverse curves.png}
+    \end{center}
+    
+    The map 
+
+    \[g: \R \to \R^2 \quad g(t) = (t,t^2)\]
+
+    fails to be transverse, as its tangent vectors are parallel to the $x$-axis, meaning the sum of them and the tangent vectors of the $x$-axis can never span all of $\R^2$. 
+
+    \begin{center}
+        \includegraphics[width=0.6\textwidth]{Chapters/non transverse curves.png}
+    \end{center}
+\end{example}
+
+\begin{example}
+    Let $\iota$ be the inclusion map froom $X \subset Y$ to $Z \subset Y$. If $x \in \iota^{-1}(Z)$, it means that $x \in X \cap Z$. Moreover, 
+
+    \[d\iota_x: T_x(X) \to T_x(Y)\]
+
+    is just inclusion on the tangent spaces. Thus, $i \pitchfork Z$ iff for all $x \in X \cap Z$,
+
+    \[T_x(X) + T_x(Z) = T_x(Y)\] 
+\end{example}
+
+Note that this equation is symmetric in $X$ and $Z$, leading to a new definition:
+
+\begin{definition}
+    Two submanifolds $X,Z \subset Y$ are \textbf{transversal} submanifolds of $Y$ when the above equation holds, and we write $X \pitchfork Z$. 
+\end{definition}
+
+From the above example, we get the following:
+
+\begin{theorem}
+    The intersection of transversal submanifolds of $Y$ is a submanifold, and 
+
+    \[\operatorname{codim}(X \cap Z) = \operatorname{codim}(X) + \operatorname{codim}(Z)\]
+\end{theorem}
+
+\begin{proof}
+    Assume $X$ is cut out of $Y$ by $k$ independent functions, while $Z$ is cut out of $l$. Then their intersection is just the vanishing set of the combined collection of $k + l$ functions, which are all independent from each other. 
+\end{proof}
+
+Note that transversality also depends on the ambient space $Y$. Two coordinate axes may be transversal in $\R^2$, but not in $\R^3$. A general tip is that if the dimensions of $X$ and $Z$ don't add to that of $Y$, then they can only be transversal to each other if they don't intersect at all. 
+
+\begin{center}
+    \includegraphics[width=0.6\textwidth]{Chapters/curves in R2.png}
+    \includegraphics[width=0.6\textwidth]{Chapters/curves and surfaces in R3.png}
+    \includegraphics[width=0.6\textwidth]{Chapters/surfaces in R3.png}
+\end{center}
+
+\section{Homotopy and the Stability Theorem}
+
+We now investigate how certain properties of a smooth map are preserved if that map is deformed in a smooth manner. 
+
+\begin{definition}
+    Two smooth maps $f_0, f_1: X \to Y$ are \textbf{homotopic}, denoted $f_0 \sim f_1$, if there is a smooth map $F: X \times I \to Y$ such that $F(x,0) = f_0(x), F(x,1) = f_1(x)$. We call $F$ the \textbf{homotopy} from $f_0$ to $f_1$. 
+\end{definition}
+
+More generally, we have homotopy maps $f_t = F(x,t)$ for all $t \in [0,1]$. 
+
+\begin{definition}
+    A property of a smooth map is \textbf{stable} if when $f_0: X \to Y$ has this property, and $f_t: X \to Y$ is a homotopy of $f_0$, then for some $\varepsilon > 0$, $f_t$ has this property for all $t < \varepsilon$. 
+\end{definition}
+
+\begin{example}
+    The property that a curve passes through the origin is not stable, as a simple pertubation of the curve can make it avoid the origin. 
+    
+    On the other hand, transversality is a stable property. Say we have two transverse curves in $\R^2$. Then any pertubation of either curve cannot change the tangent vectors at the intersection point in a major way, thus preserving transversality. 
+\end{example}
+
+Every differential property of maps discussed so far is stable, provided that $X$ is compact:
+
+\begin{theorem}[The Stability Theorem]
+    The following classes of smooth maps from a compact manifold $X$ to a manifold $Y$ are stable classes:
+
+    \begin{enumerate}[label=(\roman*)]
+        \item local diffeomorphism 
+        \item immersion
+        \item submersion
+        \item traversal to a submanifold $Z \subset Y$
+        \item embedding 
+        \item diffeomorphism 
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    (i) is implied by (ii), since a local diffeomorphism is an immersion with the dimensions of the domain and codomain equal. Let $f_0$ be an immersion and $f_t$ its homotopy. As $X$ is compact, any open neighbourhood of $X \times \{0\}$ in $X \times I$ contains $X \times [0,\varepsilon]$ for sufficiently small $\varepsilon$. It thus suffices to prove that $(x_0,0)$ has a neighbourhood $U$ in $X \times I$ such that $d(f_t)_x$ is injective for all $(x,t) \in U$. Without loss of generality let $X$, $Y$ be open subsets of $\R^k$ and $\R^l$ repsectively. Injectivity of $d(f_0)_{x_0}$ implies that 
+
+    \[\left(\pardif{(f_0)_i}{x_j}(x_0)\right)\]
+
+    has a $k \times k$ submatrix with nonzero determinant. Each partial derivative for $f_t$ is a continuous function with respect to $(x,t) \in X \times I$. The determinant is also continuous, so our submatrix must also have nonzero determinant for all $(x,t)$ in a neighbourhood of $(x_0,0)$. This proves (ii) and (i) thus follows. The proof of (iii) is similar. (iii) implies (iv) as transversality can be turned into a submersion condition. 
+
+    To prove (v) it suffices to show that if $f_0$ is one-to-one, so too is $f_t$ for sufficiently small $t$. Define a map $G: X \times I \to Y \times I$ by 
+
+    \[G(x,t) = (f_t(x),t)\]
+
+    and assume towards a contradiction that (v) is false. Then there is a sequence $t_i \to 0$ and distinct points such that $G(x_i,t_i) = G(y_i,t_i)$. As $X$ is compact we can pass to a convergent subsequence and get $x_i \to x_0, y_i \to y_0$. Then 
+
+    \[G(x_0,0) = \lim_{i\to \infty}G(x_i,t_i) = \lim_{i \to \infty}G(y_i,t_i) = G(y_0,0)\]
+
+    But $G(x_0,0) = f_0(x_0), G(y_0,0) = f_0(y_0)$. Thus, $x_0 = y_0$.
+
+    The matrix of $dG_{(x_0,0)}$ is just a matrix with $d(f_0)_{x_0}$ in the top left, a one on the bottom right entry, and 0's along the rest of the bottom row.As $d(f_0)_{x_0}$ is injective, the matrix has $k$ independent rows, and thus $dG(x_0,0)$ has $k+1$ independent rows, meaning $dG_{(x_0,0)}$ is an injective linear map. Thus, $G$ is an immersion around $(x_0,0)$ and must be injective on some neighbourhood of $(x_0,0)$. But, for large $i$, both $(x_i,t_i)$ and $(y_i,t_i)$ are in this neighbourhood, a contradiction. 
+
+    The proof of (vi) is an exercise. 
+\end{proof}

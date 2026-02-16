@@ -1,0 +1,192 @@
+\chapter{Week 4}
+
+\section{A Magic Trick Using Matches}
+
+To begin this lecture, we present a fun application of matchings that may prove useful at a party: some math magic. 
+
+This trick requires two magicians, $M_1$ and $M_2$, and a volunteer. The volunteer will choose 5 cards at random from a deck of cards, and give them to $M_2$. $M_2$ will then read out exactly 4 cards of the cards they were given in some order. $M_1$, who never directly sees the cards, is then able to correctly identify the missing 5th card. How are they able to do this? 
+
+Let's simplify this trick a little to get a better idea of what's going on. Suppose that the volunteer only picks up two cards, and also tosses a fair coin. $M_2$ will read out both cards, and $M_1$ just needs to guess which side the coin has landed on. This may seem impossible, but note that $M_2$ has seen the coin flip, and has had time to converse with $M_1$. In conversing ahead of time, they could come up with some order that $M_2$ could read out the cards in, so that $M_1$ knows the outcome of the coin flip. For example, if the coin lands on heads, then $M_2$ will read out the cards in ascending order by rank (or if they are the same rank, using CHaSeD order for suit), and if the coin lands on tails, they read them in descending order by rank (or reverse CHaSeD order). 
+
+The key observation to make here is that the order of the input is a set (the subset of cards drawn and outcome of the coin flip), but the output given to $M_1$ is a sequence (a sequence of cards). The ordering of that sequence is what allows $M_2$ to encode information about the fifth card. 
+
+To encode it, we will use a bipartite graph. Identify the deck with $[52]$, and let $G = (L,R,E)$ be bipartite, with 
+
+\[L = {[52] \choose 5},\ \text{ the set of possible 5-cards received by $M_2$}\]
+\[R = \{(x_1,x_2,x_3,x_4) \in [52]^4: x_i \neq x_j \ \forall i \neq j\},\ \text{ the ordered sequences of cards $M_2$ can read out}\]
+
+and $E$ is defined so that $A \in L$ is joined to $b = (x_1,x_2,x_3,x_4) \in R$ if and only if $b \subset A$. Notice that for each $A \in L$, $\deg(A) = {5 \choose 4} \cdot 4! = 120$, and for each $b \in R$, $\deg(b) = 48$. We can use a perfect matching in $G$ to find an encoding for $M_2$ to read our the four cards so that $M_1$ knows exactly what the fifth card is. 
+
+\begin{theorem}
+    In the graph $G$ described above, there is a matching which saturates all vertices of $L$. Equivalently, there is an injective map $f: L \hookrightarrow R$ such that $f(A)$ is an ordered 4-tuple of cards from $A$ for all $A \in L$.
+\end{theorem}
+
+\begin{proof}
+    We prove this via Hall's Theorem. Let $S \subset L$, $N(S)$ the set of neighbours, and $E_S, E_{N(S)}$ the corresponding edge sets. As every vertex of $S$ has degree 120,
+
+    \[|E_S| = 120|S|\]
+
+    and as every vertex of $N(S)$ has degree 48,
+
+    \[|E_{N(S)}| = 48|N(S)|\]
+
+    Now, $E_S \subseteq E_{N(S)}$, so 
+
+    \[120|S| \leq 48|N(S)| \implies |N(S)| \geq \frac{120}{48}|S| \geq |S|\]
+
+    as required. Hall's Theorem now applies.
+\end{proof}
+
+So when $M_2$ receives a hand $A \in L$, they read out the 4-card ordered tuple $b \in R$ that $A$ is matched to. $M_1$ recognizes this, identifies what $A$ is using the matching, and reads out the fifth card!
+
+Note that this only guarantees that a matching exists, not how to create it. There is some leeway in how you do this, and there are many methods, such as mnemonics. 
+
+\section{The Erd\"{o}s-Ko-Rado (EKR) Theorem}
+
+\subsection{Intersecting Families}
+
+\begin{definition}
+    A family of sets $\mathcal{F}$ is \textbf{intersecting} if for all $A,B \in \mathcal{F}$, $A \cap B \neq \varnothing$.
+\end{definition}
+
+An intersecting family of sets is simply a family of pairwise disjoint sets. We ask the following question: If $\mathcal{F} \subset \mathcal{P}([n])$ is intersecting, then how large can $|\mathcal{F}|$ be?
+
+\begin{example}
+    Consider the family of sets
+
+    \[\{A \in \mathcal{P}([n]) : \{1,2\} \subseteq A, \{2,3\} \subseteq A, \text{ or } \{1,3\} \subseteq A\}\]
+
+    This is an intersecting family of sets, and its size is $2^{n-1}$
+\end{example} 
+
+\begin{theorem}
+    If $\mathcal{F} \subset \mathcal{P}([n])$ is intersecting, then $|\mathcal{F}| \leq 2^{n-1}$. 
+\end{theorem}
+
+\begin{proof}
+    We partition $\mathcal{P}([n])$ into pairs $(A, A^c)$, of which there are $2^{n-1}$. Notice that any intersecting family $\mathcal{F}$ must contain at most one set from each pair, as if it contained both sets in a pair their intersection would be empty. Thus, $|\mathcal{F}| \leq 2^{n-1}$. 
+\end{proof}
+
+Let's explore a slightly more complicated question: If $\mathcal{F} \subseteq {[n] \choose k}$, how large can $|\mathcal{F}|$ be? Notice that if $k > n/2$, then ${[n] \choose k}$ is already an intersecting family, so let's assume $k < n/2$. Consider the family 
+
+\[\{A \in {[n] \choose k}: 1 \in A\}\]
+
+Then this is an intersecting family of size ${n-1 \choose k-1}$, and this grows at a rate of $\Theta(n^{k-1})$. Another intersecting example is the family
+
+\[\{A \in {[n] \choose k} : A \cap \{1,2,3\} = \{1,2\} \text{ or } \{1,3\} \text{ or } \{1,3\}\}\]
+
+This is also intersecting, and is of size $3{n-3 \choose k-2} \ll {n-1 \choose k-1}$, and growing at a rate of $\Theta(n^{k-2})$ when $k \ll n$. The size we found in our first example is actually the maximum size for such a family, an important result known as the Erd\"{o}s-Ko-Rado (EKR) Theorem.
+
+\begin{theorem}[Erd\"{o}s-Ko-Rado Theorem]
+    If $k < \frac{n}{2}$ and $\mathcal{F} \subseteq {[n] \choose k}$ is intersecting, then 
+
+    \[|\mathcal{F} \leq {n-1 \choose k-1}\]
+\end{theorem}
+
+\subsection{Necklaces}
+
+To prove EKR, we will use a probabilistic method that involves a special object called a \textbf{necklace}.
+
+\begin{definition}
+    Let $\Sigma$ be an alphabet. Two sequences $(a_1,\ldots,a_n), (b_1,\ldots,b_n)$ of elements of $\Sigma$ are equivelent if there is an $i \in [n]$ such that 
+
+    \[a_1 = b_i, a_2 = b_{i+1}, \ldots a_{n-i+1} = b_n, a_{n-i+2} = b_1, \ldots, a_n = b_{i-1}\]
+
+    in other words, one can be made into the other by a shift of indices. An equivalence class of sequences of length $n$ over $\Sigma$ is called a \textbf{necklace}, and is denoted $[a_1,\ldots,a_n]$. 
+\end{definition}
+
+\begin{proof}[Proof of EKR]
+    Let $\sigma \in S_n$ be chosen uniformly, and let
+
+    \[N = [\sigma(1), \ldots, \sigma(n)]\]
+
+    be the necklace corresponding to $\sigma$. For each $\mathcal{F} \subseteq {[n] \choose k}$, let $\mathcal{F}_N$ be the set of all $A \in \mathcal{F}$ such that $A$ is also a contiguous subsequence of $N$. We then define the random variable $X = |\mathcal{F}_N|$. For each $A \in \mathcal{F}$, we define an indicator function 
+
+    \[X_A = \begin{cases}
+        1 & A \in \mathcal{F}_N \\ 0 & A \notin \mathcal{F}_N
+    \end{cases}\]
+
+    If follows that $X = \sum_{A \in \mathcal{F}} X_A$. What is the expectation of $X$? Notice that there are $n$ cyclic starting positions in $N$ and each position gives a uniformly randon size $k$-subset of $N$. Thus, 
+
+    \[\mathbb{E}[X_A] = \Pr[A \in \mathcal{F}_N] = \frac{n}{{n\choose k}}\]
+
+    Thus, 
+
+    \[\mathbb{E}[X] = \sum_{A \in \mathcal{F}}\mathbb{E}[X_A] = \sum_{A \in \mathcal{F}}\frac{n}{{n\choose k}} = |\mathcal{F}| \cdot \frac{n}{{n \choose k}}\]
+
+    We now make a key observation: As $k < \frac{n}{2}$, then $X \leq k$. Indeed, notice that two contiguous segments of $N$ must intersect to both be in $\mathcal{F}$. If we had $k + 1$ contigous segments of length $k$, we remove a point not in any of these segments (which is possible as $k < \frac{n}{2})$. We get a line with $k+1$ distinct length $k$ intervals on this line. The left and rightmost intervals are disjoint, as required. Thus as $X \leq k$, so too is its expectation. We conclude that 
+
+    \[|\mathcal{F}| \cdot \frac{n}{{n\choose k}} \leq k\]
+
+    \begin{align*}
+        \implies |\mathcal{F}|& \leq \frac{{n \choose k} \cdot k}{n} \\
+        & = \frac{n! \cdot k}{k!(n-k)!n} \\
+        & = \frac{(n-1)!}{(k-1)! (n-k)!} \\
+        & = {n-1 \choose k-1}
+    \end{align*}
+\end{proof}
+
+\section{Fermat's Little Theorem}
+
+Recall this basic theorem of number theory:
+
+\begin{theorem}[Fermat's Little Theorem]
+    Let $p$ be prime. Then for any integer $a$,
+
+    \[a^n \equiv a \mod{n}\]
+
+    Equivalently, if $n \nmid a$, then 
+
+    \[a^{n-1} \equiv 1 \mod{n}\]
+\end{theorem}
+
+We can actually prove this theorem using necklaces. Consider necklaces over $\Sigma = [a]$ of length $n$. For now we will let $a = 2$.
+
+\begin{example}
+    If $a = 2$, then 
+
+    \begin{itemize}
+        \item If $n = 2$, there are 3 unique necklaces: $[0,0],[0,1],[1,1]$ 
+        \item If $n = 3$, there are 4 unique necklaces: $[0,0,0,0],[0,0,1],[0,1,1],[1,1,1]$
+        \item If $n = 4$, there are 6 unique necklaces: $[0,0,0,0],[0,0,0,1],[0,0,1,1],[0,1,0,1],[0,1,1,1],[1,1,1,1]$. 
+    \end{itemize}
+
+    In general, there are $2^n$ strings of length $n$, and each necklace is equivalent to $n$ of them by rotation.
+\end{example}
+
+For a string $x$, we will define $R^ix$ to be that string rotated/shifted by $i$ places; we let $\Z_n$ act on the string by shifting. We let 
+
+\[\operatorname{Period}(x) : \{i \in \mathbb{Z}_n : R^ix = x\}\]
+
+be the values of $i$ that fix $x$. This is a group, a subgroup of $\Z_n$. We have that 
+
+\[|\mathcal{O}(x)| = \frac{n}{|\operatorname{Period}(x)|}\]
+
+If we let $n$ be prime, then the only way for $x$ to be fixed is if all its elements are the same. Thus,
+
+\[|\operatorname{Period}(x)| = \begin{cases}
+    n & x \in \{(0,0,\ldots,0),(1,1,\ldots,1)\} \\
+    1 & \text{ otherwise}
+\end{cases}\]
+
+and so we have that the orbit is $1$ in the first case, and $n$ in the second case. Partitioning $\Sigma^n$ into its orbits (which we know to be disjoint), we get 2 orbits of size 1 (one for $\{0,0,\ldots,0\}$, and one for $\{1,1,\ldots,1\}$), and some number of orbits of size $n$, which we denote by $\alpha$. It follows that 
+
+\[|\{0,1\}^n = 2^n = 1 + 1 + n\alpha \implies \alpha = \frac{2^n - 2}{n}\]
+
+Therefore, the total number of necklaces of $\Sigma$ of length $n$ is 
+
+\[\alpha + 2 = \frac{2^n - 2}{n} + 2\]
+
+because we have a one-to-one correspondence between a necklace and its orbit. The fraction $\alpha$ must be an integer, so we have that 
+
+\[2^n - 2 \equiv 0 \mod{n} \iff 2^n \equiv 2 \mod{n}\]
+
+which completes the proof of Fermat's Little Theorem for $a = 2$. This generalizes for any $a$.
+
+We can further generalize this for composite values of $n$. Suppose that $n = pq$ for primes $p,q$. We determine the number of necklaces of size $n$ over $[a]$. The orbit sizes of the action of $\Z_n$ on $[a]^n$ must divide $n$, meaning they are either $1,p,q$, or $pq = n$. Strings with orbit size $pq$ are the constant strings, and there are $a$ of them. 
+
+For orbits of size $q$, if $x \in [a]^n$ is in this orbit, then 
+
+\[|\operatorname{Period}(x)| = n/q = p \iff \operatorname{Period}(x) = \{0,q,2q,\ldots,(p-1)q\}\]
+
+because $\operatorname{Period}(x)$ is a subgroup of $\Z_n$ of size $p$. $x$ has this period if and only if the first $q$ elements repeat themselves. Such elements may be arbitrarily chosen from $[a]$ in $a^q$ ways. In $a$ of these choices, all elements of the string are the same, so the size of the period is 1. Thus, the number of orbits of size $q$ is $a^1 - a$. Similarly, there are $a^p - a$ orbits of size $p$. Continuing with the process done previously gives a generalization of FLT for these values of $n$. 

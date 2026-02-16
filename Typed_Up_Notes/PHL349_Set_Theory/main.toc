@@ -6,4 +6,30 @@
 \contentsline {subsection}{\numberline {1.2.2}The Generative Conception of Sets}{4}{subsection.1.2.2}%
 \contentsline {subsubsection}{The Theory of Stages}{4}{subsection.1.2.2}%
 \contentsline {subsection}{\numberline {1.2.3}Which is Better?}{5}{subsection.1.2.3}%
+\contentsline {subsection}{\numberline {1.2.4}The Arithmetical Conception}{6}{subsection.1.2.4}%
 \contentsline {chapter}{\numberline {2}Lecture 2: The ABCs of Set Theory}{7}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Notations and First Axioms}{7}{section.2.1}%
+\contentsline {section}{\numberline {2.2}The Algebra of Sets}{8}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Functions and Relations}{10}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Ordered Pairs}{10}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Cartesian Products, Binary Relations, and Generalizations}{10}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}Functions}{12}{subsection.2.3.3}%
+\contentsline {section}{\numberline {2.4}The Axiom of Choice (AC)}{12}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}First Form}{12}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Second Form}{13}{subsection.2.4.2}%
+\contentsline {chapter}{\numberline {3}Lecture 3: Constructing the Naturals}{14}{chapter.3}%
+\contentsline {section}{\numberline {3.1}The Existence of the Naturals}{14}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Simple Infinite Systems and the Axiom of Infinity}{14}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}The Dedekind-Peano Postulates}{15}{subsection.3.1.2}%
+\contentsline {section}{\numberline {3.2}The Elementary Theory of Arithmetic}{19}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Addition and Multiplication}{19}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Ordering the Naturals}{20}{subsection.3.2.2}%
+\contentsline {chapter}{\numberline {4}Lecture 4: Number Systems}{22}{chapter.4}%
+\contentsline {section}{\numberline {4.1}The Integers}{22}{section.4.1}%
+\contentsline {section}{\numberline {4.2}The Rationals}{25}{section.4.2}%
+\contentsline {section}{\numberline {4.3}The Reals}{27}{section.4.3}%
+\contentsline {chapter}{\numberline {5}The Size of Sets}{29}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Equinumerosity}{29}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Finite Sets}{31}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Cardinal Arithmetic}{32}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Ordering Cardinal Numbers}{33}{section.5.4}%

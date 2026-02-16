@@ -1,0 +1,229 @@
+\chapter{A Group Acting Freely on a Tree is Free}
+
+We first prove the forwards direction.
+
+\begin{thm}\label{Serre Forward Direction}
+    If $T$ is a tree and $G$ is a group such that $G \acts T$ freely, then $G$ is isomorphic to a free group. 
+\end{thm}
+
+To this end, we let $T$ be a tree and we let $G$ be a group such that $G \acts T$ freely. 
+
+\section{G-Tilings}
+
+\begin{defn}
+    A \textbf{tile} of a tree $T$ is any subtree of $T$. 
+
+    A \textbf{tiling} of $T$ is a collection of tiles of $T$ such that 
+
+    \begin{enumerate}
+        \item The union of all tiles is $T$, and
+        \item Two tiles intersect, at most, at a vertex.
+    \end{enumerate}
+
+    If $G \acts T$, and if 
+
+    \begin{enumerate}
+        \item[3.] There is a tile $T_0$ such that the set of all tiles is $\{gT_0: g \in G\}$
+    \end{enumerate}
+
+    then we call the tiling a \textbf{$G$-tiling}.
+\end{defn}
+
+It is not obvious a priori that $T$ will always have a $G$-tiling. However, one can show that it always does. 
+
+\begin{thm}\label{Groups Acting on Trees have G-Tilings}
+    Let $G$ be a group and $T$ a tree. If $G \acts T$, then $T$ has a $G$-tiling. 
+\end{thm}
+
+Before proving this we need two more objects.
+
+\begin{defn}
+    For a tree $T$, its \textbf{barycentric subdivision} is the tree $T'$ obtained by putting a new vertex into the middle of every edge in $T$. 
+\end{defn}
+
+Without loss of generality, we now assume that every non-leaf vertex in $T$ has at least degree 2; if not, then use the barycentric subdivision $T'$, which has this property. The reason for this will become relevant later in Lemma \ref{T_g's cover T}.
+
+Now, how exactly will we create our $G$-tiling? We can do this using our group action. Let $v_0 \in V(T)$ be a vertex in the tree, and consider its orbit under the group action.
+
+\[ \mathcal{O}(v_0) = \{gv_0 : g \in G\} \]
+
+For every vertex $v \in V(T)$, there is a $gv_0 \in \mathcal{O}(v_0)$ that is closest to $v$ under the path metric. From this, we define a subgraph $T_g$ as follows:
+
+\[ V(T_g) = \{v \in T : d(v,gv_0) \leq d(v,g'v_0) \ \forall g' \neq g\} \]
+\[ E(T_g) = \{(u,v) \in E(T) : u,v \in V(T_g)\} \]
+
+In other words, $T_g$ is a subgraph whose vertex set is all those vertices that are closest to $gv$ in $T$ under the path metric, and whose edge set is all those edges whose endpoints are both vertices in $T_g$. 
+
+\begin{lemma}\label{Tg is a Tile}
+    Let $G \acts T$. Then $T_g$ is a tile for all $g \in G$.
+\end{lemma}
+
+\begin{proof}
+    It suffices to prove that $T_g$ is connected, as every connected subgraph of a tree is a subtree. Let $w \in V(T_g)$. There is a unique edge path $w$ to $gv$; suppose it is of length $n$.
+
+    \[
+    w_0 = w, w_1, w_2, \ldots, w_{k-1}, w_n = gv
+    \]
+
+    Then $d(w_1,gv_0) = n-1$. We claim that $w_i \in V(T_g)$ for all $i$. Starting with $w_1$, suppose by way of contradiction that $w_1 \notin V(T_g)$. Then there is a $g'$ such that 
+
+    \[
+    d(w_1,g'v_0) = m < n-1
+    \]
+
+    But then going back on edge to $w$, we get that 
+
+    \[
+    d(w,g'v_0) \leq m+1 < n
+    \]
+
+    which contradicts the fact that $w \in V(T_g)$. Thus, $w_1 \in V(T_g)$. This logic can be repeated for all other vertices in the path, ensuring that all are in $V(T_g)$, as desired. This means that $T_g$ is connected, hence a subtree of $T$, and thus, is a tile. 
+\end{proof}
+
+Now that we know the $T_g$'s are in fact tiles, we should also check that they cover all of $T$. 
+
+\begin{lemma}\label{T_g's cover T}
+    The union of all tiles $T_g$ for all $g$ is equal to $T$. 
+\end{lemma}
+
+\begin{proof}
+    It is evident that $\bigcup_{g\in G}V(T_g) = V(T)$, since every vertex must be closest to some $gv_0$. It is also evident that
+
+    \[ \bigcup_{g \in G}E(T_g) \subseteq E(T) \]
+
+    So it suffices to show the reverse inclusion: every edge in $T$ belongs to some $T_g$. Let $(u,w) \in E(T)$. Then by construction of $T$, the distance to $\mathcal{O}(v_0)$ from one of $u,w$ is odd, while the distance from the other is even. Without loss of generality, suppose that
+
+    \[
+    d(u,\mathcal{O}(v_0)) \ \text{ is even} \quad \text{ and } \quad d(w,\mathcal{O}(v_0)) \ \text{ is odd}
+    \]
+
+    that $d(u,\mathcal{O}(v_0)) < d(w,\mathcal{O}(v_0))$, and that $u \in V(T_g)$. By the Triangle Inequality, we have that 
+
+    \[
+    d(w,gv_0) \leq d(w,u) +  d(u,gv_0) = d(u,gv_0) + 1
+    \]
+
+    As the distance from $w$ to $\mathcal{O}(v_0)$ is an integer, and cannot be smaller than or equal to $d(u,gv_0)$, the only possibility is that it is equal to $d(w,gv_0)$. Thus, 
+
+    \[ d(w,gv_0) \leq d(w,g'v_0) \ \forall g' \neq g \]
+
+    so $w \in V(T_g)$. We conclude that $(u,w) \in E(T_g)$, as desired. 
+\end{proof}
+
+The second condition, that two tiles share at most a vertex, is somewhat obvious. Indeed, if $(u,w)$ is in both $E(T_g)$ and $E(T_{g'})$, then $u,w$ are of equal distance to $gv_0$ and $g'v_0$. But assuming $u$ is of equal distance to $gv_0$ and $g'v_0$, $w$ must be closer to one of $gv_0$ or $g'v_0$, since it is along the unique edge path from $u$ to one of them. 
+
+The final condition can be proven using another lemma: 
+
+\begin{lemma}\label{gT_h = T_gh}
+    For $g,h \in G$, $gT_h = T_{gh}$.
+\end{lemma}
+
+\begin{proof}
+    It suffices to show that $g$ maps vertices in $T_h$ to those in $T_{gh}$, as they're completely determined by vertices. Let $u \in V(T_h)$. Then for all $k \in G$,
+
+    \[
+    d(u,hv_0) \leq d(u,kv_0)
+    \]
+
+    Left multiplication by $g^{-1}$ is a bijection of $G$, so we may write 
+
+    \[
+    d(u,hv_0) \leq d(u,(g^{-1}k)v_0)
+    \]
+
+    For all $k \in G$. Now, as $G \acts T$, and $T$ is a metric space using the path metric, the action of $G$ preserves distances. Thus,
+
+    \[
+    d(gu, (gh)v) \leq d(gu,kv)
+    \]
+
+    so $gu \in T_{gh}$, as desired. 
+\end{proof}
+
+\begin{proof}[Proof of Theorem \ref{Groups Acting on Trees have G-Tilings}]
+    By Lemmas \ref{Tg is a Tile} and \ref{T_g's cover T}, the collection $\{T_g: g \in G\}$ is a tiling of $T$. Setting $h = 1$ and applying Lemma \ref{gT_h = T_gh}, all tiles are of the form $gT_1$ for some $g \in G$.
+\end{proof}
+
+We have thus shown that any group acting on a tree induces a $G$-tiling on the tree.
+
+\section{Proof of Theorem \ref{Serre Forward Direction}}
+
+Now that we know $G$ induces a $G$-tiling on our tree $T$, we can use it to create a free generating set. 
+
+We let $\{T_g\}$ be the $G$-tiling found in Theorem \ref{Groups Acting on Trees have G-Tilings}. As $G$ acts freely on $T$, $\operatorname{Stab}_G(v_0) = \{1\}$, so by the Orbit-Stabilizer Theorem,
+
+\[|\mathcal{O}(v_0)| = 1 \cdot |G| = |G|\]
+
+Thus the elements of $G$ are in bijective correspondence with the elements of the orbit of $v_0$. In other words, every $g \in G$ corresponds to a tile $gT_1$. define 
+
+\[
+S = \{g \in G : (gT_1) \cap T_1 \neq \varnothing\}
+\]
+
+to be the set of tiles that intersect with $T_1$.
+
+\begin{lemma}\label{S Generates G}
+    $S$ generates $G$
+\end{lemma}
+
+\begin{proof}
+    First we show that if $s \in S$, so too is $s^{-1}$. Indeed let $s \in S$. Then there is a vertex $w$ such that 
+
+    \begin{align*}
+        & (sT_1) \cap T_0 = \{w\} \\
+        \implies & s^{-1}(sT_1) \cap (s^{-1}T_1) = \{s^{-1}w\} \\
+        \implies & T_1 \cap (s^{-1}T_1) = \{s^{-1}w\}
+    \end{align*}
+
+    so $s^{-1} \in S$. 
+
+    Now let $g \in G$ and consider $gv_0$. There is a unique path in $T$ from $gv_0$ to $v_0$, passing through tiles 
+
+    \[T_{g_n}, T_{g_{n-1}}, \ldots, T_{g_1}, T_{g_0}\]
+
+    We claim that $g_{i-1}^{-1}g_i\in S$. The above path travels from $T_{g_{i+1}}$ to $T_{g_i}$ without passing through a middle tile, so 
+
+    \[T_{g_{i+1}} \cap T_{g_i} \neq \varnothing\]
+
+    Applying $g_i^{-1}$, we get 
+
+    \[g_i^{-1}T_{g_{i+1}} \cap T_1 \neq \varnothing \implies T_{g_i^{-1}g_{i+1}} \cap T_1 \neq \varnothing\]
+
+    so $g_i^{-1}g_{i+1} \in S$, and we write it as $s_i$. Then, we have that 
+
+    \begin{align*}
+        g & = g_n \\
+          & = g_{n-1}g_{n-1}^{-1}g_n \\
+          & \vdots \\
+          & = g_1^{-1}g_1g_2^{-1}g_2\cdots g_{n-1}^{-1}g_n \\
+          & = s_1s_2 \cdots s_n
+    \end{align*}
+
+    so $g$ may be written as a product of elements of $S$, meaning $S$ generates $G$.
+\end{proof}
+
+With all these tools now in place, the last thing we need to do is show that there are no relations between elements of $S$. 
+
+\begin{proof}[Proof of Theorem \ref{Serre Forward Direction}]
+    By Lemma \ref{Groups Acting on Trees have G-Tilings} we have a $G$-tiling $\{T_g\}$, which we know generates $G$ by Lemma \ref{S Generates G}. We claim that every $g \in G$ may be written as a unique, reduced product of elements of $S$. Let 
+
+    \[g = s_1s_2 \cdots s_k\]
+
+    with $s_i \neq s_{i+1}^{-1}$. We claim there is a unique path from $gv_0$ to $v_0$ that passes through, in order, the tiles
+    
+    \[T_g = T_{s_1s_2\cdots s_k}, T_{s_1s_2\cdots s_{k-1}}, \ldots, T_{s_1}, T_1\]
+
+    As $T_{s_1} \cap T_1 = \{w_1\}$ for some $w_1 \in V(T)$, $T_{s_1} \cup T_1$ is a tree, where $v_0 \in V(T_1)$ and $s_1v_0 \in T_{s_1}$. Thus, there is a unique path from $s_1v_0$ to $v_0$ in $T_{s_1} \cup T_1$. Similarly, we have 
+
+    \[T_{s_1s_2} \cap T_{s_1} = s_1^{-1}(T_{s_2} \cap T_1) = \{s_1^{-1}w_2\}\]
+
+    for some $w_2 \in V(T)$, so $T_{s_1s_2} \cup T_{s_1}$ is a tree. Again, this means there is a unique path from $s_1v_0$ to $s_1s_2v_0$ in $T_{s_1s_2} \cup T_1$. If we continue this process inductively, we get the desired unique path. This path completely deterimines the word $s_1s_2\cdots s_k$ representing $g$, and thus $g$ can only be written as this freely reduced word in $S$. This tells us that $S$ has no relations, and thus $G$ is free, as desired. 
+\end{proof}
+
+\begin{cor}[Nielsen-Schreier Theorem]
+    Ever subgroup of a free group is also a free group. 
+\end{cor}
+
+\begin{proof}
+    A free action of a group $G$ on a tree trivially restricts to an action of $H \leq G$ on the tree. As $1 \in H$, if the action of $G$ is free, so too must the action of $H$. 
+\end{proof}

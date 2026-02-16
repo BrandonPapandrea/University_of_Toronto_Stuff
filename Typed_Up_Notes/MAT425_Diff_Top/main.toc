@@ -9,3 +9,6 @@
 \contentsline {subsection}{\numberline {1.4.2}Submersions}{9}{subsection.1.4.2}%
 \contentsline {subsection}{\numberline {1.4.3}The Preimage Theorem}{9}{subsection.1.4.3}%
 \contentsline {section}{\numberline {1.5}Embeddings}{11}{section.1.5}%
+\contentsline {section}{\numberline {1.6}Measure Zero and Sard's Theorem}{12}{section.1.6}%
+\contentsline {section}{\numberline {1.7}Transversality}{16}{section.1.7}%
+\contentsline {section}{\numberline {1.8}Homotopy and the Stability Theorem}{20}{section.1.8}%
