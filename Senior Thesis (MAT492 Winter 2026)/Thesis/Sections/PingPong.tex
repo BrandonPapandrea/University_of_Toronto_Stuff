@@ -1,0 +1,223 @@
+\chapter{The Ping-Pong Lemma}
+
+As stated previously, given a group presentation $G = \langle S | R \rangle$, there is no algorithm running in finite time that can determine if this group is free. However, if we provide additional information about how $G$ acts on a set $X$, we can determine if this group is free. This result is known as the Ping-Pong Lemma, and is one of the foundational results in Geometric Group Theory. 
+
+The result is attributed to Felix Klein, who used it in the late 1800s to study certain isometries of hyperbolic space. More recently, it was used by Jacques Tits in 1972 to prove the result now knows as the Tits Alternative. It is sometimes called Schottky's Lemma or Klein's Criterion.
+
+\section{Statements and Proofs}
+
+There are many different statements of the Ping-Pong Lemma for free groups, free products, etc. We focus on a relatively simple version that provides better intuition for why we call it the Ping-Pong Lemma. We start with a special case:
+
+\begin{thm}[The Ping-Pong Lemma for Two Players]\label{Ping Pong for 2 Players}
+    Suppose $a,b$ generate a group $G$, and $G \acts X$. If 
+
+    \begin{enumerate}
+        \item $X$ has disjoint nonempty subsets $X_a, X_b$, and 
+        \item for all powers $k \neq 0$, $a^k(X_b) \subset X_a$ and $b^k(X_a) \subset X_b$
+    \end{enumerate}
+
+    Then $G$ is isomorphic to a free group of rank 2.
+\end{thm}
+
+\begin{proof}
+    As $G$ has only 2 generators, it suffices to show there are no relations in $G$. Let
+
+    \[g = a^{e_1}b^{e_2}\cdots b^{e_{k-1}}a^{e_k}\]
+
+    be a word in $G$ and let $p \in X_b$. Consider $gp$. Notice that $a^{e_k}$ will send $p$ to $X_a$, then $b^{e_{k-1}}$ will send $a^{e_k}p$ back to $X_b$. We go back and forth from $X_a$, to $X_b$, etc.
+    
+    At the end, $a^{e_1}$ takes $b^{e_2}\cdots b^{e_{k-1}}a^{e_k}p$ to $X_a$. As $X_a \cap X_b = \varnothing$, and $gp \in X_a$ while $p \in X_b$, $gp \neq p$, meaning $g \neq 1$. 
+
+    We conclude by showing that any word in $h \in G$, there is a word $y \in G$ such that $yhy^{-1}$ looks like $g$; in other words, every word in $G$ is conjugate to some word that looks like $g$. Let $h$ be a nontrivial reduced word in $\{a,b,a^{-1},b^{-1}\}$. For the purpose of brevity, we will let $*$ denote a nonzero exponent. We have several cases:
+
+    \begin{enumerate}
+        \item If $h = a^*b^*\cdots b^*a^*$, take $y = 1$. 
+        \item If $h = b^*a^*\cdots b^*a^i$ or $h = a^ib^*\cdots b^*a^*$, take $y = a^j$ for some $j \neq i$.
+        \item If $h = b^*a^*\cdots a^*b^*$, take $y = a$.
+    \end{enumerate}
+
+    What this tells is that any word in $G$ is conjugate to a nontrival element of $G$. As all conjugates of 1 are trivial, this means that every word in $G$ must be nontrivial. Thus, there are no relations between elements of $G$, so $G$ is isomorphic to a free group of rank 2.  
+\end{proof}
+
+The section of the proof where we bounce between $X_a$ and $X_b$ should give a good idea as to why this is called the Ping-Pong Lemma. $p$ starts in $X_b$, then is sent to $X_a$, then back to $X_b$, then back to $X_a$, etc. It's like watching a ping-pong game, where the ball is $p$, $X_a$ and $X_b$ are the sides of the table, and the ball is ``hit around" by $g$. 
+
+\begin{center}
+    \includegraphics[width=\textwidth]{Images/Ping-Pong.png}
+\end{center}
+
+We can extend this proof for rank 2 to find free groups of any finite rank:
+
+\begin{thm}[The Ping-Pong Lemma for $n$ Players]\label{Ping Pong for n Players}
+    Suppose $\{g_1, \ldots, g_n\}$ generate a group $G$, and $G \acts X$. If 
+
+    \begin{enumerate}
+        \item $X$ has pairwise disjoint nonempty subsets $X_1, \ldots, X_n$, and 
+        \item for all powers $k \neq 0$, $g_i^k(X_j) \subset X_i$ for all $i \neq j$.
+    \end{enumerate}
+
+    Then $G$ is isomorphic to a free group of rank $n$. 
+\end{thm}
+
+\begin{proof}
+    Let $g = g_{i_1}^{e_1}g_{i_2}^{e_2}\cdots g_{i_k}^{e_k}$ be a nontrivial reduced word in $G$, and let $p \in X_j$ where $j \neq i_k$. It follows that $gp \in X_i$, $i \neq j$, and thus $g \neq 1$. This suffices as all elements of $G$ are conjugate to an element of the above form.  
+\end{proof}
+
+After seeing this, one may ask if this forms both a necessary and sufficient condition for a group to be free. That is, given a group $G$ acting on a set $X$, is it free if and only if the properties of $X$ and the group action described in the Ping-Pong Lemma apply? The answer is yes, because for any free group, there is always a set and group action on that set fulfilling these conditions.
+
+\begin{thm}\label{Free Groups Satisfy Ping Pong}
+    There is a set $X$ with subsets $X_i$ and a group action of $F_n$ on $X$ fulfilling the conditions of the Ping-Pong Lemma. 
+\end{thm}
+
+\begin{proof}
+    We let
+
+    \[X = \{1,2,\ldots,n\}\]
+
+    and define $X_i = \{i\}$ for all $i$. This gives us $n$ pairwise disjoint nonempty subsets, fulfilling the first condition of the Ping-Pong Lemma.
+
+    We define our group action of $F_n$ on $X$ with respect to generators. Suppose $F_n$ is generated by $a_1, a_2, \ldots, a_n$. Then for any $x \in X$, we define 
+
+    \[a_ix := i\]
+
+    Clearly, if $k \neq 0$ and $i \neq j$, then 
+
+    \[a_i^kj = i\]
+
+    so $a_i^k(X_j) \subset X_i$, fulfilling the second condition of the Ping-Pong Lemma. 
+\end{proof}
+
+\section{An Application: $SL_2(\Z)$ and $GL_2(\Z)$}
+
+The Ping-Pong Lemma is a powerful tool for finding free subgroups of certain groups. In finding them, we can find a large class of free subgroups thanks to the Schreier Index Formula.
+
+Recall that $SL_2(\Z)$ is the group of $2 \times 2$ matrices of determinant 1. Let $G = \langle A, B \rangle$ be a subgroup of $SL_2(\Z)$ generated by 
+
+\[A = \begin{pmatrix}
+    1 & 2 \\ 0 & 1
+\end{pmatrix}, \quad B = \begin{pmatrix}
+    1 & 0 \\ 2 & 1
+\end{pmatrix}\]
+
+\begin{lemma}\label{SL2Z Matrix Powers}
+    For any power $k \neq 0$,
+
+    \[A^k = \begin{pmatrix}
+        1 & 2k \\ 0 & 1
+    \end{pmatrix}, \quad B^k = \begin{pmatrix}
+        1 & 0 \\ 2k & 1
+    \end{pmatrix}\]
+\end{lemma}
+
+\begin{proof}
+    First assume $k > 0$. We proceed by induction. The base case $k = 1$ is obvious. Now assume that the claim holds on $k$ and consider $k+1$. Then we have that 
+    
+    \begin{align*}
+        A^{k+1} & = (A^k)A \\
+                & = \begin{pmatrix}
+                    1 & 2k \\ 0 & 1
+                \end{pmatrix}\begin{pmatrix}
+                    1 & 2 \\ 0 & 1
+                \end{pmatrix} \\
+                & = \begin{pmatrix}
+                    1 & 2 + 2k \\ 0 & 1
+                \end{pmatrix} \\
+                & = \begin{pmatrix}
+                    1 & 2(k+1) \\ 0 & 1
+                \end{pmatrix}
+    \end{align*}
+
+    Similarly, 
+
+    \begin{align*}
+        B^{k+1} & = (B^k)B \\
+                & = \begin{pmatrix}
+                    1 & 0 \\ 2k & 1
+                \end{pmatrix}\begin{pmatrix}
+                    1 & 0 \\ 2 & 1
+                \end{pmatrix} \\
+                & = \begin{pmatrix}
+                    1 & 0 \\ 2k + 2 & 1
+                \end{pmatrix} \\
+                & = \begin{pmatrix}
+                    1 & 0 \\ 2(k+1) & 1
+                \end{pmatrix}
+    \end{align*}
+
+    as desired. For negative exponents, we first note that
+
+    \[\begin{pmatrix}
+        1 & 2k \\ 0 & 1 
+    \end{pmatrix}\begin{pmatrix}
+        1 & -2k \\ 0 & 1
+    \end{pmatrix} = \begin{pmatrix}
+        1 & 0 \\ 0 & 1
+    \end{pmatrix}\]
+
+    \[\begin{pmatrix}
+        1 & 0 \\ 2k & 1
+    \end{pmatrix}\begin{pmatrix}
+        1 & 0 \\ -2k & 1
+    \end{pmatrix} = \begin{pmatrix}
+        1 & 0 \\ 0 & 1
+    \end{pmatrix}\]
+
+    and this completes the proof since $(A^k)^{-1} = A^{-k}$. 
+\end{proof}
+
+We claim that $G$ is isomorphic to a free group of rank 2. To do this, we define the action of $G$ on $\Z^2$ by standard matrix multiplication:
+
+\[\begin{pmatrix}
+    a & b \\ c & d
+\end{pmatrix}\begin{pmatrix}
+    x \\ y
+\end{pmatrix} = \begin{pmatrix}
+    ax + by \\ cx + dy
+\end{pmatrix}\]
+
+Moreover, we define our sets as 
+
+\[X_A = \left\{\begin{pmatrix}
+x \\ y
+\end{pmatrix} \in \R^2 : |x| > |y|\right\}, \quad X_B = \left\{\begin{pmatrix}
+x \\ y 
+\end{pmatrix} \in \R^2 : |x| < |y|\right\}\]
+
+We claim that $X_A, X_B$ meet the criteria of the Ping-Pong Lemma. First note that these sets are clearly disjoint. Next, let $\vec{x} \in X_a$. Using Lemma \ref{SL2Z Matrix Powers}, we have that for any power $k \neq 0$,
+
+\[A^k\vec{x} = \begin{pmatrix}
+    x + 2ky \\ y
+\end{pmatrix}\]
+
+and we see that 
+
+\begin{align*}
+    |x + 2ky| & \leq |x| + |2k||y| \\
+              & < |2k||y| \\
+              & < |y|
+\end{align*}
+
+so $A^k\vec{x} \in X_B$, meaning $A^k(X_A) \subset X_B$. Similarly, if $\vec{x} \in X_B$, then for any power $k \neq 0$,
+
+\[B^k\vec{x} = \begin{pmatrix}
+    x \\ 2kx + y
+\end{pmatrix}\]
+
+and we get that 
+
+\begin{align*}
+    |2kx + y| & \leq |2k||x| + |y| \\
+              & < |2k||x| \\
+              & < |x|
+\end{align*}
+
+so $B^k\vec{x} \in X_A$, meaning $B^k(X_B) \subset X_A$. The Ping-Pong Lemma then applies, so $G$ is isomorphic to a free group of rank 2. In addition to showing that $F_2$ is a subgroup of $SL_2(\Z)$, by Theorem \ref{Free Groups Contain Subgroups of Arbitrarily Large Rank}, this also tells us that $F_n \subset SL_2(\Z)$ for any $n > 2$. 
+
+We can generalize this result slightly to find free subgroups of $GL_2(\Z)$, the group of invertible $2 \times 2$ integer matrices. Doing this amounts to setting 
+
+\[A = \begin{pmatrix}
+    1 & m \\ 0 & 1
+\end{pmatrix}, \quad B = \begin{pmatrix}
+    1 & 0 \\ m & 1
+\end{pmatrix}\]
+
+where $m \geq 2$. Using the exact same methods as before, we may show that $G = \langle A,B \rangle \subset GL_2(\Z)$ is isomorphic to a free group of rank 2. 
