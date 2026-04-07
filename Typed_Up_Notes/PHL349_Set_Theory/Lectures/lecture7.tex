@@ -1,0 +1,73 @@
+\chapter{Lecture 7: Ordered Sets}
+
+Recall from Lecture 1 the iterative construction of sets, which includes a universe of sets $V$ made of levels or stages. Level 0 is the empty set $\varnothing$, and successive stages are built from smaller ones. $V$ is the set of all $V_\alpha$, where $\alpha$ is an element/component/member of some ``grand ordering.''
+
+Up to now, we have created all the stages up to stage $\omega$, the first infinite stage. Afterwards, we will have stage $\omega^+$, then $\omega^{+^+}$, and so on. Is it possible to build further stages without using this successor operation? We've done something similar before with stage $\omega$, since it cannot be built from the previous stage. Instead, we took a sort of limit of the previous stages to get to it. 
+
+In this lecture we will begin to rigorously construct this culmulative heirarchy of sets. Doing this requires us to both build the axis on which our stages are built, and build an understanding regarding the truth of set-theoretical sentences at stages. At a high level, this will allow us to talk about set theory in the way we've done in the past, with a logical syntax that uses sets as the objects, and logical semantics. This means that set theory will be able to prove facts about itself. One of the benefits of this is that we can talk about meta-theoretical results, such as whether or not certain axioms are redundant or independent. Another example is whether or not certain sentences are semantical consequences of stages. Note that stages are not a collection of premises, but rather sets; we call these stages \textbf{models}. 
+
+\section{Orderings}
+
+\begin{definition}
+    A relation $R$ on $A$ is called a \textbf{partial ordering} if and only if $R$ is transitive and irreflexive, meaning that for all $x \in A$, $\Ang{x,x} \notin R$. We say $R$ is a \textbf{linear ordering} if $R$ also satisfies trichotomy.
+\end{definition}
+
+Orderings are usually denoted by $<$. The statement $x < y \vee x = y$ is denoted as $x \leq y$. A set $A$ combined with a partial ordering $<$ is a tuple $\Ang{A,<}$, called a \textbf{partially ordered set (poset)}. 
+
+\begin{example}
+    For any set $S$, the relation 
+    \[\subset_S = \{\Ang{A,B}| A \subseteq B \subseteq S \wedge A \neq B\}\]
+    is a partial ordering of $S$, and we write that $A \subset_S B$. 
+
+    Another example is as follows: Let $P$ be the set of positive integers. Then 
+    \[\{\Ang{a,b} \in NP \times P | a \cdot q = b \text{ for some $q \neq 1$}\}\]
+    is a partial relation, the strict divisibility relation, denoted by $\mid$. For instance, $5 \mid 60$. 
+
+    A more common example is $\R$ with the usual ordering relation $<$. This is in fact a linear ordering as it satisfies trichotomy. 
+\end{example}
+
+\begin{definition}
+    A linear ordering $<$ on $A$ is a \textbf{well ordering} if for any nonempty subset $B$ of $A$, there is a $b \in B$ such that $x \in B \implies b \leq x$. 
+
+    Equivalently, there is no function $f: \omega \to A$ such that $f(n^+) < f(n)$ for every $n \in \omega$. 
+\end{definition}
+
+A special property of well-orderings is that they allow for us to apply a more generalized version of induction. First a definition:
+
+\begin{definition}
+    If $\Ang{A,<}$ is a poset and $x \in A$, then 
+    \[seg_<x = \{y | y < x\}\]
+    is the \textbf{initial segment up to $x$}, which contains all elements smaller than $x$ in $A$. 
+    
+    If $B \subseteq A$ is such that $seg_<x \subseteq B \implies x \in B$, then we call $B$ \textbf{$<$-inductive}. In other words, $B$ is $<$-inductive if it is true that if all elements smaller than $x$ are in $B$, so too is $x$.  
+\end{definition}
+
+\begin{theorem}[The Transfinite Induction Principle]
+    Let $<$ be a linear ordering on $A$. Then the following are equivalent: 
+
+    \begin{enumerate}[label=(\roman*)]
+        \item $<$ is a well-ordering.
+        \item $A$ is the only $<$-inductive subset of $A$. 
+    \end{enumerate}
+\end{theorem}
+
+Like recursion on $\omega$, transfinite recursion allows us to define a function on a well-ordered structure. Let $\Ang{A,<}$ be a poset with a well-ordering $<$. Then we can define a function $F$ initially on the elements on some subset $B \subseteq A$, then define additional elements based on elements smaller than it; this is always possible since $A - B$ contains a least element. 
+
+We define $B^{< A}$ to be the set of functions $f$ such that for some $t \in A$, $f$ is a function from $seg_<t$ into $B$. Note that this is a set since we can apply the subset axiom to $\mathcal{P}(A \times B)$. 
+
+\begin{theorem}[Transfinite Recursion, Preliminary Form]
+    Assume $<$ is a well-ordering on $A$, and that $G: B^{< A} \to B$. Then there is a unique function $F: A \to B$ such that for any $t \in A$, 
+    \[F(t) = G(F \upharpoonright seg_<t)\]
+\end{theorem}
+
+In general, the rule for assigning values may not always be given by a function. For example, 
+\[F(t) = \{F(x) | x < t\} = \operatorname{ran}(F \upharpoonright seg_<t)\]
+is a function whose rule cannot be written as a function, since there is no function $G$ such that $G(a) = \operatorname{ran}a$ for all sets $a$. Instead, we can formulate our rule in terms of some class. Let $\chi(u,v)$ be a \textbf{functional} well-formed formula (meaning that for each $u$ there is a unique $v$ such that $\chi(u,v)$). Then we can restate the Transfinite Recursion Theorem as follows:
+
+\begin{theorem}[Transfinite Recursion Theorem Schema]
+    If $<$ is a well-ordering on $A$, and $\chi$ is a functional well-formed formula, then there is a unique function $F$ with domain $A$ such that 
+    \[\chi(F \upharpoonright seg_<t, F(t))\]
+    for all $t \in A$. 
+\end{theorem}
+
+Note that this is a theorem \textit{schema}, meaning it is an infinite collection of theorems, one for each functional well-formed formula. 

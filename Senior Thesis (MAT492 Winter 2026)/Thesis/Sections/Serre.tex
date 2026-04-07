@@ -1,0 +1,720 @@
+\section{Serre's Theorem}
+
+\subsection{Group Actions on Graphs}
+
+To begin understanding Serre's Theorem, we first need to define what it means for a group to act on a graph, as well as when such an action is free. 
+
+For our purposes, a \textbf{graph} $\Gamma$ is a combinatorial object given by a tuple $(V,E)$, where $V$ is a set of \textbf{vertices}, and $E \subseteq V \times V$ is a set of \textbf{edges}. We will sometimes denote the vertex and edge sets of $\Gamma$ by $V(\Gamma)$ and $E(\Gamma)$ respectively. 
+
+A graph can be undirected (meaning if $(v,w) \in E$, then $(w,v) \in E$), directed (meaning at most one of $(v,w)$ or $(w,v)$ is in $E$), can contain loops (edges of the form $(v,v)$), and can have multiple edges going between two vertices. We may also have labels or colours on certain edges and vertices in a graph to distinguish them; this will come in handy later when defining the Cayely Graph of a group. 
+
+\subsubsection{Graph Isomorphisms and Automorphisms}
+
+For many, there is an intuitive definition of when two graphs are isomorphic: they look the same. For example, these two isomorphic graphs represent different perspectives of a tetrahedron:
+\[\begin{tikzcd}
+	&& \bullet &&&&&&& \bullet \\
+	&&&&&&& \bullet &&&& \bullet \\
+	&& \bullet \\
+	\bullet &&&& \bullet &&&&& \bullet
+	\arrow[no head, from=1-3, to=3-3]
+	\arrow[no head, from=1-3, to=4-1]
+	\arrow[no head, from=1-10, to=2-8]
+	\arrow[no head, from=1-10, to=2-12]
+	\arrow[no head, from=2-8, to=2-12]
+	\arrow[no head, from=2-12, to=4-10]
+	\arrow[no head, from=3-3, to=4-5]
+	\arrow[no head, from=4-1, to=3-3]
+	\arrow[no head, from=4-1, to=4-5]
+	\arrow[no head, from=4-5, to=1-3]
+	\arrow[no head, from=4-10, to=1-10]
+	\arrow[no head, from=4-10, to=2-8]
+\end{tikzcd}\]
+
+\begin{defn}
+    We say that two graphs $\Gamma_1 = (V_1,E_1), \Gamma_2 = (V_2,E_2)$ are \textbf{isomorphic} if and only if there is a bijection $f: V_1 \to V_2$ that preserves edge adjacencies. In other words, 
+    \[ (v,w) \in E_1 \iff (f(v),f(w)) \in E_2 \]
+    Such an $f$ is called a \textbf{graph isomorphism}.
+\end{defn}
+
+If we have additional structure on our graphs, such as labellings, colours, or directed edges, then the isomorphism must preserve these structures. Blue edges must go to blue edges, directed edges to directed edges, etc. 
+
+We can also define an isomorphism from a graph to itself. Such isomorphisms are called \textbf{automorphisms}, and will play an important role in proving one direction of Serre's Theorem. Automorphisms are the maps which represent the symmetries of a graph. The set of symmetries of a graph $\Gamma$ forms a group with function compostition, which is denoted $Aut(\Gamma)$. 
+
+\begin{example}
+    Consider the graph representing a regular pentagon:
+
+    \[\begin{tikzcd}
+        && \bullet \\
+        \bullet &&&& \bullet \\
+        \\
+        & \bullet && \bullet
+        \arrow[no head, from=1-3, to=2-1]
+        \arrow[no head, from=2-1, to=4-2]
+        \arrow[no head, from=2-5, to=1-3]
+        \arrow[no head, from=4-2, to=4-4]
+        \arrow[no head, from=4-4, to=2-5]
+    \end{tikzcd}\]
+
+    There are several obvious automorphisms, such as rotation by $2\pi/5$, as well as reflections through the lines passing through both the center of the pentagon and any vertex. All in all, we see that the automorphism group of this graph is $D_5$, the dihedral group of a pentagon. If this graph were directed, with edges going clockwise around the pentagon, then we would not be able to make reflections, and thus the automorphism group would be $\Z_5$. 
+\end{example}
+
+\begin{example}
+    Consider the graph $K_4$, the complete graph on 4 vertices:
+
+    \[\begin{tikzcd}
+        \bullet &&&& \bullet \\
+        \\
+        \\
+        {} \\
+        \bullet &&&& \bullet
+        \arrow[no head, from=1-1, to=5-1]
+        \arrow[no head, from=1-1, to=5-5]
+        \arrow[no head, from=1-5, to=1-1]
+        \arrow[no head, from=1-5, to=5-1]
+        \arrow[no head, from=5-1, to=5-5]
+        \arrow[no head, from=5-5, to=1-5]
+    \end{tikzcd}\]
+
+    Notice how every vertex is connected to every other vertex. Thus, swapping any two vertices preserves the graphs structure and is an automorphism. More generally, any permutation of these 4 vertices will count as an automorphism. Thus, the automorphism group of $K_4$ is $S_4$, the symmetric group on 4 elements. More generally, 
+
+    \[Aut(K_n) = S_n\]
+\end{example}
+
+\begin{example}
+    Consider the complete bipartite graph $K_{4,3}$:
+
+    \[\begin{tikzcd}
+        \bullet \\
+        && \bullet \\
+        \bullet \\
+        && \bullet \\
+        \bullet \\
+        && \bullet \\
+        \bullet
+        \arrow[no head, from=1-1, to=2-3]
+        \arrow[no head, from=1-1, to=4-3]
+        \arrow[no head, from=1-1, to=6-3]
+        \arrow[no head, from=3-1, to=2-3]
+        \arrow[no head, from=3-1, to=4-3]
+        \arrow[no head, from=3-1, to=6-3]
+        \arrow[no head, from=5-1, to=2-3]
+        \arrow[no head, from=5-1, to=4-3]
+        \arrow[no head, from=5-1, to=6-3]
+        \arrow[no head, from=7-1, to=2-3]
+        \arrow[no head, from=7-1, to=4-3]
+        \arrow[no head, from=7-1, to=6-3]
+    \end{tikzcd}\]
+
+    Like $K_4$, we can permute the vertices on the left side and not affect the graph's structure, since they are all connected to every vertex on the right side. Similarly, we can permute the vertices on the right side as well. However, we cannot swap a vertex on the left with one on the right, as they have different degrees. Thus, we see that $Aut(K_{4,3}) = S_4 \times S_3$. More generally, if $n \neq m$,
+
+    \[Aut(K_{n,m}) = S_n \times S_m\]
+
+    If we had $K_{n,n}$, then we would have the addition symmetry of swapping the left and right sides (we cannot swap individual vertices since that would change the edge adjacencies). Thus, 
+
+    \[Aut(K_{n,n}) = (S_n \times S_n) \rtimes \Z_2\]
+\end{example}
+
+\subsubsection{Acting on a Graph}
+
+Now having defined what graphs are, as well as their symmetries, we are ready to define what it means for a group to act on a graph.
+
+\begin{defn}
+    Let $G$ be a group and $\Gamma$ a graph. A homomorphism $G \to Aut(\Gamma)$ is called an \textbf{action} of $G$ on $\Gamma$. If such a homomorphism exists, then we say that $G$ \textbf{acts on} $\Gamma$. 
+\end{defn}
+
+\noindent Using this definition, we can restate our previous examples as group actions: 
+
+\begin{enumerate}
+    \item $D_n$ acts on the graphs of regular $n$-gons by rotation and reflection. If the graph is directed, $\Z_n$ acts on it by rotation only.
+    \item $S_n$ acts on $K_n$ by permuting the vertices.
+    \item $S_n \times S_m$ acts on $K_{n,m}$ by permuting the left and right vertex sets, while $(S_n \times S_n) \rtimes \Z_2$ acts on $K_{n,n}$ by permuting the vertex sets and swapping them. 
+\end{enumerate}
+
+We conclude this section by defining what it means for such an action to be free, while also introducing an important notion that will become more relevant later.
+
+\begin{defn}
+    Let $G$ act on a graph $\Gamma$. We say that the group action is \textbf{free} if for any vertex $v$, $g \cdot v = v$ if and only if $g = 1$.  We say that $G$ acts \textbf{without inversion} if for any edge $(v,w) \in E$ and $g \in G$, either $g \cdot v \neq w$ or $g \cdot w \neq v$. 
+\end{defn}
+
+\begin{example}
+    $S_4$ acts freely on $K_4$, but it does not act without inversion. On the other hand, $\mathbb{Z}_6$ acts without inversion on the graph of an equilateral triangle, but not freely; the element 3 corresponds to rotating by $2\pi/3$ three times, which is the same as doing nothing. 
+\end{example}
+
+The idea of acting without inversion simply says that $G$ does not flip any edge of $\Gamma$. For any group $G$ acting on a graph $\Gamma$, the action can always be made into one without inversion by acting on $\Gamma$'s \textbf{barycentric subdivision}, $\Gamma'$, created by introducing a vertex to every edge in $\Gamma$. An example is shown below:
+
+\[\begin{tikzcd}
+	& \bullet &&&& \bullet & \\
+	\\
+	\bullet && \bullet && \bullet && \bullet
+	\arrow[no head, from=1-2, to=3-3]
+	\arrow["\bullet"{marking, text=\pgfkeysvalueof{/tikz/commutative diagrams/background color}}, "\circ"{marking}, no head, from=1-6, to=3-7]
+	\arrow[no head, from=3-1, to=1-2]
+	\arrow[no head, from=3-3, to=3-1]
+	\arrow["\bullet"{marking, text=\pgfkeysvalueof{/tikz/commutative diagrams/background color}}, "\circ"{marking}, no head, from=3-5, to=1-6]
+	\arrow["\bullet"{marking, text=\pgfkeysvalueof{/tikz/commutative diagrams/background color}}, "\circ"{marking}, no head, from=3-7, to=3-5]
+\end{tikzcd}\]
+
+\subsection{The Cayley Graph}
+
+While all of these are cool and interesting examples of group actions, as they demonstrate the mathematical definition of graph symmetry, we have yet to see free groups in this context. Is there a graph for which the automorphism group of that is graph is, say, $F_2$? What graphs do free groups act on? Do they act freely? 
+
+These questions are answered by the Cayley graph. It was first introduced in the context of finite groups by Cayley in \cite{Cayley1878}.
+
+\subsubsection{Definition and First Examples}
+
+\begin{defn}
+    Let $G$ be a graph generated by a set $S$. The \textbf{Cayley graph of $G$ with respect to $S$} is the graph $\Gamma(G,S)$, defined as follows: The vertex set is $G$. Each $s \in S$ is assigned a colour $c_s$. Then for each vertex $g$, there is a $c_s$-coloured edge from $g$ to $sg$. 
+\end{defn}
+
+One can think of the Cayley graph of a group as a visual representation of that group.
+
+\begin{example}
+    Consider $G = \Z = \langle 1 \rangle$. The Cayley graph can be thought of as a line of points, each representing an integer, with a single +1 edge entering and exiting each.
+
+    \[\begin{tikzcd}
+        \cdots && \bullet && \bullet && \bullet && \cdots
+        \arrow[color={rgb,255:red,240;green,0;blue,4}, from=1-1, to=1-3]
+        \arrow["1", color={rgb,255:red,240;green,0;blue,4}, from=1-3, to=1-5]
+        \arrow[color={rgb,255:red,240;green,0;blue,4}, from=1-5, to=1-7]
+        \arrow[color={rgb,255:red,240;green,0;blue,4}, from=1-7, to=1-9]
+    \end{tikzcd}\]
+
+    Similarly, for $G = \Z^2 = \langle (0,1), (1,0) \rangle$, the Cayley graph is an integer lattice, with red edges going horizontally representing $(0,1)$, and blue edges going vertically representing $(1,0)$. 
+
+    \[\begin{tikzcd}
+        \vdots && \vdots && \vdots \\
+        \\
+        \bullet && \bullet && \bullet && \cdots \\
+        \\
+        \bullet && \bullet && \bullet && \cdots \\
+        \\
+        \bullet && \bullet && \bullet && \cdots
+        \arrow[color={rgb,255:red,54;green,51;blue,255}, from=3-1, to=1-1]
+        \arrow[color={rgb,255:red,240;green,0;blue,4}, from=3-1, to=3-3]
+        \arrow[color={rgb,255:red,54;green,51;blue,255}, from=3-3, to=1-3]
+        \arrow[color={rgb,255:red,240;green,0;blue,4}, from=3-3, to=3-5]
+        \arrow[color={rgb,255:red,54;green,51;blue,255}, from=3-5, to=1-5]
+        \arrow[color={rgb,255:red,240;green,0;blue,4}, from=3-5, to=3-7]
+        \arrow[color={rgb,255:red,54;green,51;blue,255}, from=5-1, to=3-1]
+        \arrow[color={rgb,255:red,240;green,0;blue,4}, from=5-1, to=5-3]
+        \arrow[color={rgb,255:red,54;green,51;blue,255}, from=5-3, to=3-3]
+        \arrow[color={rgb,255:red,240;green,0;blue,4}, from=5-3, to=5-5]
+        \arrow[color={rgb,255:red,54;green,51;blue,255}, from=5-5, to=3-5]
+        \arrow[color={rgb,255:red,240;green,0;blue,4}, from=5-5, to=5-7]
+        \arrow["{(0,1)}"', color={rgb,255:red,54;green,51;blue,255}, from=7-1, to=5-1]
+        \arrow["{(1,0)}", color={rgb,255:red,240;green,0;blue,4}, from=7-1, to=7-3]
+        \arrow[color={rgb,255:red,54;green,51;blue,255}, from=7-3, to=5-3]
+        \arrow[color={rgb,255:red,240;green,0;blue,4}, from=7-3, to=7-5]
+        \arrow[color={rgb,255:red,54;green,51;blue,255}, from=7-5, to=5-5]
+        \arrow[color={rgb,255:red,240;green,0;blue,4}, from=7-5, to=7-7]
+    \end{tikzcd}\]
+\end{example}
+
+\begin{example}
+    Consider $S_3 = \langle (1 \ 2),(2 \ 3) \rangle$. It's Cayley graph is shown below, with red edges representing $(1 \ 2)$ and blue edges representing $(2 \ 3)$. 
+
+    \[\begin{tikzcd}
+        & \bullet &&& \bullet \\
+        \\
+        \bullet &&&&& \bullet \\
+        \\
+        & \bullet &&& \bullet
+        \arrow[color={rgb,255:red,54;green,51;blue,255}, bend left, from=1-2, to=1-5]
+        \arrow[color={rgb,255:red,224;green,0;blue,11}, bend left, from=1-2, to=3-1]
+        \arrow[color={rgb,255:red,54;green,51;blue,255}, bend left, from=1-5, to=1-2]
+        \arrow[color={rgb,255:red,224;green,0;blue,11}, bend left, from=1-5, to=3-6]
+        \arrow[color={rgb,255:red,224;green,0;blue,11}, bend left, from=3-1, to=1-2]
+        \arrow[color={rgb,255:red,54;green,51;blue,255}, bend left, from=3-1, to=5-2]
+        \arrow[color={rgb,255:red,224;green,0;blue,11}, bend left, from=3-6, to=1-5]
+        \arrow[color={rgb,255:red,54;green,51;blue,255}, bend left, from=3-6, to=5-5]
+        \arrow[color={rgb,255:red,54;green,51;blue,255}, bend left, from=5-2, to=3-1]
+        \arrow[color={rgb,255:red,224;green,0;blue,11}, bend left, from=5-2, to=5-5]
+        \arrow[color={rgb,255:red,54;green,51;blue,255}, bend left, from=5-5, to=3-6]
+        \arrow[color={rgb,255:red,224;green,0;blue,11}, bend left, from=5-5, to=5-2]
+    \end{tikzcd}\]
+\end{example}
+
+\begin{example}
+    Here's a fun example of a non-planar Cayley graph. The \textbf{Heisenberg Group} $H$ is the group of $3 \times 3$ upper triangular matrices of the form 
+    \[\begin{pmatrix}
+        1 & a & b \\ 0 & 1 & c \\ 0 & 0 & 1
+    \end{pmatrix}\]
+    where $a,b,c \in \R$, under the operation of matrix multiplication. This group arises in the study of certain quantum systems. If we restrict $a,b,c$ to the integers, then we get the \textbf{Discrte Heisenberg Group}, $H_3(\Z)$, which is generated by matrices 
+    \[x = \begin{pmatrix}
+        1 & 1 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1
+    \end{pmatrix}, \quad y = \begin{pmatrix}
+        1 & 0 & 0 \\ 0 & 1 & 1 \\ 0 & 0 & 1
+    \end{pmatrix}\]
+    and has relations 
+    \[z = xyx^{-1}y^{-1}, \quad xz = zx, \quad yz = zy\]
+    where 
+    \[z = \begin{pmatrix}
+        1 & 0 & 1 \\ 0 & 1 & 0 \\ 0 & 0 & 1
+    \end{pmatrix}\]
+    A portion of $H_3(\Z)$'s Cayley graph is shown below. Notice how it is shown embedded into 3D space. Edges going vertical represent $z$, those going horizontally represent $y$, and those going ``out of the page'' represent $x$; the colours are a visual aid due to the cluttered nature of the graph. 
+
+    \[\adjustbox{scale=.5,center}{
+    \begin{tikzcd}
+        &&&&&& \bullet &&&& \\
+        \\
+        &&&&&&&& \bullet \\
+        &&&&&& \bullet \\
+        &&&& \bullet &&& \bullet &&& \bullet \\
+        && \bullet &&& \bullet &&& \bullet \\
+        \bullet &&& \bullet &&& \bullet \\
+        &&&& \bullet &&& \bullet &&& \bullet \\
+        && \bullet &&& \bullet &&& \bullet \\
+        \bullet &&& \bullet &&& \bullet \\
+        &&&& \bullet &&& \bullet &&& \bullet \\
+        && \bullet &&& \bullet &&& \bullet \\
+        \bullet &&& \bullet &&& \bullet
+        \arrow[color={rgb,255:red,224;green,0;blue,4}, no head, from=4-7, to=1-7]
+        \arrow[color={rgb,255:red,92;green,92;blue,214}, no head, from=5-5, to=5-8]
+        \arrow[no head, from=5-5, to=6-3]
+        \arrow[color={rgb,255:red,92;green,92;blue,214}, no head, from=5-8, to=5-11]
+        \arrow[no head, from=5-8, to=6-6]
+        \arrow[color={rgb,255:red,92;green,92;blue,214}, no head, from=5-8, to=8-8]
+        \arrow[no head, from=5-11, to=6-9]
+        \arrow[no head, from=6-3, to=7-1]
+        \arrow[color={rgb,255:red,92;green,214;blue,92}, no head, from=6-3, to=9-3]
+        \arrow[color={rgb,255:red,92;green,214;blue,92}, no head, from=6-6, to=3-9]
+        \arrow[no head, from=6-6, to=7-4]
+        \arrow[color={rgb,255:red,92;green,214;blue,92}, no head, from=6-6, to=9-6]
+        \arrow[color={rgb,255:red,92;green,214;blue,92}, no head, from=6-9, to=3-9]
+        \arrow[no head, from=6-9, to=7-7]
+        \arrow[color={rgb,255:red,224;green,0;blue,4}, no head, from=7-1, to=10-1]
+        \arrow[color={rgb,255:red,224;green,0;blue,4}, no head, from=7-4, to=1-7]
+        \arrow[color={rgb,255:red,224;green,0;blue,4}, no head, from=7-4, to=10-4]
+        \arrow[color={rgb,255:red,224;green,0;blue,4}, no head, from=7-7, to=4-7]
+        \arrow[color={rgb,255:red,92;green,92;blue,214}, no head, from=8-5, to=5-5]
+        \arrow[color={rgb,255:red,92;green,92;blue,214}, no head, from=8-5, to=8-8]
+        \arrow[color={rgb,255:red,92;green,92;blue,214}, no head, from=8-8, to=8-11]
+        \arrow[color={rgb,255:red,92;green,92;blue,214}, no head, from=8-8, to=11-8]
+        \arrow[color={rgb,255:red,92;green,92;blue,214}, no head, from=8-11, to=5-11]
+        \arrow[no head, from=8-11, to=9-9]
+        \arrow[color={rgb,255:red,92;green,214;blue,92}, no head, from=9-3, to=6-6]
+        \arrow[no head, from=9-3, to=8-5]
+        \arrow[no head, from=9-3, to=10-1]
+        \arrow[color={rgb,255:red,92;green,214;blue,92}, no head, from=9-3, to=12-3]
+        \arrow[color={rgb,255:red,92;green,214;blue,92}, no head, from=9-6, to=6-9]
+        \arrow[no head, from=9-6, to=8-8]
+        \arrow[color={rgb,255:red,92;green,214;blue,92}, no head, from=9-6, to=12-6]
+        \arrow[color={rgb,255:red,92;green,214;blue,92}, no head, from=9-9, to=6-9]
+        \arrow[no head, from=9-9, to=10-7]
+        \arrow[color={rgb,255:red,224;green,0;blue,4}, no head, from=10-1, to=13-1]
+        \arrow[color={rgb,255:red,224;green,0;blue,4}, no head, from=10-4, to=4-7]
+        \arrow[no head, from=10-4, to=9-6]
+        \arrow[color={rgb,255:red,224;green,0;blue,4}, no head, from=10-4, to=13-4]
+        \arrow[color={rgb,255:red,224;green,0;blue,4}, no head, from=10-7, to=7-7]
+        \arrow[color={rgb,255:red,92;green,92;blue,214}, no head, from=11-5, to=8-5]
+        \arrow[color={rgb,255:red,92;green,92;blue,214}, no head, from=11-5, to=11-8]
+        \arrow[color={rgb,255:red,92;green,92;blue,214}, no head, from=11-8, to=11-11]
+        \arrow[color={rgb,255:red,92;green,92;blue,214}, no head, from=11-11, to=8-11]
+        \arrow[no head, from=11-11, to=12-9]
+        \arrow[color={rgb,255:red,92;green,214;blue,92}, no head, from=12-3, to=9-6]
+        \arrow[no head, from=12-3, to=11-5]
+        \arrow[color={rgb,255:red,92;green,214;blue,92}, no head, from=12-6, to=9-9]
+        \arrow[no head, from=12-6, to=11-8]
+        \arrow[color={rgb,255:red,92;green,214;blue,92}, no head, from=12-9, to=9-9]
+        \arrow[no head, from=12-9, to=13-7]
+        \arrow[color={rgb,255:red,224;green,0;blue,4}, no head, from=13-1, to=7-4]
+        \arrow[no head, from=13-1, to=12-3]
+        \arrow[color={rgb,255:red,224;green,0;blue,4}, no head, from=13-4, to=7-7]
+        \arrow[no head, from=13-4, to=12-6]
+        \arrow[color={rgb,255:red,224;green,0;blue,4}, no head, from=13-7, to=10-7]
+    \end{tikzcd}
+    }\]
+\end{example}
+
+The Cayley graph of $F_n$ will be an infinite graph, as $F_n$ is itself infinite, but will contain a very interesting structure that, for our purposes, will become very important.
+
+For simplicity's sake, we will just show the Cayley graphs of $F_n$ for small values of $n$. $F_1 = \Z$, the Cayley graph of which we've already seen in the previous subsection. For $F_2 = \langle a,b \rangle$, we get the following graph, which has a very nice symmetrical structure akin to a cross:
+\[\begin{tikzcd}
+	&&& \bullet &&& \\
+	&& \bullet & \bullet & \bullet \\
+	& \bullet &&&& \bullet \\
+	\bullet & \bullet && \bullet && \bullet & \bullet \\
+	& \bullet &&&& \bullet \\
+	&& \bullet & \bullet & \bullet \\
+	&&& \bullet
+	\arrow[color={rgb,255:red,224;green,0;blue,4}, from=2-3, to=2-4]
+	\arrow[color={rgb,255:red,92;green,92;blue,214}, from=2-4, to=1-4]
+	\arrow[color={rgb,255:red,224;green,0;blue,4}, from=2-4, to=2-5]
+	\arrow[color={rgb,255:red,224;green,0;blue,4}, from=4-1, to=4-2]
+	\arrow[color={rgb,255:red,92;green,92;blue,214}, from=4-2, to=3-2]
+	\arrow[color={rgb,255:red,224;green,0;blue,4}, from=4-2, to=4-4]
+	\arrow["b"', color={rgb,255:red,92;green,92;blue,214}, from=4-4, to=2-4]
+	\arrow["a", color={rgb,255:red,224;green,0;blue,4}, from=4-4, to=4-6]
+	\arrow[color={rgb,255:red,92;green,92;blue,214}, from=4-6, to=3-6]
+	\arrow[color={rgb,255:red,224;green,0;blue,4}, from=4-6, to=4-7]
+	\arrow[color={rgb,255:red,92;green,92;blue,214}, from=5-2, to=4-2]
+	\arrow[color={rgb,255:red,92;green,92;blue,214}, from=5-6, to=4-6]
+	\arrow[color={rgb,255:red,224;green,0;blue,4}, from=6-3, to=6-4]
+	\arrow[color={rgb,255:red,92;green,92;blue,214}, from=6-4, to=4-4]
+	\arrow[color={rgb,255:red,224;green,0;blue,4}, from=6-4, to=6-5]
+	\arrow[color={rgb,255:red,92;green,92;blue,214}, from=7-4, to=6-4]
+\end{tikzcd}\]
+For $F_3 = \langle a,b,c \rangle$, we get hexagonal symmetry. 
+
+\[\adjustbox{scale=.75,center}{
+\begin{tikzcd}
+	& \bullet && \bullet && \bullet && \bullet & \\
+	& \bullet & \bullet & \bullet && \bullet & \bullet & \bullet \\
+	& \bullet &&&&&& \bullet \\
+	\bullet && \bullet &&&& \bullet && \bullet \\
+	\bullet & \bullet &&& \bullet &&& \bullet & \bullet \\
+	\bullet && \bullet &&&& \bullet && \bullet \\
+	& \bullet &&&&&& \bullet \\
+	& \bullet & \bullet & \bullet && \bullet & \bullet & \bullet \\
+	& \bullet && \bullet && \bullet && \bullet
+	\arrow[color={rgb,255:red,92;green,214;blue,92}, from=1-2, to=2-3]
+	\arrow[color={rgb,255:red,92;green,214;blue,92}, from=1-6, to=2-7]
+	\arrow[color={rgb,255:red,224;green,0;blue,4}, from=2-2, to=2-3]
+	\arrow[color={rgb,255:red,92;green,92;blue,214}, from=2-3, to=1-4]
+	\arrow[color={rgb,255:red,224;green,0;blue,4}, from=2-3, to=2-4]
+	\arrow[color={rgb,255:red,92;green,214;blue,92}, from=2-3, to=5-5]
+	\arrow[color={rgb,255:red,224;green,0;blue,4}, from=2-6, to=2-7]
+	\arrow[color={rgb,255:red,92;green,92;blue,214}, from=2-7, to=1-8]
+	\arrow[color={rgb,255:red,224;green,0;blue,4}, from=2-7, to=2-8]
+	\arrow[color={rgb,255:red,92;green,214;blue,92}, from=2-7, to=3-8]
+	\arrow[color={rgb,255:red,92;green,92;blue,214}, from=3-2, to=2-3]
+	\arrow[color={rgb,255:red,92;green,214;blue,92}, from=4-1, to=5-2]
+	\arrow[color={rgb,255:red,92;green,214;blue,92}, from=4-7, to=5-8]
+	\arrow[color={rgb,255:red,224;green,0;blue,4}, from=5-1, to=5-2]
+	\arrow[color={rgb,255:red,92;green,92;blue,214}, from=5-2, to=4-3]
+	\arrow[color={rgb,255:red,224;green,0;blue,4}, from=5-2, to=5-5]
+	\arrow[color={rgb,255:red,92;green,214;blue,92}, from=5-2, to=6-3]
+	\arrow["b", color={rgb,255:red,92;green,92;blue,214}, from=5-5, to=2-7]
+	\arrow["a", color={rgb,255:red,224;green,0;blue,4}, from=5-5, to=5-8]
+	\arrow["c"', color={rgb,255:red,92;green,214;blue,92}, from=5-5, to=8-7]
+	\arrow[color={rgb,255:red,92;green,92;blue,214}, from=5-8, to=4-9]
+	\arrow[color={rgb,255:red,224;green,0;blue,4}, from=5-8, to=5-9]
+	\arrow[color={rgb,255:red,92;green,214;blue,92}, from=5-8, to=6-9]
+	\arrow[color={rgb,255:red,92;green,92;blue,214}, from=6-1, to=5-2]
+	\arrow[color={rgb,255:red,92;green,92;blue,214}, from=6-7, to=5-8]
+	\arrow[color={rgb,255:red,92;green,214;blue,92}, from=7-2, to=8-3]
+	\arrow[color={rgb,255:red,224;green,0;blue,4}, from=8-2, to=8-3]
+	\arrow[color={rgb,255:red,92;green,92;blue,214}, from=8-3, to=5-5]
+	\arrow[color={rgb,255:red,224;green,0;blue,4}, from=8-3, to=8-4]
+	\arrow[color={rgb,255:red,92;green,214;blue,92}, from=8-3, to=9-4]
+	\arrow[color={rgb,255:red,224;green,0;blue,4}, from=8-6, to=8-7]
+	\arrow[color={rgb,255:red,92;green,92;blue,214}, from=8-7, to=7-8]
+	\arrow[color={rgb,255:red,224;green,0;blue,4}, from=8-7, to=8-8]
+	\arrow[color={rgb,255:red,92;green,214;blue,92}, from=8-7, to=9-8]
+	\arrow[color={rgb,255:red,92;green,92;blue,214}, from=9-2, to=8-3]
+	\arrow[color={rgb,255:red,92;green,92;blue,214}, from=9-6, to=8-7]
+\end{tikzcd}}\]
+
+\vspace{0.5cm}
+
+\noindent \textbf{Remark}: Some readers may be somewhat uneasy about the definition for Cayley graph given above because it is in terms of a given generating set. A group can have multiple generating sets. For instance, $\Z = \langle 1\rangle = \langle 2,3 \rangle$. As such, one should be skeptical of whether or not our definition is well-defined. Of course, it is, but to show that we need to do a little bit of work. Consider $\Z^2$. We know that this acts on its Cayley graph by translation horizontally or vertically, but it also acts similarly on $\R^2$, the Euclidean plane. Clearly theses spaces are not homeomorphic. However, if you look at these spaces from a far enough distance away, they do look very similar. Such a property has a special name: we say that the spaces are \textbf{quasi-isometric}. We will omit the proof of this. de la Harpe's book \cite{delaHarpe2000} is a great reference for this topic.
+
+Another thing we mention but not prove is that a classification of Cayley graphs has been found: 
+\begin{thm}[Sabidussi's Theorem]
+    An unlabeled, uncoloured, directed graph $\Gamma$ is the Cayley graph of a group $G$ if and only if it admits a simply transitive action of $G$ by graph automorphisms. 
+\end{thm}
+The proof can be found in \cite{Sabidussi1958}. 
+
+\subsubsection{Acting on a Cayley Graph}
+
+One of the ways that $G$ can act on itself is by left multiplication:
+\[
+    g \cdot h = gh
+\]
+This can be reformulated to create an action on our Cayley graph. In particular, for each $g \in G$, we define the automorphism $\Phi_g$ of the Cayley graph by sending vertex $h$ to vertex $gh$. This is indeed an automorphism as it preserves edge adjacency. If $v, vh$ are connected by the edge $h$, then $gv$ is connected to $gvh$ by the edge $h$ as well. 
+
+For non-free groups, this action can look like translation (as is evident in the case of $\Z$ and $\Z^2$), or rotation (as seen in the case for $S_3$). For free groups, we get a much more interesting set of symmetries. Consider $F_2$ acting on $\Gamma(F_2, \{a,b\})$ as above. Let's see what happens when we apply $a$ to each vertex. Let $X_a$ be the set of all words in $F_2$ that start with an $a$, and let $X_b, X_{a^{-1}}$, and $X_{b^{-1}}$ be defined similarly. Then the vertex set of $\Gamma(F_2,\{a,b\})$ may be partitioned into 5 groups: $\{1\}, X_a, X_b, X_{a^{-1}}$, and $X_{b^{-1}}$.
+
+Multiplying on the left by $a$, we see that $a\{1\} = \{a\} \subset X_a$. Similarly, $aX_a, aX_b, aX_{b^{-1}} \subset X_a$. For any word starting with $a^{-1}$, multiplying on the left by $a$ means we cancel out the starting $a^{-1}$. The new reduced word could either be $1$ (if the original word was $a^{-1}$), or must start with either an $a^{-1}, b$, or $b^{-1}$ (it cannot start with an $a$ as it would mean the original word was not reduced). Thus, $aX_{a^{-1}} \subset \{1\} \cup X_{a^{-1}} \cup X_b \cup X_{b^{-1}}$. 
+
+If we draw this out, we get that these vertices: 
+\[\begin{tikzcd}
+	&&& \textcolor{rgb,255:red,92;green,92;blue,214}{\bullet} &&& \\
+	&& \textcolor{rgb,255:red,92;green,92;blue,214}{\bullet} & \textcolor{rgb,255:red,92;green,92;blue,214}{\bullet} & \textcolor{rgb,255:red,92;green,92;blue,214}{\bullet} \\
+	& \textcolor{rgb,255:red,224;green,7;blue,0}{\bullet} &&&& \textcolor{rgb,255:red,92;green,214;blue,92}{\bullet} \\
+	\textcolor{rgb,255:red,224;green,7;blue,0}{\bullet} & \textcolor{rgb,255:red,224;green,7;blue,0}{\bullet} && \bullet && \textcolor{rgb,255:red,92;green,214;blue,92}{\bullet} & \textcolor{rgb,255:red,92;green,214;blue,92}{\bullet} \\
+	& \textcolor{rgb,255:red,224;green,7;blue,0}{\bullet} &&&& \textcolor{rgb,255:red,92;green,214;blue,92}{\bullet} \\
+	&& \textcolor{rgb,255:red,214;green,153;blue,92}{\bullet} & \textcolor{rgb,255:red,214;green,153;blue,92}{\bullet} & \textcolor{rgb,255:red,214;green,153;blue,92}{\bullet} \\
+	&&& \textcolor{rgb,255:red,214;green,153;blue,92}{\bullet}
+	\arrow[from=2-3, to=2-4]
+	\arrow[from=2-4, to=1-4]
+	\arrow[from=2-4, to=2-5]
+	\arrow[from=4-1, to=4-2]
+	\arrow[from=4-2, to=3-2]
+	\arrow[from=4-2, to=4-4]
+	\arrow[from=4-4, to=2-4]
+	\arrow[from=4-4, to=4-6]
+	\arrow[from=4-6, to=3-6]
+	\arrow[from=4-6, to=4-7]
+	\arrow[from=5-2, to=4-2]
+	\arrow[from=5-6, to=4-6]
+	\arrow[from=6-3, to=6-4]
+	\arrow[from=6-4, to=4-4]
+	\arrow[from=6-4, to=6-5]
+	\arrow[from=7-4, to=6-4]
+\end{tikzcd}\]
+get sent to these vertices:
+\[\begin{tikzcd}
+	&&& \textcolor{rgb,255:red,224;green,7;blue,0}{\bullet} &&& \\
+	&& \textcolor{rgb,255:red,224;green,7;blue,0}{\bullet} & \textcolor{rgb,255:red,224;green,7;blue,0}{\bullet} & \textcolor{rgb,255:red,224;green,7;blue,0}{\bullet} \\
+	& \textcolor{rgb,255:red,224;green,7;blue,0}{\bullet} &&&& \textcolor{rgb,255:red,92;green,92;blue,214}{\bullet} \\
+	\textcolor{rgb,255:red,224;green,7;blue,0}{\bullet} & \textcolor{rgb,255:red,224;green,7;blue,0}{\bullet} && \textcolor{rgb,255:red,224;green,7;blue,0}{\bullet} && \bullet & \textcolor{rgb,255:red,92;green,214;blue,92}{\bullet} \\
+	& \textcolor{rgb,255:red,224;green,7;blue,0}{\bullet} &&&& \textcolor{rgb,255:red,214;green,153;blue,92}{\bullet} \\
+	&& \textcolor{rgb,255:red,224;green,7;blue,0}{\bullet} & \textcolor{rgb,255:red,224;green,7;blue,0}{\bullet} & \textcolor{rgb,255:red,224;green,7;blue,0}{\bullet} \\
+	&&& \textcolor{rgb,255:red,224;green,7;blue,0}{\bullet}
+	\arrow[from=2-3, to=2-4]
+	\arrow[from=2-4, to=1-4]
+	\arrow[from=2-4, to=2-5]
+	\arrow[from=4-1, to=4-2]
+	\arrow[from=4-2, to=3-2]
+	\arrow[from=4-2, to=4-4]
+	\arrow[from=4-4, to=2-4]
+	\arrow[from=4-4, to=4-6]
+	\arrow[from=4-6, to=3-6]
+	\arrow[from=4-6, to=4-7]
+	\arrow[from=5-2, to=4-2]
+	\arrow[from=5-6, to=4-6]
+	\arrow[from=6-3, to=6-4]
+	\arrow[from=6-4, to=4-4]
+	\arrow[from=6-4, to=6-5]
+	\arrow[from=7-4, to=6-4]
+\end{tikzcd}\]
+
+This action of $F_n$ onto its Cayley graph satisfies some key properties, which are proven in the lemmas below:
+
+\begin{lemma}\label{Relations are Cycles in the Cayley Graph}
+    If $G = \langle S | R \rangle$, then there is a one-to-one correspondence between relations $r \in R$ and cycles in $\Gamma(G,S)$. 
+\end{lemma}
+
+\begin{proof}
+    First let $r \in R$ be some relation of the form
+    \[
+        g_{i_1}g_{i_2}\cdots g_{i_k} = g_{j_1}g_{j_2}\cdots g_{j_l}
+    \]
+    for some $g_{i_n}, g_{i_m} \in G$. We note that there is an edge path from $1$ to $g_{i_1}g_{i_2}\cdots g_{i_k}$ by following the edges $g_{i_1}, g_{i_2}, \ldots, g_{i_k}$. Similarly, there is an edge path from $1$ to $g_{j_1}g_{j_2}\cdots g_{j_l}$. As $g_{i_1}g_{i_2}\cdots g_{i_k} = g_{j_1}g_{j_2}\cdots g_{j_l}$, these paths end at the same vertex. Thus, taking the path from $1$ to $g_{i_1}, g_{i_2}, \ldots, g_{i_k}$, then going in reverse along the path from $1$ to $g_{j_1}g_{j_2}\cdots g_{j_l}$ produces a cycle in the Cayley graph. 
+
+    Now, consider a cycle in $\Gamma(G,S)$ which hits vertices
+    \[
+        1, g_1, g_2, g_3, \ldots, g_{n-1}, g_n, 1
+    \] 
+    Take some vertex $g_i$ in this edge path. We thus get two edge paths from $1$ to $g_i$, of the form $1,g_1,g_2,\ldots,g_{i-1},g_i$ and $g_i,g_{i+1}, \ldots, g_n, 1$ repsectively. These paths end at the same vertex, $g_i$, and so we conclude that 
+    \[
+        g_1g_2\cdots g_{i-1} = g_ng_{n-1}\cdots g_{i+1}
+    \]
+    which forms a relation in $R$, as required. 
+\end{proof}
+
+\begin{cor}\label{Cayley Graph of a Free Group is a Tree}
+    $\Gamma(F_n, \{x_1, \ldots, x_n\})$ is a tree.
+\end{cor}
+
+\begin{proof}
+    As there are no relations in $F_n$, there can not be any cycles in the Cayley graph. 
+\end{proof}
+
+\begin{lemma}\label{Action on Cayley Graph is Free}
+    $G$ acts freely on its Cayley graph $\Gamma(G, S)$.
+\end{lemma}
+
+\begin{proof}
+    We know $G$ acts on its Cayley graph by left multiplication of vertices. Now, let $g \in G$ be such that $g \cdot v = v$ for all vertices $v$ in the Cayley graph. Then taking $v = 1$, we get that 
+    \[
+        g \cdot 1 = 1 \implies g = 1
+    \]
+    Conversely, if $g = 1$, then $g \cdot v = v$ for all vertices $v$. The action is thus free, as desired.
+\end{proof}
+
+Combining the above lemmas, we attain one of the directions for Serre's Theorem:
+
+\begin{thm}[Serre's Theorem: First Direction]\label{Serre First Direction}
+    If $G$ is free, then there is a tree $T$ such that $G$ acts on $T$ freely and without inversion. 
+\end{thm}
+
+\begin{proof}
+    Lemma \ref{Action on Cayley Graph is Free} tells us that $G$ acts freely on $\Gamma(G,S)$, which is a tree by Corollary \ref{Cayley Graph of a Free Group is a Tree}. If $G$ acts with inversion, then we can always pass the action on $\Gamma(G,S)$ to one on the barycentric subdivision $\Gamma(G,S)'$, which is also a tree. As $G$ acts freely on its Cayley graph, it acts freely on that graph's barycentric subdivision, and acts on it without inversion, as desired. 
+\end{proof}
+
+\subsection{Tiling a Tree}
+
+We use this section to complete the proof of Serre's Theorem by proving
+
+\begin{thm}[Serre's Theorem: Second Direction]\label{Serre Second Direction}
+    If $G$ is a group such that $G$ acts on a tree $T$ freely and without inversion, then $G$ is a free group. 
+\end{thm}
+
+We use a proof shown in \cite{ClayMargalit2017} which is similar to the one used in \cite{Serre1980}. Let $T$ be a tree and let $G$ be a group such that $G$ acts freely and without inversion on a tree $T$. We will construct a free generating set for $G$ by creating a special set of subtree of $T$'s barycentric subdivision that are all translations of a ``base" subtree. From here, we can create our free generating set from the subtrees that intersect with the base subtree. 
+
+\subsubsection{G-Tilings}
+
+\begin{defn}
+    A \textbf{tile} of a tree $T$ is any subtree of $T$. 
+
+    A \textbf{tiling} of $T$ is a collection of tiles of $T$ such that 
+
+    \begin{enumerate}
+        \item The union of all tiles is $T$; and
+        \item two tiles intersect, at most, at a single vertex.
+    \end{enumerate}
+
+    \noindent If $G$ acts on $T$, and if 
+
+    \begin{enumerate}
+        \item[3.] there is a tile $T_0$ such that the set of all tiles is $\{gT_0: g \in G\}$
+    \end{enumerate}
+
+    \noindent then we call the tiling a \textbf{$G$-tiling}.
+\end{defn}
+
+It is not obvious a priori that $T$ will always have a $G$-tiling. However, one can show that it always does. 
+
+\begin{thm}\label{Groups Acting on Trees have G-Tilings}
+    Let $G$ be a group and $T$ a tree. If $G$ acts on $T$ freely, then $T$ has a $G$-tiling. 
+\end{thm}
+
+Note that even if $G$ acted on $T$ with inversion, we can always pass to the barycentric subdivision $T'$ and get an action without inversion. For this reason, whenever we say $T$ from here on out, we are referring to its barycentric subdivision. The reason for this will become relevant later in Lemma \ref{T_g's cover T}.
+
+Now, how exactly will we create our $G$-tiling? We can do this using our group action. Let $v_0 \in V(T)$ be a vertex in the tree, and consider its orbit under the group action.
+\[ \mathcal{O}(v_0) = \{gv_0 : g \in G\} \]
+For every vertex $v \in V(T)$, there is a $gv_0 \in \mathcal{O}(v_0)$ that is closest to $v$ under the path metric. From this, we define a subgraph $T_g$ as follows:
+\[ V(T_g) = \{v \in T : d(v,gv_0) \leq d(v,g'v_0) \ \forall g' \neq g\} \]
+\[ E(T_g) = \{(u,v) \in E(T) : u,v \in V(T_g)\} \]
+In other words, $T_g$ is a subgraph whose vertex set is all those vertices that are closest to $gv$ in $T$ under the path metric, and whose edge set is all those edges whose endpoints are both vertices in $T_g$. 
+
+\begin{lemma}\label{Tg is a Tile}
+    Let $G$ act on $T$. Then $T_g$ is a tile for all $g \in G$.
+\end{lemma}
+
+\begin{proof}
+    It suffices to prove that $T_g$ is connected, as every connected subgraph of a tree is a subtree. Let $w \in V(T_g)$. There is a unique edge path $w$ to $gv$; suppose it is of length $n$.
+    \[
+    w_0 = w, w_1, w_2, \ldots, w_{k-1}, w_n = gv
+    \]
+    Then $d(w_1,gv_0) = n-1$. We claim that $w_i \in V(T_g)$ for all $i$. Starting with $w_1$, suppose by way of contradiction that $w_1 \notin V(T_g)$. Then there is a $g'$ such that 
+    \[
+    d(w_1,g'v_0) = m < n-1
+    \]
+    But then going back on edge to $w$, we get that 
+    \[
+    d(w,g'v_0) \leq m+1 < n
+    \]
+    which contradicts the fact that $w \in V(T_g)$. Thus, $w_1 \in V(T_g)$. This logic can be repeated for all other vertices in the path, ensuring that all are in $V(T_g)$, as desired. This means that $T_g$ is connected, hence a subtree of $T$, and thus, is a tile. 
+\end{proof}
+
+Now that we know the $T_g$'s are in fact tiles, we should also check that they cover all of $T$. 
+
+\begin{lemma}\label{T_g's cover T}
+    The union of all tiles $T_g$ for all $g$ is equal to $T$. 
+\end{lemma}
+
+\begin{proof}
+    It is evident that $\bigcup_{g\in G}V(T_g) = V(T)$, since every vertex must be closest to some $gv_0$. It is also evident that
+        \[
+            \bigcup_{g \in G}E(T_g) \subseteq E(T)
+        \]
+    So it suffices to show the reverse inclusion: every edge in $T$ belongs to some $T_g$. Let $(u,w) \in E(T)$. Then by construction of $T$, the distance to $\mathcal{O}(v_0)$ from one of $u,w$ is odd, while the distance from the other is even. Without loss of generality, suppose that
+    \begin{enumerate}
+        \item $d(u,\mathcal{O}(v_0))$ is even, 
+        \item $d(w,\mathcal{O}(v_0))$ is odd,
+        \item $d(u,\mathcal{O}(v_0)) < d(w,\mathcal{O}(v_0))$; and
+        \item $u \in V(T_g)$.
+    \end{enumerate}
+     By the Triangle Inequality, we have that 
+        \[
+            d(w,gv_0) \leq d(w,u) +  d(u,gv_0) = d(u,gv_0) + 1
+        \]
+    As the distance from $w$ to $\mathcal{O}(v_0)$ is an integer, and cannot be smaller than or equal to $d(u,gv_0)$, the only possibility is that it is equal to $d(w,gv_0)$. Thus, 
+    \[ d(w,gv_0) \leq d(w,g'v_0) \ \forall g' \neq g \]
+    so $w \in V(T_g)$. We conclude that $(u,w) \in E(T_g)$, as desired. 
+\end{proof}
+
+The second condition, that two tiles share at most a vertex, is somewhat obvious. Indeed, if $(u,w)$ is in both $E(T_g)$ and $E(T_{g'})$, then $u,w$ are of equal distance to $gv_0$ and $g'v_0$. But assuming $u$ is of equal distance to $gv_0$ and $g'v_0$, $w$ must be closer to one of $gv_0$ or $g'v_0$, since it is along the unique edge path from $u$ to one of them. 
+
+The final condition can be proven using another lemma: 
+
+\begin{lemma}\label{gT_h = T_gh}
+    For $g,h \in G$, $gT_h = T_{gh}$.
+\end{lemma}
+
+\begin{proof}
+    It suffices to show that $g$ maps vertices in $T_h$ to those in $T_{gh}$, as they're completely determined by vertices. Let $u \in V(T_h)$. Then for all $k \in G$,
+    \[
+    d(u,hv_0) \leq d(u,kv_0)
+    \]
+    Left multiplication by $g^{-1}$ is a bijection of $G$, so we may write 
+    \[
+    d(u,hv_0) \leq d(u,(g^{-1}k)v_0)
+    \]
+    For all $k \in G$. Now, as $G$ acts on $T$, and $T$ is a metric space using the path metric, the action of $G$ preserves distances. Thus,
+    \[
+    d(gu, (gh)v) \leq d(gu,kv)
+    \]
+    so $gu \in T_{gh}$, as desired. 
+\end{proof}
+
+\begin{proof}[Proof of Theorem \ref{Groups Acting on Trees have G-Tilings}]
+    By Lemmas \ref{Tg is a Tile} and \ref{T_g's cover T}, the collection $\{T_g: g \in G\}$ is a tiling of $T$. Setting $h = 1$ and applying Lemma \ref{gT_h = T_gh}, all tiles are of the form $gT_1$ for some $g \in G$.
+\end{proof}
+
+We have thus shown that any group acting on a tree induces a $G$-tiling on the tree.
+
+\subsubsection{Proof of Theorem \ref{Serre Second Direction}}
+
+Now that we know $G$ induces a $G$-tiling on our tree $T$, we can use it to create a free generating set. 
+
+We let $\{T_g\}$ be the $G$-tiling found in Theorem \ref{Groups Acting on Trees have G-Tilings}. As $G$ acts freely on $T$, $\operatorname{Stab}_G(v_0) = \{1\}$, so by the Orbit-Stabilizer Theorem,
+\[|\mathcal{O}(v_0)| = 1 \cdot |G| = |G|\]
+Thus the elements of $G$ are in bijective correspondence with the elements of the orbit of $v_0$. In other words, every $g \in G$ corresponds to a tile $gT_1$. define 
+\[
+S = \{g \in G : (gT_1) \cap T_1 \neq \varnothing\}
+\]
+to be the set of tiles that intersect with $T_1$.
+
+\begin{lemma}\label{S Generates G}
+    $S$ generates $G$
+\end{lemma}
+
+\begin{proof}
+    First we show that if $s \in S$, so too is $s^{-1}$. Indeed let $s \in S$. Then there is a vertex $w$ such that 
+    \begin{align*}
+        & (sT_1) \cap T_0 = \{w\} \\
+        \implies & s^{-1}(sT_1) \cap (s^{-1}T_1) = \{s^{-1}w\} \\
+        \implies & T_1 \cap (s^{-1}T_1) = \{s^{-1}w\}
+    \end{align*}
+    so $s^{-1} \in S$. 
+
+    Now let $g \in G$ and consider $gv_0$. There is a unique path in $T$ from $gv_0$ to $v_0$, passing through tiles 
+    \[T_{g_n}, T_{g_{n-1}}, \ldots, T_{g_1}, T_{g_0}\]
+    We claim that $g_{i-1}^{-1}g_i\in S$. The above path travels from $T_{g_{i+1}}$ to $T_{g_i}$ without passing through a middle tile, so 
+    \[T_{g_{i+1}} \cap T_{g_i} \neq \varnothing\]
+    Applying $g_i^{-1}$, we get 
+    \[g_i^{-1}T_{g_{i+1}} \cap T_1 \neq \varnothing \implies T_{g_i^{-1}g_{i+1}} \cap T_1 \neq \varnothing\]
+    so $g_i^{-1}g_{i+1} \in S$, and we write it as $s_i$. Then, we have that 
+    \begin{align*}
+        g & = g_n \\
+          & = g_{n-1}g_{n-1}^{-1}g_n \\
+          & \vdots \\
+          & = g_1^{-1}g_1g_2^{-1}g_2\cdots g_{n-1}^{-1}g_n \\
+          & = s_1s_2 \cdots s_n
+    \end{align*}
+    so $g$ may be written as a product of elements of $S$, meaning $S$ generates $G$.
+\end{proof}
+
+With all these tools now in place, the last thing we need to do is show that there are no relations between elements of $S$. 
+
+\begin{proof}[Proof of Theorem \ref{Serre Second Direction}]
+    By Lemma \ref{Groups Acting on Trees have G-Tilings} we have a $G$-tiling $\{T_g\}$, which we know generates $G$ by Lemma \ref{S Generates G}. We claim that every $g \in G$ may be written as a unique, reduced product of elements of $S$. Let 
+    \[g = s_1s_2 \cdots s_k\]
+    with $s_i \neq s_{i+1}^{-1}$. We claim there is a unique path from $gv_0$ to $v_0$ that passes through, in order, the tiles
+    \[T_g = T_{s_1s_2\cdots s_k}, T_{s_1s_2\cdots s_{k-1}}, \ldots, T_{s_1}, T_1\]
+    As $T_{s_1} \cap T_1 = \{w_1\}$ for some $w_1 \in V(T)$, $T_{s_1} \cup T_1$ is a tree, where $v_0 \in V(T_1)$ and $s_1v_0 \in T_{s_1}$. Thus, there is a unique path from $s_1v_0$ to $v_0$ in $T_{s_1} \cup T_1$. Similarly, we have 
+    \[T_{s_1s_2} \cap T_{s_1} = s_1^{-1}(T_{s_2} \cap T_1) = \{s_1^{-1}w_2\}\]
+    for some $w_2 \in V(T)$, so $T_{s_1s_2} \cup T_{s_1}$ is a tree. Again, this means there is a unique path from $s_1v_0$ to $s_1s_2v_0$ in $T_{s_1s_2} \cup T_1$. If we continue this process inductively, we get the desired unique path. This path completely deterimines the word $s_1s_2\cdots s_k$ representing $g$, and thus $g$ can only be written as this freely reduced word in $S$. This tells us that $S$ has no relations, and thus $G$ is free, as desired. 
+\end{proof}
+
+\begin{cor}[Nielsen-Schreier Theorem]
+    Ever subgroup of a free group is also a free group. 
+\end{cor}
+
+\begin{proof}
+    An action of a group $G$ on a tree trivially restricts to an action of $H \leq G$ on the tree. As $1 \in H$, if the action of $G$ is free, so too must the action of $H$. 
+\end{proof}

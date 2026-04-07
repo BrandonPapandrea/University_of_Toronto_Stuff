@@ -16,5 +16,376 @@
   {}
 \endgroup
 
+
+\refsection{0}
+  \datalist[entry]{anyt/global//global/global/global}
+    \entry{Adyan1955}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=ed62dcb6a0a7ff6b647fe10c9bb5985f}{%
+           family={Adyan},
+           familyi={A\bibinitperiod},
+           given={S.\bibnamedelimi I.},
+           giveni={S\bibinitperiod\bibinitdelim I\bibinitperiod}}}%
+      }
+      \strng{namehash}{ed62dcb6a0a7ff6b647fe10c9bb5985f}
+      \strng{fullhash}{ed62dcb6a0a7ff6b647fe10c9bb5985f}
+      \strng{fullhashraw}{ed62dcb6a0a7ff6b647fe10c9bb5985f}
+      \strng{bibnamehash}{ed62dcb6a0a7ff6b647fe10c9bb5985f}
+      \strng{authorbibnamehash}{ed62dcb6a0a7ff6b647fe10c9bb5985f}
+      \strng{authornamehash}{ed62dcb6a0a7ff6b647fe10c9bb5985f}
+      \strng{authorfullhash}{ed62dcb6a0a7ff6b647fe10c9bb5985f}
+      \strng{authorfullhashraw}{ed62dcb6a0a7ff6b647fe10c9bb5985f}
+      \field{labelalpha}{Ady55}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Doklady Akademii Nauk SSSR}
+      \field{title}{Algorithmic unsolvability of problems of recognition of certain properties of groups}
+      \field{volume}{103}
+      \field{year}{1955}
+    \endentry
+    \entry{Cayley1878}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=c657a48637405aa61b1f170beeba08bc}{%
+           family={Cayley},
+           familyi={C\bibinitperiod},
+           given={Arthur},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{c657a48637405aa61b1f170beeba08bc}
+      \strng{fullhash}{c657a48637405aa61b1f170beeba08bc}
+      \strng{fullhashraw}{c657a48637405aa61b1f170beeba08bc}
+      \strng{bibnamehash}{c657a48637405aa61b1f170beeba08bc}
+      \strng{authorbibnamehash}{c657a48637405aa61b1f170beeba08bc}
+      \strng{authornamehash}{c657a48637405aa61b1f170beeba08bc}
+      \strng{authorfullhash}{c657a48637405aa61b1f170beeba08bc}
+      \strng{authorfullhashraw}{c657a48637405aa61b1f170beeba08bc}
+      \field{labelalpha}{Cay78}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{American Journal of Mathematics}
+      \field{number}{2}
+      \field{title}{Desiderata and suggestions: No. 2. The Theory of groups: graphical representation}
+      \field{volume}{1}
+      \field{year}{1878}
+    \endentry
+    \entry{Dyck1882}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=54227122eb8d88a5d8f731408f65c8ac}{%
+           family={Dyck},
+           familyi={D\bibinitperiod},
+           given={Walther},
+           giveni={W\bibinitperiod},
+           prefix={von},
+           prefixi={v\bibinitperiod}}}%
+      }
+      \strng{namehash}{54227122eb8d88a5d8f731408f65c8ac}
+      \strng{fullhash}{54227122eb8d88a5d8f731408f65c8ac}
+      \strng{fullhashraw}{54227122eb8d88a5d8f731408f65c8ac}
+      \strng{bibnamehash}{54227122eb8d88a5d8f731408f65c8ac}
+      \strng{authorbibnamehash}{54227122eb8d88a5d8f731408f65c8ac}
+      \strng{authornamehash}{54227122eb8d88a5d8f731408f65c8ac}
+      \strng{authorfullhash}{54227122eb8d88a5d8f731408f65c8ac}
+      \strng{authorfullhashraw}{54227122eb8d88a5d8f731408f65c8ac}
+      \field{labelalpha}{Dyc82}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Mathematische Annalen}
+      \field{number}{3}
+      \field{title}{Gruppentheoretische Studien}
+      \field{volume}{20}
+      \field{year}{1882}
+    \endentry
+    \entry{Fuchs1980}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=7b78a656922ac82d794e9105e85bef93}{%
+           family={Fuchs},
+           familyi={F\bibinitperiod},
+           given={Lazarus},
+           giveni={L\bibinitperiod}}}%
+      }
+      \strng{namehash}{7b78a656922ac82d794e9105e85bef93}
+      \strng{fullhash}{7b78a656922ac82d794e9105e85bef93}
+      \strng{fullhashraw}{7b78a656922ac82d794e9105e85bef93}
+      \strng{bibnamehash}{7b78a656922ac82d794e9105e85bef93}
+      \strng{authorbibnamehash}{7b78a656922ac82d794e9105e85bef93}
+      \strng{authornamehash}{7b78a656922ac82d794e9105e85bef93}
+      \strng{authorfullhash}{7b78a656922ac82d794e9105e85bef93}
+      \strng{authorfullhashraw}{7b78a656922ac82d794e9105e85bef93}
+      \field{labelalpha}{Fuc80}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{J. Reine Angew. Math}
+      \field{number}{89}
+      \field{title}{Ueber eine Klasse von Funktionen mehrerer Variablen, welche durch Umkehrung der Integrale von Lösungen der linearen Differentialgleichungen mit rationalen Coeffizienten entstehen}
+      \field{year}{1880}
+    \endentry
+    \entry{delaHarpe2000}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=ebf14e18c0182cfdc7db62f4cf75b37a}{%
+           family={Harpe},
+           familyi={H\bibinitperiod},
+           given={Pierre},
+           giveni={P\bibinitperiod},
+           prefix={de\bibnamedelima la},
+           prefixi={d\bibinitperiod\bibinitdelim l\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {University of Chicago Press}%
+      }
+      \strng{namehash}{ebf14e18c0182cfdc7db62f4cf75b37a}
+      \strng{fullhash}{ebf14e18c0182cfdc7db62f4cf75b37a}
+      \strng{fullhashraw}{ebf14e18c0182cfdc7db62f4cf75b37a}
+      \strng{bibnamehash}{ebf14e18c0182cfdc7db62f4cf75b37a}
+      \strng{authorbibnamehash}{ebf14e18c0182cfdc7db62f4cf75b37a}
+      \strng{authornamehash}{ebf14e18c0182cfdc7db62f4cf75b37a}
+      \strng{authorfullhash}{ebf14e18c0182cfdc7db62f4cf75b37a}
+      \strng{authorfullhashraw}{ebf14e18c0182cfdc7db62f4cf75b37a}
+      \field{labelalpha}{Har00}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Topics in Geometric Group Theory}
+      \field{year}{2000}
+    \endentry
+    \entry{ClayMargalit2017}{book}{}{}
+      \name{editor}{1}{}{%
+        {{hash=1bafb0a882deef0ed714dba81b03dae1}{%
+           family={Margalit},
+           familyi={M\bibinitperiod},
+           given={Matt\bibnamedelimb Clay\bibnamedelimb \&\bibnamedelima Dan},
+           giveni={M\bibinitperiod\bibinitdelim C\bibinitperiod\bibinitdelim \\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Princeton University Press}%
+      }
+      \strng{namehash}{1bafb0a882deef0ed714dba81b03dae1}
+      \strng{fullhash}{1bafb0a882deef0ed714dba81b03dae1}
+      \strng{fullhashraw}{1bafb0a882deef0ed714dba81b03dae1}
+      \strng{bibnamehash}{1bafb0a882deef0ed714dba81b03dae1}
+      \strng{editorbibnamehash}{1bafb0a882deef0ed714dba81b03dae1}
+      \strng{editornamehash}{1bafb0a882deef0ed714dba81b03dae1}
+      \strng{editorfullhash}{1bafb0a882deef0ed714dba81b03dae1}
+      \strng{editorfullhashraw}{1bafb0a882deef0ed714dba81b03dae1}
+      \field{labelalpha}{Mar17}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{editor}
+      \field{labeltitlesource}{title}
+      \field{title}{Office Hours with a Geometric Group Theorist}
+      \field{year}{2017}
+    \endentry
+    \entry{Nielsen1921}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=753054f71283d85f82cda8e35daf6bac}{%
+           family={Nielsen},
+           familyi={N\bibinitperiod},
+           given={Jakob},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{753054f71283d85f82cda8e35daf6bac}
+      \strng{fullhash}{753054f71283d85f82cda8e35daf6bac}
+      \strng{fullhashraw}{753054f71283d85f82cda8e35daf6bac}
+      \strng{bibnamehash}{753054f71283d85f82cda8e35daf6bac}
+      \strng{authorbibnamehash}{753054f71283d85f82cda8e35daf6bac}
+      \strng{authornamehash}{753054f71283d85f82cda8e35daf6bac}
+      \strng{authorfullhash}{753054f71283d85f82cda8e35daf6bac}
+      \strng{authorfullhashraw}{753054f71283d85f82cda8e35daf6bac}
+      \field{extraname}{1}
+      \field{labelalpha}{Nie21}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The Mathematical Scientist}
+      \field{number}{2}
+      \field{title}{On calculation with noncommutative factors and its application to group theory}
+      \field{volume}{6}
+      \field{year}{1921}
+    \endentry
+    \entry{Nielsen1924}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=753054f71283d85f82cda8e35daf6bac}{%
+           family={Nielsen},
+           familyi={N\bibinitperiod},
+           given={Jakob},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{753054f71283d85f82cda8e35daf6bac}
+      \strng{fullhash}{753054f71283d85f82cda8e35daf6bac}
+      \strng{fullhashraw}{753054f71283d85f82cda8e35daf6bac}
+      \strng{bibnamehash}{753054f71283d85f82cda8e35daf6bac}
+      \strng{authorbibnamehash}{753054f71283d85f82cda8e35daf6bac}
+      \strng{authornamehash}{753054f71283d85f82cda8e35daf6bac}
+      \strng{authorfullhash}{753054f71283d85f82cda8e35daf6bac}
+      \strng{authorfullhashraw}{753054f71283d85f82cda8e35daf6bac}
+      \field{extraname}{2}
+      \field{labelalpha}{Nie24}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Mathematische Annalen}
+      \field{number}{3}
+      \field{title}{Die Isomorphismengruppe der freien Gruppen}
+      \field{volume}{91}
+      \field{year}{1924}
+    \endentry
+    \entry{Rabin1958}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=d186d95ce7d033a70e4582d23fdd4da6}{%
+           family={Rabin},
+           familyi={R\bibinitperiod},
+           given={Michael\bibnamedelima O.},
+           giveni={M\bibinitperiod\bibinitdelim O\bibinitperiod}}}%
+      }
+      \strng{namehash}{d186d95ce7d033a70e4582d23fdd4da6}
+      \strng{fullhash}{d186d95ce7d033a70e4582d23fdd4da6}
+      \strng{fullhashraw}{d186d95ce7d033a70e4582d23fdd4da6}
+      \strng{bibnamehash}{d186d95ce7d033a70e4582d23fdd4da6}
+      \strng{authorbibnamehash}{d186d95ce7d033a70e4582d23fdd4da6}
+      \strng{authornamehash}{d186d95ce7d033a70e4582d23fdd4da6}
+      \strng{authorfullhash}{d186d95ce7d033a70e4582d23fdd4da6}
+      \strng{authorfullhashraw}{d186d95ce7d033a70e4582d23fdd4da6}
+      \field{labelalpha}{Rab58}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Annals of Mathematics}
+      \field{number}{2}
+      \field{title}{Recursive unsolvability of group theoretic problems}
+      \field{volume}{67}
+      \field{year}{1958}
+    \endentry
+    \entry{Sabidussi1958}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=1ca6849a6cb71f0718f6e119f26b690a}{%
+           family={Sabidussi},
+           familyi={S\bibinitperiod},
+           given={Gert},
+           giveni={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{1ca6849a6cb71f0718f6e119f26b690a}
+      \strng{fullhash}{1ca6849a6cb71f0718f6e119f26b690a}
+      \strng{fullhashraw}{1ca6849a6cb71f0718f6e119f26b690a}
+      \strng{bibnamehash}{1ca6849a6cb71f0718f6e119f26b690a}
+      \strng{authorbibnamehash}{1ca6849a6cb71f0718f6e119f26b690a}
+      \strng{authornamehash}{1ca6849a6cb71f0718f6e119f26b690a}
+      \strng{authorfullhash}{1ca6849a6cb71f0718f6e119f26b690a}
+      \strng{authorfullhashraw}{1ca6849a6cb71f0718f6e119f26b690a}
+      \field{labelalpha}{Sab58}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Proceedings of the American Mathematical Society}
+      \field{number}{5}
+      \field{title}{On a class of fixed-point-free-graphs}
+      \field{volume}{9}
+      \field{year}{1958}
+    \endentry
+    \entry{Schreier1928}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=a7d535920e550afc8f672c6ac126a83c}{%
+           family={Schreier},
+           familyi={S\bibinitperiod},
+           given={Otto},
+           giveni={O\bibinitperiod}}}%
+      }
+      \strng{namehash}{a7d535920e550afc8f672c6ac126a83c}
+      \strng{fullhash}{a7d535920e550afc8f672c6ac126a83c}
+      \strng{fullhashraw}{a7d535920e550afc8f672c6ac126a83c}
+      \strng{bibnamehash}{a7d535920e550afc8f672c6ac126a83c}
+      \strng{authorbibnamehash}{a7d535920e550afc8f672c6ac126a83c}
+      \strng{authornamehash}{a7d535920e550afc8f672c6ac126a83c}
+      \strng{authorfullhash}{a7d535920e550afc8f672c6ac126a83c}
+      \strng{authorfullhashraw}{a7d535920e550afc8f672c6ac126a83c}
+      \field{labelalpha}{Sch28}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{1}
+      \field{number}{Abhandlungen aus dem Mathematischen Seminar der Universität Hamburg}
+      \field{title}{Die Untergruppen der freien Gruppen}
+      \field{volume}{5}
+      \field{year}{1928}
+    \endentry
+    \entry{Serre1980}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=07241de515f0ce74ecf4f65ef83d0ce2}{%
+           family={Serre},
+           familyi={S\bibinitperiod},
+           given={J.P.},
+           giveni={J\bibinitperiod}}}%
+      }
+      \name{editor}{1}{}{%
+        {{hash=4a152c159e38e6e5755aa5ba3a82f6aa}{%
+           family={Stillwell},
+           familyi={S\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer Verlag}%
+      }
+      \strng{namehash}{07241de515f0ce74ecf4f65ef83d0ce2}
+      \strng{fullhash}{07241de515f0ce74ecf4f65ef83d0ce2}
+      \strng{fullhashraw}{07241de515f0ce74ecf4f65ef83d0ce2}
+      \strng{bibnamehash}{07241de515f0ce74ecf4f65ef83d0ce2}
+      \strng{authorbibnamehash}{07241de515f0ce74ecf4f65ef83d0ce2}
+      \strng{authornamehash}{07241de515f0ce74ecf4f65ef83d0ce2}
+      \strng{authorfullhash}{07241de515f0ce74ecf4f65ef83d0ce2}
+      \strng{authorfullhashraw}{07241de515f0ce74ecf4f65ef83d0ce2}
+      \strng{editorbibnamehash}{4a152c159e38e6e5755aa5ba3a82f6aa}
+      \strng{editornamehash}{4a152c159e38e6e5755aa5ba3a82f6aa}
+      \strng{editorfullhash}{4a152c159e38e6e5755aa5ba3a82f6aa}
+      \strng{editorfullhashraw}{4a152c159e38e6e5755aa5ba3a82f6aa}
+      \field{labelalpha}{Ser80}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Trees}
+      \field{year}{1980}
+    \endentry
+    \entry{Tits1972}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=9f7ad51c5672b6f1c6ba0f16cae9ea81}{%
+           family={Tits},
+           familyi={T\bibinitperiod},
+           given={Jacques},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{9f7ad51c5672b6f1c6ba0f16cae9ea81}
+      \strng{fullhash}{9f7ad51c5672b6f1c6ba0f16cae9ea81}
+      \strng{fullhashraw}{9f7ad51c5672b6f1c6ba0f16cae9ea81}
+      \strng{bibnamehash}{9f7ad51c5672b6f1c6ba0f16cae9ea81}
+      \strng{authorbibnamehash}{9f7ad51c5672b6f1c6ba0f16cae9ea81}
+      \strng{authornamehash}{9f7ad51c5672b6f1c6ba0f16cae9ea81}
+      \strng{authorfullhash}{9f7ad51c5672b6f1c6ba0f16cae9ea81}
+      \strng{authorfullhashraw}{9f7ad51c5672b6f1c6ba0f16cae9ea81}
+      \field{labelalpha}{Tit72}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Algebra}
+      \field{number}{2}
+      \field{title}{Free subgroups in linear groups}
+      \field{volume}{20}
+      \field{year}{1972}
+    \endentry
+  \enddatalist
+\endrefsection
 \endinput
 

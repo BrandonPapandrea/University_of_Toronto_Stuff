@@ -1,6 +1,6 @@
 \newcommand{\card}[1]{\operatorname{card}(#1)}
 
-\chapter{The Size of Sets}
+\chapter{Lecture 5: The Size of Sets}
 
 We've constructed several different sets. We now study the size of these sets. The size of sets will form the basis for our notion of cardinal numbers and cardinal arithmetic. 
 
@@ -79,7 +79,7 @@ One can define an equivalence relation $E$ by saying two sets $A,B$ are equivale
     \end{enumerate}
 \end{theorem}
 
-One might think, in light of the above examples, that any two infinte sets are equinumerous. This is not true; some infinite sets are much larger than others:
+One might think, in light of the above examples, that any two infinite sets are equinumerous. This is not true; some infinite sets are much larger than others:
 
 \begin{theorem}[Cantor's Theorem (1873)]
     \begin{enumerate}[label=(\roman*)]
@@ -151,17 +151,83 @@ Note that a set is a proper subset if it is a subset and not equal to the superc
     In either case, the range of $f$ is $k^+$, so $k^+ \in T$. We conclude that $T = \omega$, as required.
 \end{proof}
 
-For a finite set $A$, the unique $n$ for which $A \approx n$ is called the \textbf{cardinal number} of $A$, and is denoted $\card{A}$. 
+This theorem can also be phrased for arbitrary sets:
+
+\begin{corollary}
+    No finte set is equinumerous to a proper subset of itself. 
+\end{corollary}
+
+\begin{proof}
+    As $A$ is finite, it is equinumerous to a natural number $n$. Let $g$ be the injective correspondence between $A$ and $n$. 
+
+    By way of contradiction, suppose that there is a one-to-one correspondence $f$ between $A$ and some proper subset of $A$. Consider the map 
+
+    \[g \circ f \circ g^{-1}\]
+
+    which maps $n$ into $n$. This is a composition of injective maps, and hence is injective, so by the Pigeonhole Principle, its range is all of $n$. However, for any $a \in A$ not in the range of $f$, then $g(a) \in n$ cannot be in the range of $g \circ f \circ g^{-1}$. Thus, $n$ is equinumerous to the range of $g \circ f \circ g^{-1}$, a proper subset of $n$, which is a contradiction.  
+\end{proof}
+
+The key observation here is that we have two sets, $A$ and $n$ that are equinumerous, but have different members. Nevertheless, we can find a function $g$ that maps elements of $A$ to those of $n$. If we imagine $A$ to have red elements and $n$ to have blue elements, then $g$ paints every red element blue, and $g^{-1}$ paints every blue element red. The map $g \circ f \circ g^{-1}$ paints things red, applies $f$, then restores the blue colour to only those elements in the range of $f$; an element not in the range of $f$ will stay red. 
+
+\begin{corollary}
+    \begin{enumerate}[label=(\alph*)]
+        \item Any set equinumerous to a proper subset of itself is infinite.
+        \item $\omega$ is infinite
+    \end{enumerate}
+\end{corollary}
+
+\begin{proof}
+    \begin{enumerate}[label=(\alph*)]
+        \item This holds trivially by the above corollary.
+        \item The function $\sigma$ mapping $n$ to $n^+$ is an injective map from $\omega$ onto $\omega \setminus \{0\}$, so by (a) $\omega$ is infinite. 
+    \end{enumerate}
+\end{proof}
+
+One more thing to consider is that each set $A$ is equinumerous to precisely one natural number. Indeed. If $A \approx m$ and $A \approx n$ for natural $n,m$, then by trichotomy, either $m = n$, or one is a proper subset of the other, the latter result being impossible since $m \approx n$. 
+
+It is thus reasonable to give a name to this unique value that $A$ is equinumerous to. For a finite set $A$, the unique $n$ for which $A \approx n$ is called the \textbf{cardinal number} of $A$, and is denoted $\card{A}$. 
 
 \begin{example}
     If $a,b,c,d$ are distinct, then $\card{\{a,b,c,d\}} = 4$.
 \end{example}
 
-For infinite sets, it's a bit more complicated so we postpone it until a later lecture. 
+For finite sets, it is obvious that if the cardinalities of two sets agree when they are equinumerous to each other; in other words, they have the same number of elements. For infinite sets, it's a bit more complicated so we postpone it until a later lecture. 
 
 We define cardinal numbers to be the anything that is the cardinal number of some set $A$. All natural numbers are cardinal numbers, since $\card{n} = n$. $\card{\omega}$ is not a natural number, since $\omega$ is not equinumerous to any natural number. We will not reveal exactly what the cardinality of $\omega$ is until later, but we will give it a name:
 
 \[\card{\omega} = \aleph_0\]
+
+This symbol is called ``aleph null.'' 
+
+For any nonzero cardinal $\kappa$, there are a great number of sets that have cardinality $\kappa$ (if $\kappa = 0$ the $\varnothing$ is the only set with this cardinality). With that said, while they all look different, there are the same in that they share the same number of elements. In particular, if a set $X$ with $\card{X} = \kappa$ is finite, so is every other set with that cardinality. For this reason, we call such $\kappa$ a \textbf{finite cardinal}, otherwise it is a \textbf{infinite cardinal}. The natural numbers are all finite cardinals, while $\aleph_0, \card{\R}, \card{\mathcal{P}\omega}, \ldots$ are all infinite cardinals.
+
+The last thing we will do is prove a fairly intuitive fact: every subset of a finite set is finite.
+
+\begin{lemma}
+    If $C$ is some proper subset of a natural number $n$, then $C \approx m$ for some $m < n$. 
+\end{lemma}
+
+\begin{proof}
+    We proceed by induction. Let 
+    
+    \[T = \{n \in \omega : \text{ any proper subset of $n$ is equinumerous to a member of $n$}\}\] 
+    
+    and we claim that $T = \omega$. $0 \in T$ vacuously. Now assume $k \in T$ and consider $C$ a proper subset of $k^+$. There are two cases. First, if $C = k$, then $C \approx k \in k^+$. Second, if $C$ is a proper subset of $k$, then by the induction hypothesis $C \approx m$ for some $m \in k \in k^+$. 
+
+    If neither case holds, then $k \in C$. We write $C = (C \cap k) \cup \{k\}$, with $C \cap k$ being a proper subset of $k$. As $k \in T$, by induction hypothesis there is an $m \in k$ such that $C \cap k \approx m$. Let $f$ be an injective map from $C \cap k$ to $m$. Then $f \cup \{\Ang{k,m}\}$ is an injective map from $C$ to $m^+$. Thus, as $m \in k$, $m^+ \in k^+$, and so $C \approx m^+ \in k^+$. $k^+ \in T$. So $T$ is inductive and is equal to $\omega$. 
+\end{proof}
+
+\begin{corollary}
+    Any subset of a finite set is finite.
+\end{corollary}
+
+\begin{proof}
+    Let $A \subseteq B$ and let $f$ be an injective map from $B$ to some $n \in \omega$. Then it follows that
+
+    \[A \approx f[A] \subseteq n\]
+
+    and it follows that $f[a] \approx m$ for some $m \in n$. 
+\end{proof}
 
 \section{Cardinal Arithmetic}
 
@@ -179,4 +245,167 @@ While our previous derivations for operations on $\omega$ won't work, we can fin
     \end{enumerate}
 \end{definition}
 
+As with any operation, we should prove their outcomes are independent of the sets $K,L$ we use to represent the cardinals. Moreover, we should ensure these operations, when applied to finite cardinals, do not conflict with our previous notions of operations on $\omega$ from before.
+
+\begin{theorem}
+    Assume $K_1 \approx K_2$ and $L_1 \approx L_2$, then 
+
+    \begin{enumerate}[label=(\alph*)]
+        \item If $K_1 \cap L_1 = K_2 \cap L_2 = \varnothing$, then $K_1 \cup L_1 \approx K_2 \cup L_2$
+        \item $K_1 \times L_1 \approx K_2 \times L_2$
+        \item $L_1^{K_1} \approx L_2^{K_2}$
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    \begin{enumerate}[label=(\alph*)]
+        \item There are injective maps $f$ from $K_1$ to $K_1$ and $g$ from $L_1$ to $L_2$. We define a function 
+        \[h(x) = \begin{cases}
+            f(x) & x \in K_1 \\ g(x) & x \in L_1
+        \end{cases}\]
+
+        mapping $K_1 \cup L_1$ to $K_2 \cup L_2$. $h$ is a function since $K_1, L_1$ are disjoint, and is injective since $K_2,L_2$ are disjoint. 
+
+        \item We define a function that, for $x \in K_1, y \in L_1$,
+        \[h(\Ang{x,y}) = \Ang{f(x),g(y)}\]
+
+        and maps $K_1 \times L_1$ injectively into $K_2 \times L_2$ (this is a function since $f,g$ are, and is also injective for the same reason).
+
+        \item Let $j \in L_1^{K_1}$. Then we define the map 
+        \[H(j) = f \circ j \circ g^{-1}\]
+
+        which map $L_1^{K_1}$ to $L_2^{K_2}$. Indeed $H(j)$ is a map from $L_2$ to $K_2$. To show injectivity, let $j,j'$ be different functions from $L_1$ to $K_1$. Then $j(t) \neq j'(t)$ for some $t \in L_1$. We have that 
+
+        \[H(j)(g(t)) = f(j(t)) \neq f(j'(t)) = H(j')(g(t))\]
+
+        so $H(j), H(j')$ are different functions, so $H$ is injective. Lastly, for any function $d$ from $L_2$ to $K_2$, let $j = f^{-1} \circ d \circ g$, then $d = H(j)$.
+    \end{enumerate}
+\end{proof}
+
+\begin{example}
+    \begin{enumerate}
+        \item To prove that $2 + 2 = 4$, it suffices to find two disjoint sets $K,L$, each cardinality 2, and show that $K \cup L$ has cardinality 4. 
+        \item For any natural numbers $n,m$, $m \cdot n = \card{m \times n}$, and $m^n = \card{n^m}$. 
+        \item For any natural number $n \neq 0$, $n + \aleph_0 = \aleph_0$, and $n \times \aleph_0 = \aleph_0$. Moreover, $\aleph_0 + \aleph_0 = \aleph_0$ and $\aleph_0 \cdot \aleph_0 = \aleph_0$. 
+        \item To prove that $2 + \aleph_0 = \aleph_0$, we show that $\{a,b\} \cup \omega \approx \omega$ (with $a,b \notin \omega$). The function $f$ with 
+        \[f(a) = 0 \quad f(b) = 1 \quad f(n) = n^{++}\]
+        suffices. 
+        \item For any cardinal $\kappa$, $\kappa + 0 = \kappa, \kappa \cdot 0 = 0, \kappa \cdot 1 = \kappa$. 
+        \item For any cardinal $\kappa$, $\kappa^0 = 1$, and if $\kappa$ is nonzero, $0^\kappa = 0$. From this, we get that $0^0 = 1$.  
+        \item For a set $A$, $\card{\mathcal{P}A} = 2^{\card{A}}$. In particular, $\card{\mathcal{P}K} = 2^{\kappa}$ (where $\card{K} = \kappa$), and by Cantor's Theorem, $\kappa \neq 2^{\kappa}$.
+        \item For any cardinal $\kappa$, $\kappa + \kappa = 2 \cdot \kappa$. 
+    \end{enumerate}
+\end{example}\
+
+Some elementary facts about cardinal arithmetic are displayed below without proof:
+
+\begin{theorem}
+    For cardinals $\kappa, \lambda, \mu$.
+    \begin{enumerate}
+        \item Addition and multiplication of cardinals is commutative.
+        \item Addition and multiplication of cardinals is associative.
+        \item Multiplication and addition are distributive in the natural sense.
+        \item $\kappa^{\lambda + \mu} = \kappa^\lambda \cdot \kappa^\mu$
+        \item $(\kappa \cdot \lambda)^\mu = \kappa^\mu \cdot \lambda^\mu$
+        \item ($\kappa^\lambda)^\mu = \kappa^{\lambda \cdot \mu}$
+    \end{enumerate}
+\end{theorem}
+
+\begin{theorem}
+    The operations of addition, multiplication, and exponentiation on cardinals agree with those for naturals numbers when the cardinals are finite.
+\end{theorem}
+
+\begin{corollary}
+    If $A,B$ are finite, so too are $A \cup B, A \times B$, and $B^A$. 
+\end{corollary}
+
+\begin{proof}
+    Let $m = \card{A}, n = \card{B}$. Then we have that 
+
+    \[\card{A \times B} = \card{A} \cdot \card{B} = m \cdot n = m \cdot_\omega n \in \omega\]
+
+    a similar idea holds for $B^A$ and $m^n$. For union, we use disjoint sets. Write 
+
+    \[A \cup B = A \cup (B - A)\]
+
+    $B - A$ is a subset of a finite set, hence finite. Let $k = \card{B - A}$. Then $\card{A \cup B} = m + k = m +_\omega k \in \omega$
+\end{proof}
+
 \section{Ordering Cardinal Numbers}
+
+Equinumerosity tells us when two sets have the same size, but what happens when a set is larger than another? 
+
+\begin{definition}
+    A set $A$ is \textbf{dominated} by a set $B$ (written $A \preceq B$) iff there is an injective function from $A$ into $B$. Equivalently, this is true iff $A$ is equinumerous to a subset of $B$.
+\end{definition}
+
+The ordering of cardinals is thus defined in terms of dominance: 
+
+\[\card{A} \leq \card{B} \iff A \preceq B\]
+
+This is a well-defined definition regardless of representatives, and the proof follows from a simple composition of functions. We can also define strict inequality when $\leq$ holds and the cardinals are not equal. In terms of sets:
+
+\[\card{K} < \card{L} iff K \preceq L \ \wedge \ K \not\approx L\]
+
+This definition has the expected consequence that $\kappa \leq \lambda$ if and only if $\kappa < \lambda$ or $\kappa = \lambda$, so we have some notion of trichotomy. Now, we should show that this ordering actually behaves like one. In particular, we must prove 4 things: For cardinals $\kappa, \lambda, \mu$,
+
+\begin{enumerate}
+    \item $\kappa \leq \kappa$
+    \item $\kappa \leq \lambda \leq \mu \implies \kappa \leq \mu$
+    \item $\kappa \leq \lambda \ \wedge \ \lambda \leq \kappa \implies \kappa = \lambda$ 
+    \item $\kappa \leq \lambda \ \vee \ \lambda \leq \kappa$
+\end{enumerate}
+
+The first two are obvious: $A \preceq A$ for any set $A$, and dominance is a transitive relation on sets. The third one isn't trivial, and the fourth requires AC so we'll prove it later. 
+
+Proving the third result is actually a famous result, and will become a good tool in calculating cardinalities. 
+
+\begin{theorem}[Schr\"{o}der-Bernstein Theorem]
+    \begin{enumerate}[label=(\alph*)]
+        \item If $A \preceq B$ and $B \preceq A$, then $A \approx B$. 
+        \item For cardinals $\kappa, \lambda$, if $\kappa \leq \lambda$ and $\lambda \leq \kappa$, then $\kappa = \lambda$. 
+    \end{enumerate}
+\end{theorem}
+
+To prove this we will rephrase the problem: Suppose we have infinite sets $M$ of men and $W$ of women. We know each man loves exactly one woman, and each woman loves exactly one man. We claim that we can marry every man to every woman so that the man marries the woman he loves and vice versa. 
+
+\begin{proof}
+    For each $x \in M$, let $f(x) \in W$ be the woman he loves, and for each $y \in W$, let $g(y) \in M$ be the man she loves (these are the injective maps into $W$ and $M$ respectively). 
+
+    For each person $x_1$ (man or woman), there may be a person who loves $x_1$; call them $x_2$. Similarly, there may be a person who loves $x_2$; call them $x_3$. Repeat this as long as possible. Every $x_1$ may be placed into 3 groups: The process terminates at some unloved person $x_n \in M$, $x_n \in W$, or never terminates at all. Now, let $M_1, M_2, M_3$ be the sets of men in the first, second, and third group respectively, and let $W_1, W_2, W_3$ be similarly defined for women. 
+
+    Notice that for every $y \in W_1$, there is a man $x \in M$ who loves them, so $f(x) = y$. Moreover, starting at $x$, we get that the process defined above terminates at a man, so $x \in M_1$. Thus $M_1$ is mapped onto $W_1$ by $f$.
+
+    Similarly, for every $x \in M_2$, there is a woman $y \in W$ who loves them, so $g(y) = x$; looking at the process starting at $y$, it must end at a woman, so $y \in W_2$, meaning $g$ maps $W_2$ onto $M_2$. 
+
+    Finally, for every $y \in W_3$, there is a man who loves them, with the process starting at that man never terminating; a similar idea holds for every $x \in M_3$. This means $f$ maps $M_3$ onto $W_3$ and $g$ maps $W_3$ onto $M_3$. 
+
+    From this, we can marry each man in $M_1$ to a woman he loves, then marry every woman in $W_2$ to a man she loves, and then either marrying the men in $M_3$ to the women they love, or all women in $W_3$ to the man they love. In all, we get an injective map from $M$ onto $W$. 
+\end{proof}
+
+From here, we can prove the desired order preserving properties of cardinal arithmetic:
+
+\begin{theorem}
+    For cardinals $\kappa, \lambda, \mu$,
+
+    \begin{enumerate}[label=(\alph*)]
+        \item $\kappa \leq \lambda \implies \kappa + \mu \leq \lambda + \mu$
+        \item $\kappa \leq \lambda \implies \kappa \cdot \mu \leq \lambda \cdot \mu$
+        \item $\kappa \leq \lambda \implies \kappa^\mu \leq \lambda^\mu$
+        \item $\kappa \leq \lambda \implies \mu^\kappa \leq \mu^\lambda$ assuming both $\kappa, \lambda$ are not 0.
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    Let $K,L,M$ be set of cardinality $\kappa, \lambda, \mu$ respectively. We know that $M^K$ has cardinality $\kappa^\mu$. Without loss of generality, we make these selections so that $K \subseteq L$, and $L \cap M = \varnothing$. Now assuming $\kappa \leq \lambda$, (a)-(c) are immediate, as 
+
+    \[K \cup M \subseteq L \cup M, \quad K \times M \subseteq L \times M, \quad M^K \subseteq M^L\]
+
+    For (d), first assume $\mu = 0$, then assuming $\kappa \neq 0$, $\mu^\kappa = 0 \leq \mu^\lambda$. Now assume that $\mu \neq 0$, meaning $M \neq \varnothing$, so there is some $a \in M$. We seek an injection $G$ from $K^M$ into $L^M$. For any $f \in K^M$, we define $G(f)$ to have domain $L$, and 
+
+    \[G(f)(x) = \begin{cases}
+        f(x) & x \in K \\ a & x \in L\setminus K
+    \end{cases}\]
+
+    In short, $G(f) = f \cup ((L\setminus K) \times \{a\})$. This map is clearly injective from $K^M$ into $L^M$. 
+\end{proof}

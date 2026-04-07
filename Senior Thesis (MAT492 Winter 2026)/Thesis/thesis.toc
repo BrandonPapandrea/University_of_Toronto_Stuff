@@ -1,10 +1,18 @@
-\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
-\contentsline {chapter}{\numberline {2}Free Groups}{3}{chapter.2}%
-\contentsline {section}{\numberline {2.1}The Universal Property}{3}{section.2.1}%
-\contentsline {section}{\numberline {2.2}The Rank of Subgroups of $F_2$}{5}{section.2.2}%
-\contentsline {chapter}{\numberline {3}The Ping-Pong Lemma}{8}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Statements and Proofs}{8}{section.3.1}%
-\contentsline {section}{\numberline {3.2}An Application: $SL_2(\mathbb {Z})$ and $GL_2(\mathbb {Z})$}{10}{section.3.2}%
-\contentsline {chapter}{\numberline {4}A Group Acting Freely on a Tree is Free}{13}{chapter.4}%
-\contentsline {section}{\numberline {4.1}G-Tilings}{13}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Proof of Theorem \ref {Serre Forward Direction}}{16}{section.4.2}%
+\contentsline {section}{Introduction}{2}{Doc-Start}%
+\contentsline {section}{\numberline {1}The Ping Pong Lemma}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Definitions}{3}{subsection.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.1}The Universal Property}{3}{subsubsection.1.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.2}The Rank of Subgroups of $F_2$}{6}{subsubsection.1.1.2}%
+\contentsline {subsection}{\numberline {1.2}The Ping-Pong Lemma}{7}{subsection.1.2}%
+\contentsline {subsubsection}{\numberline {1.2.1}Statements and Proofs}{7}{subsubsection.1.2.1}%
+\contentsline {subsubsection}{\numberline {1.2.2}An Application: $SL_2(\mathbb {Z})$}{9}{subsubsection.1.2.2}%
+\contentsline {section}{\numberline {2}Serre's Theorem}{11}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Group Actions on Graphs}{11}{subsection.2.1}%
+\contentsline {subsubsection}{\numberline {2.1.1}Graph Isomorphisms and Automorphisms}{11}{subsubsection.2.1.1}%
+\contentsline {subsubsection}{\numberline {2.1.2}Acting on a Graph}{13}{subsubsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.2}The Cayley Graph}{14}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}Definition and First Examples}{14}{subsubsection.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.2}Acting on a Cayley Graph}{17}{subsubsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.3}Tiling a Tree}{19}{subsection.2.3}%
+\contentsline {subsubsection}{\numberline {2.3.1}G-Tilings}{19}{subsubsection.2.3.1}%
+\contentsline {subsubsection}{\numberline {2.3.2}Proof of Theorem \ref {Serre Second Direction}}{21}{subsubsection.2.3.2}%

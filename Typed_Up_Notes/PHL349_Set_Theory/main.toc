@@ -28,8 +28,15 @@
 \contentsline {section}{\numberline {4.1}The Integers}{22}{section.4.1}%
 \contentsline {section}{\numberline {4.2}The Rationals}{25}{section.4.2}%
 \contentsline {section}{\numberline {4.3}The Reals}{27}{section.4.3}%
-\contentsline {chapter}{\numberline {5}The Size of Sets}{29}{chapter.5}%
+\contentsline {chapter}{\numberline {5}Lecture 5: The Size of Sets}{29}{chapter.5}%
 \contentsline {section}{\numberline {5.1}Equinumerosity}{29}{section.5.1}%
 \contentsline {section}{\numberline {5.2}Finite Sets}{31}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Cardinal Arithmetic}{32}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Ordering Cardinal Numbers}{33}{section.5.4}%
+\contentsline {section}{\numberline {5.3}Cardinal Arithmetic}{34}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Ordering Cardinal Numbers}{36}{section.5.4}%
+\contentsline {chapter}{\numberline {6}Lecture 6: Cardinal Arithmetic \& AC}{38}{chapter.6}%
+\contentsline {section}{\numberline {6.1}The Axiom of Choice}{38}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Countable Sets}{41}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Arithmetic of Infinite Cardinals}{42}{section.6.3}%
+\contentsline {section}{\numberline {6.4}The Continuum Hypothesis}{42}{section.6.4}%
+\contentsline {chapter}{\numberline {7}Lecture 7: Ordered Sets}{44}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Orderings}{44}{section.7.1}%

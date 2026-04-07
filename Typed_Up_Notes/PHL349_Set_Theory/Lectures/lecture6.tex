@@ -1,0 +1,231 @@
+\chapter{Lecture 6: Cardinal Arithmetic \& AC}
+
+We conclude our study of cardinal arithmetic by looking at equivalent statements of the axiom of choice, as well as countable sets, and the arithmetic of infinite cardinals. We conclude with a brief section on the Continuum Hypothesis. 
+
+\begin{remark}
+    I was not here for this lecture, so I am basing this off of Sections 6.5-6.8 in the textbook.
+\end{remark}
+
+\section{The Axiom of Choice}
+
+Let's try proving that for any infinite cardinal $\kappa$, $\aleph_0 \leq \kappa$. By definition of $\leq$, we just need to show that $\omega \preceq A$ for any infinite $A$. Let's define an injective function $g: \omega \to A$ by recursion:
+
+\[g(0) = \text{ some member of $A$}\]
+\[g(n^+) = \text{ some member of $A \setminus g[n^+]$}\]
+
+Assuming $A$ is infinite, $A \setminus g[n^+]$ is never empty. One issue here is that $g(n^+)$ is defined not by $g(n)$, but by $g(0), g(1), \ldots, g(n)$, but this can be dealt with later. The bigger issue is the phrase ``some member.'' Which one are we referring to? Without some axiom of choice that allows us to replace ``some member'' with a better one, we're stuck. 
+
+\begin{theorem}[Equivalent AC Statments]
+    The following are equivalent: 
+
+    \begin{enumerate}
+        \item For any relation $R$, there is a function $F \subseteq R$ with $\operatorname{dom}F = \operatorname{dom}R$.
+        \item The Cartesian product of nonempty sets is always nonempty. That is, if $H$ is a function with domain $I$ and if $(\forall i \in I)H(i) \neq \varnothing$, then there is a function with domain $I$ such that $(\forall i \in i)f(i) \in H(i)$. 
+        \item For any set $A$ there is a ``choice function'' $F$ for $A$ such that the domain of $F$ is the set of nonempty subsets of $A$, and such that $F(B) \in B$ for every nonempty $B \subseteq A$. 
+        \item Let $\mathcal{A}$ be such that 
+        \begin{enumerate}[label=(\alph*)]
+            \item Every member of $\mathcal{A}$ is a nonempty set, and 
+            \item Any two distinct members of $\mathcal{A}$ are disjoint.
+        \end{enumerate}
+        Then there is a set $C$ containing exactly one element from each member of $\mathcal{A}$ (for each $B \in \mathcal{A}$, $C \cap B = \{x\}$).
+        \item For any sets $C$ and $D$, either $C \preceq D$ or $D \preceq C$. The same holds for cardinals. 
+        \item (\textbf{Zorn's Lemma}) Let $\mathcal{A}$ be a set. A chain $\mathcal{B}$ is a set in which for any $C,D \in \mathcal{B}$, $C \subseteq D$ or $D \subseteq C$. Suppose that for every chain $\mathcal{B} \subseteq \mathcal{A}$, we have that $\bigcup \mathcal{B} \in \mathcal{A}$. Then $\mathcal{A}$ contains a maximal element $M$ such that $M$ is not the subset of any other set in $\mathcal{A}$. 
+    \end{enumerate}
+\end{theorem}
+
+The first 4 statements all say, in one way or another, that there is a uniform way of selecting elements from sets. 5 and 6 are different, and have to do with set cardinalities and maximal chain elements. 
+
+We are not going to prove that they're all equivalent just yet; this will have to be done in a later lecture. For now we will prove that the first 4 are equivalent, and that statement 6 implies both 1 and 4. 
+
+\begin{proof}
+    (1) $\implies$ (2): Assume $H$ is a function with domain $I$ such that $H(i) \neq \varnothing$ for each $i \in I$. We define a relation $R$ so $\Ang{i,x}$ whenever $i \in I$ and $x \in H(i)$ (just relate $i$ to its image under $H$). Then by (1) there is a function $F \subseteq R$ such that $\operatorname{dom}F = \operatorname{dom}R = I$. As 
+
+    \[\Ang{i,F(i)} \in F \subseteq R\]
+
+    we have that $F(i) \in H(i)$, so (2) holds. 
+
+    (2) $\implies$ (4): Let $\mathcal{A}$ be a set meeting (a) and (b) as in (4). Let $H$ be the identity function on $\mathcal{A}$. By (a), $H(B) \neq \varnothing$ for every $B \in \mathcal{A}$. So by (2) there is a function $f$ with domain $\mathcal{A}$ such that for every $B \in \mathcal{A}$, $f(B) \in H(B) = B$. We define $C$ to be the range of $f$. Then for every $B \in \mathcal{A}$, $B \cap C = \{f(B)\}$. Note that no other element is in the intersection, otherwise we would contradict that two sets in $\mathcal{A}$ are disjoint. 
+
+    (4) $\implies$ (3): For a set $A$, define 
+
+    \[\mathcal{A} = \{\{B\} \times B : B \text{ is a nonempty subset of $A$}\}\]
+
+    Evidently, each member of $\mathcal{A}$ is nonempty, and any two distinct members are disjoint. By (4), there is a set $C$ such that for every $B \in \mathcal{A}$,
+
+    \[C \cap (\{B\} \times B) = \{\Ang{B,x}\}\]
+
+    with $x \in B$. We let $F = C \cap (\bigcup \mathcal{A})$ to remove any elements not in any member of $\mathcal{A}$. We claim that $F$ is the desired choice function for $A$. By construction, elements of $F$ are of the form $\Ang{B,x}$ for some $x \in B$. As $F \cap (\{B\} \times B)$ is a singleton, for each nonempty $B \subseteq A$, there is a unique $x \in B$ for which $\Ang{B,x} \in F$. This $x$ can be taken to be $F(B)$. 
+
+    (3) $\implies$ (1): Let $R$ be a relation. Then (3) gives a choice function $G$ for $\operatorname{ran}R$, so $G(B) \in B$ for all nonempty $B \subseteq \operatorname{ran}R$. We define a function $F$ with $\operatorname{dom}F = \operatorname{dom}R$ by
+
+    \[F(x) = G(\{y | xRy\})\]
+
+    It follows that $F(x) \in \{y | xRy\}$, so $F \subseteq R$. 
+
+    Now for the parts using Zorn's Lemma: 
+
+    (6) $\implies$ (1): We will create a collection $\mathcal{A}$ of pieces of the desired object, then show that a maximal piece is the intended object. Given a relation $R$, we define 
+
+    \[\mathcal{A} = \{f \subseteq R | f \text{ is a function}\}\]
+
+    We first chaim $\mathcal{A}$ is closed under union of chains. Let $\mathcal{B} \subseteq \mathcal{A}$ be a chain. Since members of $\mathcal{B}$ are subset of $R$, $\bigcup \mathcal{B} \subseteq R$. $\bigcup \mathcal{B}$ is also a function. For any $\Ang{x,y}, \Ang{x,z} \in \bigcup \mathcal{B}$, then 
+
+    \[\Ang{x,y} \in G \in \mathcal{B} \quad \text{ and } \quad \Ang{x,z} \in H \in \mathcal{B}\]
+
+    for functions $G,H \in \mathcal{A}$. Since $G \subseteq H$ or $H \subseteq G$, these belong to the same function, so $y = z$, hence $\bigcup \mathcal{B} \in \mathcal{A}$. Now by (6) there is some maximal function $F \in \mathcal{A}$. We claim that $\operatorname{dom}F = \operatorname{dom}R$. If not, take $x \in \operatorname{dom}R \setminus \operatorname{dom}F$. Since $x \in \operatorname{dom}R$, there is a $y$ with $xRy$. Take 
+
+    \[F = F \cup \{\Ang{x,y}\}\]
+
+    Then $F' \in \mathcal{A}$, contradicting the maximality of $F$. 
+
+    (6) $\implies$ (5): Let $C,D$ be any sets. Define 
+
+    \[\mathcal{A} = \{f | f \text{ is injective and $\operatorname{dom}F \subseteq C \wedge \operatorname{ran} f \subseteq D$}\}\]
+
+    We check for closure under unions of chains. For a chain $\mathcal{B} \subseteq \mathcal{A}$, we know that $\bigcup \mathcal{B}$ is a function, while a similar argument shows it is injective. Now let $\Ang{x,y} \in \bigcup \mathcal{B}$. Then $\Ang{x,y} \in f \in \mathcal{A}$, meaning $x \in C, y \in D$. Thus, $\operatorname{dom}\bigcup\mathcal{B} \subseteq C$ and $\operatorname{ran}\bigcup\mathcal{B} \subseteq D$. Thus, $\bigcup \mathcal{B} \in \mathcal{A}$ and (6) applies. Let $\hat{f} \in \mathcal{A}$ be the maximal function. We claim that either $\operatorname{dom}\hat{f} = C$ (meaning $C \preceq D$) or $\operatorname{ran}\hat{f} = C$ (meaning $D \preceq C$ by taking $f^{-1}$). Suppose neither claim holds. Then there is an element $x$ in $C$ but not the domain of $hat{f}$, and a similar element $y$ in $D$. Then take 
+
+    \[f' = \hat{f} \cup \{\Ang{c,d}\}\]
+
+    contradicting the maximality of $\hat{f}$. 
+\end{proof}
+
+From this, we can now add AC to our list of axioms. This addition, historically, was not without controversy due to its non-constructive nature; it asserts the existence of a set without showing what that set is or how to construct it. While it is accepted by most, its controversial first years of existence mean that when using it, we will always say that we are.
+
+Let's use AC to prove our claim from the start:
+
+\begin{theorem}
+    \begin{enumerate}[label=(\alph*)]
+        \item For any infinite set $A$, $\omega \preceq A$. 
+        \item $\aleph_0 \leq \kappa$ for any infinite cardinal $\kappa$. 
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    It suffices to prove just (a). Let $A$ be infinite. Let $F$ be a choice function for $A$, as provided by the third version of AC. We must use $F$ repeatedly; in fact $\aleph_0$ times. 
+
+    We define a function $f$ from $\omega$ to the set of finite subsets of $A$, using recursion. We define $h(0) = \varnothing$, then $h(n^+) = h(n) \cup \{F(A - h(n))\}$. As $A$ is infinite and $h(n)$ always finite, $A - h(n)$ is nonempty, with $h(n^+)$ also being finite. Now define 
+
+    \[g(n) = F(A - h(n))\]
+
+    to be the thing we add to $h(n)$ to make $h(n^+)$. Then $g: \omega \to A$. We claim $g$ is injective. Let $m \neq n$. Without loss of generality let $m \in n$. Then $m^+ \in n$, so 
+
+    \[g(m) \in h(m^+) \subseteq h(n)\]
+
+    But note that $g(n) = F(A - h(n)) \in A - h(n)$, so $g(n) \notin h(n)$. Thus, $g(m) \neq h(n)$. 
+\end{proof}
+
+There are many consequences of this theorem that are of relevance:
+
+\begin{enumerate}
+    \item Any infinite subset of $\omega$ is equinumerous to $\omega$.
+    \item $\kappa < \aleph_0$ if and only if $\kappa$ is a finite cardinal. 
+    \item Subsets of finite sets are finite. 
+\end{enumerate}
+
+A corollary we discuss more closely was this characterization of infinite sets, proposed by Dedekind in 1888:
+
+\begin{corollary}
+    A set is infinite if and only if it is equinumerous to a proper subset of itself. 
+\end{corollary}
+
+\begin{proof}
+    We have already shown that if a set is equinumerous to a proper subset of itself, it is infinite, so we prove the other way. Suppose a set $A$ is infinite. Then by the above theorem there is an injective function $f$ from $\omega$ to $A$. Define a function $g: A \to A$ by 
+
+    \begin{align*}
+        g(f(n)) & = f(n^+) & n \in \omega \\
+        g(x) & = x & x \notin \operatorname{ran}f
+    \end{align*}
+
+    It follows that $g$ is injective from $A$ onto $A \setminus \{f(0)\}$. 
+\end{proof}
+
+\section{Countable Sets}
+
+We make a distinction between infinite sets, and those which can be counted by using the naturals. 
+
+\begin{definition}
+    A set $A$ is \textbf{countable} if and only if $A \preceq \omega$, meaning its cardinality is at most $\aleph_0$. 
+\end{definition}
+
+Alternatively, we may say that $A$ is countable if and only it is finite or has cardinality $\aleph_0$. 
+
+\begin{example}
+    The following all are countable sets:
+
+    \begin{enumerate}
+        \item $\omega$
+        \item $\Z$
+        \item $\Q$
+        \item Any subset of a countable set. 
+        \item The union of two countable sets; any finite union of countable sets.
+        \item The Cartesian product of two countable sets. 
+    \end{enumerate}
+
+    Conversely, $\R$, and the power set $\mathcal{P}A$ of any infinite set $A$ is uncountable. 
+\end{example}
+
+\begin{theorem}
+    If $A$ is countable and every member of $A$ is a countable set, so too is $\bigcup A$.
+
+    In other words, the countable union of countable sets is countable. 
+\end{theorem}
+
+\begin{proof}
+    We first assume that $\varnothing \notin A$, otherwise we can remove it without affecting the union. Moreover, we assume $A$ is nonempty, since $\bigcup \varnothing$ is clearly countable. 
+
+    Since $A$ is countable and nonempty, there is a function $G$ from $\omega$ onto $A$, hence we write 
+
+    \[A = \{G(0), G(1), \ldots\}\]
+
+    (note that $G$ is not necessarily injective, so there might be repeats in this). We also know that each $G(m)$ is countable and nonempty, so there is a function from $omega$ onto $G(m)$. We now apply the axiom of choice to select such a function for each $m$. 
+
+    We'll do this in detail and use the second version of AC: Let $H: \omega \to \omega^{\left(\bigcup A\right)}$ be defined so that 
+
+    \[H(m) = \{g | g \text{ is a function from $\omega$ onto $G(m)$}\}\]
+
+    We know $H(m)$ is nonempty for all $m$, so there is a function $F$ such that $F(m)$ is a function from $\omega$ onto $G(m)$.
+
+    Finally, we define $f(m,n) = F(m)(n)$. Then $f$ is a function from $\omega \times \omega$ onto $\bigcup A$. 
+\end{proof}
+
+\section{Arithmetic of Infinite Cardinals}
+
+The Axiom of Choice can now be used to prove some statements about arithmetic of infinite cardinals:
+
+\begin{lemma}
+    For any infintie cardinal $\kappa$, $\kappa \cdot \kappa = \kappa$. 
+\end{lemma}
+
+The proof is a little tedious so I won't include it here, but it involves using Zorn's Lemma. 
+
+From this, we get an important property of infinite cardinals:
+
+\begin{theorem}[The Absorption Law of Cardinal Arithmetic]
+    Let $\kappa, \lambda$ be cardinals, the larger of which is infinite and the smaller nonzero. Then 
+
+    \[\kappa + \lambda = \kappa \cdot \lambda = \max{\kappa, \lambda}\]
+\end{theorem}
+
+\begin{proof}
+    Without loss of generality, we assume $\lambda \leq \kappa$. Then 
+
+    \[\kappa \leq \kappa + \lambda \leq \kappa + \kappa = \kappa \cdot 2 \leq \kappa \cdot \kappa = \kappa \]
+
+    and
+    
+    \[\kappa \leq \kappa \cdot \lambda \leq \kappa \cdot \kappa = \kappa\]
+\end{proof}
+
+\section{The Continuum Hypothesis}
+
+Throughout the past 2 lectures we have given many examples of finite, countable, and uncountable sets. So far, every uncountable set we've come across has had cardinality $2^{\aleph_0}$ or greater. This raises an important question: 
+
+\begin{center}
+    Is there a cardinal $\kappa$ such that $\aleph_0 < \kappa < 2^{\aleph_0}$?
+\end{center}
+
+This question is called the \textbf{Continuum Hypothesis}. More generally, the generalized Continuum Hypothesis says that for any infinite cardinal $\kappa$, is there a cardinal between $\kappa$ and $2^\kappa$? 
+
+There is a surprising answer to both these questions, in that there is no answer! At least, not in the way we would expect. While Cantor conjectured it to be true, and Hilbert tried proving it, G\''{o} showed in 1939 that it cannot be proven false using our current axioms, while Paul Cohen showed in 1963 that it cannot be proved using our axioms either. Among all set-theorists, it is commonly assumed that these questions have answers in the negative, despite no proof being possible. 
+
+It is technically possible for a new axiom to be introduced that would give these questions definitive answers, but said axiom would need to be somewhat intuitive and cannot just be saying that the question itself is true or false. 

@@ -1,16 +1,19 @@
-\documentclass{ut-thesis}
-\makeatletter
-\makeatother
-% packages
-\usepackage[colorlinks]{hyperref} % for links
-\usepackage[backend=biber]{biblatex} % for references
-\usepackage{graphicx} % for embedding graphics
-\usepackage{booktabs} % for pretty tables
-\usepackage{lipsum} % for gibberish text
+\documentclass{article}
 
+\usepackage[
+backend=biber,
+style=alphabetic,
+]{biblatex}
+\addbibresource{main.bib}
+
+\usepackage[margin=1.2in]{geometry} % margins
 \usepackage{enumitem} % custom labels for lists
-\usepackage{tikz}
 \usepackage{tikz-cd}
+\usepackage{pgfplots}
+\usepgfplotslibrary{fillbetween}
+\pgfplotsset{compat={1.18}}
+\usepackage{adjustbox}
+\usepackage{hyperref}
 
 % Custom math commands
 \usepackage{amsmath, amssymb}
@@ -30,7 +33,7 @@
 
 \theoremstyle{plain} % The "plain" style italicizes all body text.
 	\newtheorem{thm}{Theorem}
-		\numberwithin{thm}{chapter} % Theorem numbers are determined by section.
+		\numberwithin{thm}{section} % Theorem numbers are determined by section.
 	\newtheorem{lemma}[thm]{Lemma}
 	\newtheorem{prop}[thm]{Proposition}
 	\newtheorem{cor}[thm]{Corollary}
@@ -40,33 +43,83 @@
     \newtheorem{defn}[thm]{Definition}
 	\newtheorem{example}[thm]{Example}
 
-% author data
-\author{Brandon Papandrea}
-\title{Insert Title Here}
-\department[]{Department of Mathematical and Computational Sciences}
-\gradyear{2026}
-% reference database
-\addbibresource{main.bib}
+% Section header customization
+\usepackage{titlesec}
+
+\titleformat{\section}
+    [block] %shape
+    {\center\large} %format
+    {\textsection\thesection} %label
+    {1em} %sep
+    {} %before header name
+    [] %after header name
+    
+\titleformat{\subsubsection}
+    [runin]
+    {\bf}
+    {\thesubsubsection}
+    {0.5em}
+    {}
+    [.]
+
 \begin{document}
-  \frontmatter
-    \maketitle
-    \begin{abstract}
-      \lipsum[1-2]
-    \end{abstract}
-    \begin{dedication}
-      To people.
-    \end{dedication}
-    \begin{acknowledgements}
-      I'll write this later
-    \end{acknowledgements}
-    \tableofcontents
-    \mainmatter
-        \include{Sections/Introduction}
-        \include{Sections/FreeGroups}
-        \include{Sections/PingPong}
-        \include{Sections/Gtilings}
-    \appendix
-    \backmatter
-    \printbibliography[heading=bibintoc]
-    \lipsum[1-6]
+
+\begin{center}
+    {\Large \textbf{When Groups Act Out:\\ The Ping-Pong Lemma \& Serre's Theorem}}
+
+    \medskip
+    {\large Brandon Papandrea}
+\end{center}
+
+\begin{abstract}
+    Free groups have played an important role in the history of both finite and infinite group theory since their inception, hiding their unique and complicated structure behind a very simple presentation. Two notable examples of this come to mind: there is no finite algorithm that can determine if an arbitary group presentation is that of a free group, and the question of if the subgroups of a free group are free. Nielsen and Schreier's original proof of the latter is among the most complicated math proofs of the 20th century. 
+
+    Thankfully, there are many ways to tell if a group is free simply by studying the way it acts on a space. The Ping-Pong Lemma provides both a necessary and sufficient condition for determining the freeness of a group, assuming some basic properties of a group action, while Serre's Theorem provides a classification of free groups based on how they act on trees, proving the freeness of subgroups in the processs. This paper attempts to provide a singular, comprehensive overview of each result with full proofs and explanations for each.
+\end{abstract}
+
+\vfill
+
+\[\adjustbox{scale=1.5,center}{
+\begin{tikzcd}
+	&&& \bullet &&& \\
+	&& \bullet & \bullet & \bullet \\
+	& \bullet &&&& \bullet \\
+	\bullet & \bullet && \bullet && \bullet & \bullet \\
+	& \bullet &&&& \bullet \\
+	&& \bullet & \bullet & \bullet \\
+	&&& \bullet
+	\arrow[color={rgb,255:red,224;green,0;blue,4}, from=2-3, to=2-4]
+	\arrow[color={rgb,255:red,92;green,92;blue,214}, from=2-4, to=1-4]
+	\arrow[color={rgb,255:red,224;green,0;blue,4}, from=2-4, to=2-5]
+	\arrow[color={rgb,255:red,224;green,0;blue,4}, from=4-1, to=4-2]
+	\arrow[color={rgb,255:red,92;green,92;blue,214}, from=4-2, to=3-2]
+	\arrow[color={rgb,255:red,224;green,0;blue,4}, from=4-2, to=4-4]
+	\arrow["b"', color={rgb,255:red,92;green,92;blue,214}, from=4-4, to=2-4]
+	\arrow["a", color={rgb,255:red,224;green,0;blue,4}, from=4-4, to=4-6]
+	\arrow[color={rgb,255:red,92;green,92;blue,214}, from=4-6, to=3-6]
+	\arrow[color={rgb,255:red,224;green,0;blue,4}, from=4-6, to=4-7]
+	\arrow[color={rgb,255:red,92;green,92;blue,214}, from=5-2, to=4-2]
+	\arrow[color={rgb,255:red,92;green,92;blue,214}, from=5-6, to=4-6]
+	\arrow[color={rgb,255:red,224;green,0;blue,4}, from=6-3, to=6-4]
+	\arrow[color={rgb,255:red,92;green,92;blue,214}, from=6-4, to=4-4]
+	\arrow[color={rgb,255:red,224;green,0;blue,4}, from=6-4, to=6-5]
+	\arrow[color={rgb,255:red,92;green,92;blue,214}, from=7-4, to=6-4]
+\end{tikzcd}
+}
+\]
+
+\vfill
+
+\newpage
+
+\tableofcontents
+    
+\input{Sections/Introduction.tex}
+\input{Sections/FreeGroups.tex}
+\input{Sections/Serre.tex}
+
+\newpage
+
+\printbibliography
+
 \end{document}
